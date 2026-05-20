@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 모바일 first — 375px 기준 디자인 */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f3ece2;
+  color: #3e2c20;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 데스크톱 브라우저에서도 모바일 프레임으로 미리보기 */
+#root {
+  display: flex;
+  justify-content: center;
+}
