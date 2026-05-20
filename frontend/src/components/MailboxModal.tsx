@@ -26,7 +26,13 @@ export default function MailboxModal({ open, story, onClose }: Props) {
             className="absolute inset-0 bg-black/40 z-20"
           />
 
-          {/* 편지 카드 */}
+          {/* 편지 카드 — 바깥 div가 중앙 정렬, 안쪽 motion이 등장 애니메이션 담당
+              (framer-motion의 animate transform이 Tailwind의 -translate-x/y-1/2를 덮어쓰는
+               이슈를 피하기 위해 wrapper-inner 구조로 분리) */}
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+                       w-[88%] max-w-[340px] z-30"
+          >
           <motion.div
             initial={{ opacity: 0, y: 24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -34,9 +40,7 @@ export default function MailboxModal({ open, story, onClose }: Props) {
             transition={{ type: "spring", damping: 22, stiffness: 260 }}
             role="dialog"
             aria-label="우편함 편지"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-                       w-[88%] max-w-[340px] z-30
-                       bg-white rounded-3xl shadow-soft p-5"
+            className="bg-white rounded-3xl shadow-soft p-5"
           >
             {/* 우편 헤더 */}
             <div className="flex items-center gap-2">
@@ -70,6 +74,7 @@ export default function MailboxModal({ open, story, onClose }: Props) {
               <span>이주 후 1년차</span>
             </div>
           </motion.div>
+          </div>
         </>
       )}
     </AnimatePresence>

@@ -4,16 +4,43 @@ import HomeScreen from "./screens/HomeScreen";
 import DepartureScreen from "./screens/DepartureScreen";
 import TravelingScreen from "./screens/TravelingScreen";
 import ArrivalScreen from "./screens/ArrivalScreen";
+import MissionListScreen from "./screens/MissionListScreen";
+import MissionExecuteScreen from "./screens/MissionExecuteScreen";
+import RouteSummaryScreen from "./screens/RouteSummaryScreen";
 import JourneyScreen from "./screens/JourneyScreen";
+import HospitalMissionScreen from "./screens/mission/HospitalMissionScreen";
 import OnboardingShell, {
   type OnboardingResult,
 } from "./screens/onboarding/OnboardingShell";
 import BottomNav, { type TabKey } from "./components/BottomNav";
 import type { Residence, LifeStyleType } from "./data/residences";
 import { HOME_POSITIONS, type HomeRegion } from "./data/regions";
+import { baseMissions, type Mission } from "./data/missions";
 
-// 탭1 내부 화면 흐름: 홈 → 떠나기 → 이동 애니메이션 → 지역 도착 → (추후: 미션 상세)
-type Tab1Route = "home" | "departure" | "traveling" | "arrival";
+// 단일 화면 프리뷰용 hash 라우팅 — 데모 중 특정 화면만 빠르게 확인하기 위함
+// 사용 예: http://localhost:5173/#hospital → 병원 미션 화면 단독 노출
+function useHashRoute() {
+  const [hash, setHash] = useState(
+    typeof window !== "undefined" ? window.location.hash : ""
+  );
+  useEffect(() => {
+    const handler = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", handler);
+    return () => window.removeEventListener("hashchange", handler);
+  }, []);
+  return hash;
+}
+
+// 탭1 내부 화면 흐름:
+//  홈 → 떠나기 → 이동 → 도착 → 미션 리스트 → 미션 수행 → (모두 완료 시) 동선 요약
+type Tab1Route =
+  | "home"
+  | "departure"
+  | "traveling"
+  | "arrival"
+  | "mission-list"
+  | "mission-execute"
+  | "route-summary";
 
 // localStorage 키 — 온보딩 완료 상태 + 결과 저장
 const STORAGE_KEY = "cheongpung.onboarding.v1";
@@ -23,7 +50,6 @@ type SavedProfile = {
   lifestyle: LifeStyleType;
 };
 
-// 초기 진입 시 저장된 프로필 복구 (없으면 null → 온보딩 노출)
 function loadProfile(): SavedProfile | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -35,12 +61,19 @@ function loadProfile(): SavedProfile | null {
 }
 
 export default function App() {
-  // 사용자 프로필 — null이면 온보딩 노출
+  // 모든 훅을 조건부 리턴보다 먼저 호출해야 React 규칙(rules-of-hooks)에 위배되지 않는다
+  const hash = useHashRoute();
   const [profile, setProfile] = useState<SavedProfile | null>(() => loadProfile());
-
   const [tab, setTab] = useState<TabKey>("home");
   const [tab1Route, setTab1Route] = useState<Tab1Route>("home");
   const [selected, setSelected] = useState<Residence | null>(null);
+
+  // 미션 진행 상태
+  const [completedMissionIds, setCompletedMissionIds] = useState<Set<string>>(
+    new Set()
+  );
+  const [totalScore, setTotalScore] = useState(0);
+  const [activeMission, setActiveMission] = useState<Mission | null>(null);
 
   // 데모 편의: 콘솔에서 `cheongpung.reset()` 으로 온보딩 다시 보기
   useEffect(() => {
@@ -51,9 +84,15 @@ export default function App() {
         setSelected(null);
         setTab1Route("home");
         setTab("home");
+        setCompletedMissionIds(new Set());
+        setTotalScore(0);
+        setActiveMission(null);
       },
     };
   }, []);
+
+  // 프리뷰 라우팅 — 정상 플로우보다 우선
+  if (hash === "#hospital") return <HospitalMissionScreen />;
 
   const handleOnboardingComplete = (r: OnboardingResult) => {
     const next: SavedProfile = {
@@ -68,12 +107,10 @@ export default function App() {
     setProfile(next);
   };
 
-  // 온보딩 미완료 → 온보딩 노출
   if (!profile) {
     return <OnboardingShell onComplete={handleOnboardingComplete} />;
   }
 
-  // 온보딩 완료 후 — 본 지역 좌표 결정 (없으면 서울 기본)
   const homeRegion = profile.homeRegionName;
   const homePos: HomeRegion["pos"] =
     HOME_POSITIONS[homeRegion] ?? HOME_POSITIONS["서울"];
@@ -81,6 +118,25 @@ export default function App() {
   const handleTabChange = (next: TabKey) => {
     if (next === "home" && tab1Route !== "traveling") setTab1Route("home");
     setTab(next);
+  };
+
+  // 미션 완료 처리 — 점수 누적, 모두 완료 시 동선 요약으로 전환
+  const handleMissionComplete = () => {
+    if (!activeMission) return;
+    const id = activeMission.id;
+    const newCompleted = new Set(completedMissionIds).add(id);
+    const newScore = totalScore + activeMission.reward;
+    setCompletedMissionIds(newCompleted);
+    setTotalScore(newScore);
+    setActiveMission(null);
+
+    const allDone =
+      baseMissions.every((m) => newCompleted.has(m.id));
+    if (allDone) {
+      setTab1Route("route-summary");
+    } else {
+      setTab1Route("mission-list");
+    }
   };
 
   return (
@@ -119,6 +175,43 @@ export default function App() {
               setSelected(null);
               setTab1Route("home");
             }}
+            onStartMissions={() => setTab1Route("mission-list")}
+          />
+        )}
+
+        {tab === "home" && tab1Route === "mission-list" && selected && (
+          <MissionListScreen
+            region={selected.region}
+            completedIds={completedMissionIds}
+            totalScore={totalScore}
+            onBack={() => setTab1Route("arrival")}
+            onSelectMission={(m) => {
+              setActiveMission(m);
+              setTab1Route("mission-execute");
+            }}
+            onSelectFinal={() => setTab1Route("route-summary")}
+          />
+        )}
+
+        {tab === "home" &&
+          tab1Route === "mission-execute" &&
+          activeMission && (
+            <MissionExecuteScreen
+              mission={activeMission}
+              onClose={() => {
+                setActiveMission(null);
+                setTab1Route("mission-list");
+              }}
+              onComplete={handleMissionComplete}
+            />
+          )}
+
+        {tab === "home" && tab1Route === "route-summary" && selected && (
+          <RouteSummaryScreen
+            region={selected.region}
+            completedIds={completedMissionIds}
+            totalScore={totalScore}
+            onClose={() => setTab1Route("mission-list")}
           />
         )}
 

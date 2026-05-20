@@ -1,14 +1,16 @@
-// 잠시섬 미션 카드 — PRD 미션 수행 UX
-// 카드 구성: 아이콘 / 제목 / 카테고리·소요시간·난이도 / 완료 여부
+// 잠시섬 미션 카드 — 말해보카 회화 UI 스타일
+// 카드 구성: 좌측 아이콘 / 제목 / 카테고리·소요시간·난이도 / 우측 축적 점수 + 완료 여부
+// done 상태는 데이터가 아니라 외부 상태(MissionListScreen)에서 주입한다.
 
 import type { Mission } from "../data/missions";
 
 type Props = {
   mission: Mission;
+  done: boolean;
   onClick?: () => void;
 };
 
-export default function MissionCard({ mission, onClick }: Props) {
+export default function MissionCard({ mission, done, onClick }: Props) {
   const stars =
     "★".repeat(mission.difficulty) + "☆".repeat(3 - mission.difficulty);
 
@@ -19,15 +21,15 @@ export default function MissionCard({ mission, onClick }: Props) {
       className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-2xl
                   border text-left transition shadow-soft
                   ${
-                    mission.done
+                    done
                       ? "bg-nature-50 border-nature-200"
                       : "bg-white border-cream-200 active:scale-[0.99]"
                   }`}
     >
       {/* 좌측 아이콘 */}
       <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center text-xl shrink-0
-          ${mission.done ? "bg-white" : "bg-cream-100"}`}
+        className={`w-11 h-11 rounded-2xl flex items-center justify-center text-xl shrink-0
+          ${done ? "bg-white" : "bg-cream-100"}`}
         aria-hidden
       >
         {mission.icon}
@@ -44,16 +46,21 @@ export default function MissionCard({ mission, onClick }: Props) {
         </p>
       </div>
 
-      {/* 우측 상태 */}
-      {mission.done ? (
-        <span className="text-nature-600 text-[12px] font-bold shrink-0">
-          ✓ 완료
+      {/* 우측: 점수 + 상태 */}
+      <div className="shrink-0 flex flex-col items-end gap-0.5">
+        <span
+          className={`text-[12px] font-extrabold tabular-nums
+            ${done ? "text-nature-600" : "text-primary"}`}
+        >
+          +{mission.reward}점
         </span>
-      ) : (
-        <span className="text-primary text-[12px] font-bold shrink-0">
-          시작 ›
+        <span
+          className={`text-[10px] font-bold
+            ${done ? "text-nature-600" : "text-ink-mute"}`}
+        >
+          {done ? "✓ 완료" : "시작 ›"}
         </span>
-      )}
+      </div>
     </button>
   );
 }

@@ -1,32 +1,31 @@
-// 지역 도착 화면 — PRD 2.지역 도착 화면
-// 상단: "📍 ○○ 도착!" + 캐릭터, 우편함 카드, 잠시섬 미션 리스트
+// 지역 도착 화면 — PRD 2.지역 도착 화면 (단순 랜딩)
+// "📍 ○○ 도착!" + 캐릭터 + 우편함 카드 + "미션 시작하기" CTA
+// 미션 리스트는 별도 화면(MissionListScreen)에서 다루므로 여기는 단순 랜딩에 집중한다.
 
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Character from "../components/Character";
-import MissionCard from "../components/MissionCard";
 import MailboxModal from "../components/MailboxModal";
-import { baseMissions } from "../data/missions";
 import { storiesByResidenceId } from "../data/stories";
 import type { Residence } from "../data/residences";
 
 type Props = {
   residence: Residence;
   onBack: () => void;
+  onStartMissions: () => void;
 };
 
-export default function ArrivalScreen({ residence, onBack }: Props) {
-  // 우편함 모달 열림 여부
+export default function ArrivalScreen({
+  residence,
+  onBack,
+  onStartMissions,
+}: Props) {
   const [showMail, setShowMail] = useState(false);
   const story = storiesByResidenceId[residence.id] ?? null;
 
-  // 미션 진행률 — 데모용 카운트
-  const total = baseMissions.length;
-  const done = baseMissions.filter((m) => m.done).length;
-
   return (
     <div className="relative min-h-[calc(100dvh-6rem)] flex flex-col">
-      {/* 배경 — 파스텔 따뜻한 톤 */}
+      {/* 따뜻한 톤 배경 */}
       <div
         className="absolute inset-0 -z-10
                    bg-gradient-to-b from-nature-50 via-cream to-cream"
@@ -83,12 +82,12 @@ export default function ArrivalScreen({ residence, onBack }: Props) {
           <Character className="w-full h-auto" />
         </motion.div>
 
-        {/* 캐릭터 발 밑 그림자 라인 — 땅 위 느낌 */}
+        {/* 발 밑 그림자 라인 */}
         <div className="mx-auto w-32 h-1.5 rounded-full bg-nature-200/60 -mt-2" />
       </section>
 
-      {/* 우편함 */}
-      <section className="px-5 mt-4">
+      {/* 우편함 카드 */}
+      <section className="px-5 mt-5">
         <button
           type="button"
           onClick={() => setShowMail(true)}
@@ -110,29 +109,37 @@ export default function ArrivalScreen({ residence, onBack }: Props) {
         </button>
       </section>
 
-      {/* 미션 리스트 */}
-      <section className="flex-1 px-5 mt-5 pb-6">
-        <div className="flex items-end justify-between mb-2">
-          <h2 className="text-ink text-[17px] font-extrabold">잠시섬 미션</h2>
-          <span className="text-ink-mute text-[12px]">
-            <span className="text-primary font-bold">{done}</span> / {total} 완료
-          </span>
-        </div>
-
-        <ul className="space-y-2">
-          {baseMissions.map((m) => (
-            <li key={m.id}>
-              <MissionCard
-                mission={m}
-                onClick={() => {
-                  // TODO: 미션 상세 화면 연결 (다음 단계)
-                  console.log("[미션 선택]", m.id);
-                }}
-              />
-            </li>
-          ))}
-        </ul>
+      {/* 안내 카피 */}
+      <section className="flex-1 px-6 mt-6 flex flex-col items-center justify-center text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="max-w-[280px]"
+        >
+          <p className="text-ink text-[15px] font-bold leading-snug">
+            오늘 하루, 거제에서 잠시 살아볼까요?
+          </p>
+          <p className="mt-1.5 text-ink-soft text-[13px] leading-relaxed">
+            8가지 미션을 하나씩 체험해보면 이 동네의 결이 보여요.
+          </p>
+        </motion.div>
       </section>
+
+      {/* 하단 CTA */}
+      <footer className="px-6 pb-8 pt-4">
+        <motion.button
+          type="button"
+          onClick={onStartMissions}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.4 }}
+          className="w-full py-4 rounded-2xl bg-primary text-white text-[17px] font-extrabold
+                     shadow-soft active:scale-[0.99] transition"
+        >
+          미션 시작하기 🎒
+        </motion.button>
+      </footer>
 
       {/* 우편함 모달 */}
       <MailboxModal
