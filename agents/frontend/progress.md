@@ -20,7 +20,7 @@
 - `BottomNav` — 하단 네비게이션
 
 ## 지도 컴포넌트 고려사항
-- Kakao Map 또는 Naver Map API 활용 검토
+- Kakao Map 또는 Naver Map API 활용 검토 (지금은 일러스트로 사용)
 - 레지던스 위치 마커 커스텀 (초록 포인트)
 - 모바일 터치 인터랙션 최적화
 
