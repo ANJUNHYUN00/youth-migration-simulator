@@ -1,0 +1,6470 @@
+{
+  "source": "https://localro.co.kr/village + 농촌체험휴양마을(농림축산식품부) + 농촌에서 살아보기(returnfarm.com) + 치유농장 + 어촌체험마을 + 전통한옥마을 + 워케이션 거점",
+  "generated_at": "2026-05-21T00:00:00+09:00",
+  "schema_version": "2.0",
+  "data_quality_note": "청년마을 49개(localro.co.kr 검색 결과 기반) + 농촌체험휴양마을·치유농장·어촌체험마을·전통한옥마을·살아보기운영마을·워케이션거점 등을 통합한 레지던시/체험숙박 아카이브. 일부 마을은 검색으로 확인된 정보 기반이며, 상세 데이터(이미지/SNS/연락처)는 비어있을 수 있습니다.",
+  "total": 247,
+  "category_counts": {
+    "청년마을(시범사업)": 3,
+    "청년마을": 46,
+    "농촌체험휴양마을": 148,
+    "치유농장": 4,
+    "숲체험휴양마을": 2,
+    "전통한옥마을": 13,
+    "워케이션거점": 1,
+    "청년커뮤니티": 1,
+    "어촌체험마을": 16,
+    "한옥체험숙소": 1,
+    "차밭체험": 1,
+    "어촌체험휴양마을": 4,
+    "살아보기운영마을": 5,
+    "귀어귀촌마을": 2
+  },
+  "sido_counts": {
+    "전남": 27,
+    "충남": 33,
+    "경북": 28,
+    "(미확인)": 7,
+    "전북": 20,
+    "경남": 18,
+    "세종": 2,
+    "강원": 60,
+    "충북": 17,
+    "인천": 3,
+    "울산": 1,
+    "제주": 7,
+    "대구": 1,
+    "광주": 1,
+    "대전": 1,
+    "경기": 21
+  },
+  "villages": [
+    {
+      "id": null,
+      "name": "괜찮아마을",
+      "url": "https://localro.co.kr/village",
+      "year": "2018",
+      "is_pilot": true,
+      "region": {
+        "sido": "전남",
+        "sigungu": "목포시"
+      },
+      "tagline": "행정안전부 청년마을 만들기 시범사업 1호",
+      "description": "2018년 행정안전부 청년마을 만들기 시범사업으로 선정된 1호 청년마을. 목포시에서 운영.",
+      "tags": [
+        "공동체",
+        "정착/이주",
+        "치유/힐링"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을(시범사업)"
+    },
+    {
+      "id": 28,
+      "name": "삶기술학교",
+      "url": "https://localro.co.kr/village/28",
+      "year": "2019",
+      "is_pilot": true,
+      "region": {
+        "sido": "충남",
+        "sigungu": "서천군"
+      },
+      "tagline": "도시의 삶기술과 마을의 삶기술을 교환하는 자립공동체",
+      "description": "충청남도 서천군 한산면에서 운영. 1,500년의 전통을 이어온 작은 시골마을에서 대안적 삶을 추구하며, 도시의 삶기술과 마을의 삶기술을 교환하여 '삶기술 프로젝트' 실험을 통해 자기실현을 돕는 청년성장 지원 코칭 시스템 운영. 한산면 인구 2,700명 규모의 지역소멸 위기 지역에서 20-30대 청년들이 머물 수 있는 마을로 시작.",
+      "tags": [
+        "전통",
+        "공동체",
+        "정착/이주",
+        "교육/배움",
+        "느린삶"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을(시범사업)"
+    },
+    {
+      "id": null,
+      "name": "달빛탐사대",
+      "url": "https://localro.co.kr/village",
+      "year": "2020",
+      "is_pilot": true,
+      "region": {
+        "sido": "경북",
+        "sigungu": "문경시"
+      },
+      "tagline": "2020년 청년마을 시범사업",
+      "description": "2020년 경북 문경시에 조성된 청년마을 시범사업.",
+      "tags": [
+        "공동체",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을(시범사업)"
+    },
+    {
+      "id": 5,
+      "name": "라이프밸리",
+      "url": "https://localro.co.kr/village/5",
+      "year": "2021",
+      "region": {
+        "sido": "",
+        "sigungu": ""
+      },
+      "tagline": "",
+      "description": "2021년 선정 청년마을. 행정안전부 선정 12개 마을 중 하나.",
+      "tags": [
+        "공동체",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 7,
+      "name": "밭멍",
+      "url": "https://localro.co.kr/village/7",
+      "year": "2021",
+      "region": {
+        "sido": "",
+        "sigungu": ""
+      },
+      "tagline": "산과 밭, 하늘과 흙, 볕과 바람",
+      "description": "퍼머컬처(Permaculture, 지속가능한 농업과 문화)로 모두가 잘사는 세상을 꿈꾸는 마을. 오로지 시골의 자연속에서 청년들의 '비움'을 만끽할 수 있는 마을이며, 농업회사법인 ㈜이었던이 일궈가고 있다. '이었던'은 'It was connected' 퍼머컬처를 수단으로 과거와 현재, 미래를 이어나가고 자연과 사람, 사람과 사람, 지역과 사람을 연결하는 활동을 하며 시골의 사회적 문제들을 해결해나가고자 한다. 청년 농부 대상 퍼머컬처 디자인 코스 등 운영.",
+      "tags": [
+        "농업",
+        "환경/지속가능",
+        "느린삶",
+        "공동체",
+        "치유/힐링"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {
+        "instagram": "https://instagram.com/battmung.log"
+      },
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "operator": "농업회사법인 ㈜이었던",
+      "category": "청년마을"
+    },
+    {
+      "id": 8,
+      "name": "DOGO온천",
+      "url": "https://localro.co.kr/village/8",
+      "year": "2022",
+      "region": {
+        "sido": "충남",
+        "sigungu": "아산시"
+      },
+      "tagline": "아산 DOGO 온천 청년마을",
+      "description": "충남 아산 도고온천 일대에 조성된 청년마을.",
+      "tags": [
+        "치유/힐링",
+        "전통",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 9,
+      "name": "오락발전소",
+      "url": "https://localro.co.kr/village/9",
+      "year": "2022",
+      "region": {
+        "sido": "충남",
+        "sigungu": "태안군"
+      },
+      "tagline": "예술인 축제 마을",
+      "description": "태안 청년마을 <오락발전소>는 '예술인 축제 마을'이라 읽기로 한 곳. 삶에서 가장 큰 요소를 즐거움이라 생각하고 있는 마을로, 사람이 즐거움을 느끼는 5가지 창구를 인간의 다섯 가지 즐거움이라 하여 눈, 입, 귀, 몸, 마음으로 정하고 '5樂'. 다섯 가지의 즐거움을 개발하는 문화예술 발전소. 2023년에는 예술적 세상을 꿈꾸는 로컬 '청년 문화예술 네트워크' 포럼을 운영.",
+      "tags": [
+        "예술/창작",
+        "음식/요리",
+        "여행/체험",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 10,
+      "name": "술익는마을",
+      "url": "https://localro.co.kr/village/10",
+      "year": "2022",
+      "region": {
+        "sido": "전북",
+        "sigungu": "군산시"
+      },
+      "tagline": "혼술 좋아하는 사람들이라면 무조건!",
+      "description": "군산의 영화타운 내 스몰브랜드 Bar 8곳(럭키마케트, 해무, 옴브라, 야끼끼, 우수수, 돈키호테, 수복, 우노)을 중심으로 양조 특강 [술배워가게] 등 술 콘텐츠로 사업 진행. 군산에 있는 바다(sea)와 바(bar) 두 가지 개념을 중의적으로 표현한 이름의 보틀샵 '우수수' 등 운영. 골목 상권 전문가/기획자가 로컬콘텐츠(술)를 중심으로 장기 사업 진행.",
+      "tags": [
+        "음식/요리",
+        "예술/창작",
+        "공동체",
+        "창업"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {
+        "instagram": "https://instagram.com/soolma_gunsan"
+      },
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 11,
+      "name": "어나더랜드",
+      "url": "https://localro.co.kr/village/11",
+      "year": "2022",
+      "region": {
+        "sido": "",
+        "sigungu": ""
+      },
+      "tagline": "",
+      "description": "2022년 선정 청년마을.",
+      "tags": [
+        "공동체",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 12,
+      "name": "가자미마을",
+      "url": "https://localro.co.kr/village/12",
+      "year": "2022",
+      "region": {
+        "sido": "경북",
+        "sigungu": "경주시"
+      },
+      "tagline": "리얼버라이어티 빌리지",
+      "description": "우리는 예능처럼 재밌게, 지역에서 가능성을 실험하고, 그 경험을 현실로 만드는 리얼버라이어티 빌리지 가자미마을입니다🏘️",
+      "tags": [
+        "도전/실험",
+        "여행/체험",
+        "공동체",
+        "디지털/IT"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 13,
+      "name": "나만의성",
+      "url": "https://localro.co.kr/village/13",
+      "year": "2022",
+      "region": {
+        "sido": "경북",
+        "sigungu": "의성군"
+      },
+      "tagline": "20대를 위한 로컬 창업 실험실",
+      "description": "의성역, 의성버스터미널 가까이에 접근성 좋은 청년마을. 별 관측 모임 '근의 공식', 영화, 댄스, 수필, 출사, 독서, 풋살, 아침헬스, 로컬활동가, 비건다이닝, 플로깅, 농사, 아침 습관 만들기 등 다양한 활동 운영. 1-2년차는 의성에 정착시키기보다 청년들이 의성을 통해 지역 창업을 경험하고, 그 경험을 통해 나중에라도 지역에 정착할 수 있는 자양분을 제공하는 데 초점. 주거공간 대거 리모델링.",
+      "tags": [
+        "창업",
+        "도전/실험",
+        "농업",
+        "음식/요리",
+        "공동체",
+        "정착/이주",
+        "교육/배움"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "신촌꿈이룸마을",
+      "url": "https://localro.co.kr/village",
+      "year": "2022",
+      "region": {
+        "sido": "전남",
+        "sigungu": "고흥군"
+      },
+      "tagline": "고흥 청년마을",
+      "description": "2022년 선정 전남 고흥 청년마을.",
+      "tags": [
+        "공동체",
+        "정착/이주",
+        "농업"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 15,
+      "name": "고마워, 할매",
+      "url": "https://localro.co.kr/village/15",
+      "year": "2022",
+      "region": {
+        "sido": "경남",
+        "sigungu": "함양군"
+      },
+      "tagline": "시골할매와 도시손녀의 맛있는 이야기가 펼쳐지는 여기는 함양 청년마을",
+      "description": "함양 청년마을. 시골 할매들의 음식, 손맛, 삶의 이야기를 도시 손녀 세대와 연결하는 마을. '먹(食)케이션' 등 음식 콘텐츠 중심 프로그램 운영.",
+      "tags": [
+        "음식/요리",
+        "전통",
+        "공동체",
+        "여행/체험",
+        "느린삶"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "생텀마을",
+      "url": "https://localro.co.kr/village",
+      "year": "2022",
+      "region": {
+        "sido": "경북",
+        "sigungu": "예천군"
+      },
+      "tagline": "지친 이들에게 쉼과 휴식을 전하는 마음의 안식처",
+      "description": "예천 청년마을 생텀. 휴식과 치유를 핵심 가치로 하는 마을.",
+      "tags": [
+        "치유/힐링",
+        "느린삶",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 16,
+      "name": "농땡이월드",
+      "url": "https://localro.co.kr/village/16",
+      "year": "2023",
+      "region": {
+        "sido": "세종",
+        "sigungu": ""
+      },
+      "tagline": "조치원역 조치원터미널 인근 놀거리 찾는다면",
+      "description": "세종(연서) 청년마을. 조치원역, 조치원터미널 인근의 놀거리 중심 콘텐츠.",
+      "tags": [
+        "여행/체험",
+        "공동체",
+        "예술/창작"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 17,
+      "name": "와썹타운",
+      "url": "https://localro.co.kr/village/17",
+      "year": "2023",
+      "region": {
+        "sido": "강원",
+        "sigungu": "홍천군"
+      },
+      "tagline": "이번 주말 강원도 촌캉스는 바로 여기, 홍천 청년마을",
+      "description": "강원도 홍천에서 운영되는 청년마을. '컨츄리타운 촌캉스', 1박2일 테마여행 플랫폼 '업타운' 운영. 폭스클럽, 프립과 같은 외부 플랫폼들과 파트너십 체결.",
+      "tags": [
+        "여행/체험",
+        "치유/힐링",
+        "느린삶",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {
+        "instagram": "https://instagram.com/upp__town"
+      },
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 18,
+      "name": "라이더타운 회인ㅎㅇ",
+      "url": "https://localro.co.kr/village/18",
+      "year": "2023",
+      "region": {
+        "sido": "충북",
+        "sigungu": "보은군"
+      },
+      "tagline": "라이더(오토바이) 문화 기반 청년마을",
+      "description": "충북 보은군 회인면 청년마을. 라이더 유치원 창업반 등 모빌리티/라이더 문화 기반 프로그램 운영.",
+      "tags": [
+        "여행/체험",
+        "창업",
+        "공동체",
+        "교육/배움"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 19,
+      "name": "뤁빌리지 진천",
+      "url": "https://localro.co.kr/village/19",
+      "year": "2023",
+      "region": {
+        "sido": "충북",
+        "sigungu": "진천군"
+      },
+      "tagline": "농업과 창업을 체험하고 경험할 수 있는 진천 청년마을",
+      "description": "수도권 근교 대형카페 '뤁스퀘어'를 기반으로 한 청년마을. 충북 진천에서 농업과 창업을 동시에 체험할 수 있는 마을.",
+      "tags": [
+        "농업",
+        "창업",
+        "정착/이주",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 20,
+      "name": "집단지성",
+      "url": "https://localro.co.kr/village/20",
+      "year": "2023",
+      "region": {
+        "sido": "충남",
+        "sigungu": "홍성군"
+      },
+      "tagline": "함께 모여 지혜를 모으는 마을",
+      "description": "충남 홍성 청년마을. 살아보기, 지역살이, 워케이션, 워크숍, 페스티벌 프로그램 운영.",
+      "tags": [
+        "공동체",
+        "워케이션",
+        "정착/이주",
+        "교육/배움"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 21,
+      "name": "케미스테이 (내:일)",
+      "url": "https://localro.co.kr/village/21",
+      "year": "2023",
+      "region": {
+        "sido": "충남",
+        "sigungu": "예산군"
+      },
+      "tagline": "예산역 예산터미널 예산시장 인근 청년마을",
+      "description": "오직 하나뿐인 나를 위한 '내 일'로 '내일'을 만드는 마을 예산 청년마을 '내:일'. 예산역, 예산터미널, 예산시장(요즘 핫한 예산시장) 인근 접근성 좋은 입지. 공동체와 지역 어른들의 도움이 살아있는 마을.",
+      "tags": [
+        "창업",
+        "여행/체험",
+        "전통",
+        "공동체",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 22,
+      "name": "지구장이마을",
+      "url": "https://localro.co.kr/village/22",
+      "year": "2023",
+      "region": {
+        "sido": "전북",
+        "sigungu": "익산시"
+      },
+      "tagline": "'우리의 손'으로 지속가능한 가치를 찾고, 만들어, 이뤄나가는 지구장이마을 🌏✨",
+      "description": "익산 청년마을 지구장이마을. 지속가능성, 친환경, 핸드메이드 가치를 중심으로 운영.",
+      "tags": [
+        "환경/지속가능",
+        "예술/창작",
+        "공동체",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 25,
+      "name": "취하리",
+      "url": "https://localro.co.kr/village/25",
+      "year": "2023",
+      "region": {
+        "sido": "경북",
+        "sigungu": "영천시"
+      },
+      "tagline": "무엇이든 취하는 곳, 청년과 청년, 지역과 청년을 페어링하는 청년마을",
+      "description": "경북 영천 청년마을 취하리. 청년과 청년, 지역과 청년을 페어링(연결)하는 마을 컨셉.",
+      "tags": [
+        "음식/요리",
+        "공동체",
+        "창업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 26,
+      "name": "뮤즈타운",
+      "url": "https://localro.co.kr/village/26",
+      "year": "2023",
+      "region": {
+        "sido": "경북",
+        "sigungu": "고령군"
+      },
+      "tagline": "고령 청년마을",
+      "description": "경북 고령군 청년마을 뮤즈타운. 예술·창작 기반 프로그램.",
+      "tags": [
+        "예술/창작",
+        "전통",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 27,
+      "name": "홍의별곡",
+      "url": "https://localro.co.kr/village/27",
+      "year": "2024",
+      "region": {
+        "sido": "경남",
+        "sigungu": "의령군"
+      },
+      "tagline": "의령버스터미널 칠곡터미널 자굴산 권역 의령 청년마을행 버스 타자",
+      "description": "경남 의령 청년마을 홍의별곡. 의령버스터미널과 칠곡터미널, 자굴산 권역을 아우르는 청년마을.",
+      "tags": [
+        "여행/체험",
+        "산촌",
+        "공동체",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {
+        "instagram": "https://instagram.com/hongstar_official"
+      },
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "달빛포레스트",
+      "url": "https://localro.co.kr/village",
+      "year": "2023",
+      "region": {
+        "sido": "전남",
+        "sigungu": "영암군"
+      },
+      "tagline": "모여라! 달빛포레스트! 영암에 잘왔다남생!",
+      "description": "치열한 도시 생활에서 벗어나 생태 자연이 아름다운 영암에서 힐링해라남생! 전남 영암 청년마을.",
+      "tags": [
+        "치유/힐링",
+        "환경/지속가능",
+        "산촌",
+        "느린삶"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 31,
+      "name": "강화유니버스",
+      "url": "https://localro.co.kr/village/31",
+      "year": "2024",
+      "region": {
+        "sido": "인천",
+        "sigungu": "강화군"
+      },
+      "tagline": "강화도 청년마을",
+      "description": "인천 강화군 청년마을 강화유니버스. 강화도의 자연·역사·문화 기반 콘텐츠.",
+      "tags": [
+        "여행/체험",
+        "전통",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 32,
+      "name": "울산 울주 청년마을",
+      "url": "https://localro.co.kr/village/32",
+      "year": "2024",
+      "region": {
+        "sido": "울산",
+        "sigungu": "울주군"
+      },
+      "tagline": "울산 울주 청년마을",
+      "description": "2024년 선정 울산 울주 청년마을.",
+      "tags": [
+        "공동체",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 33,
+      "name": "강릉살자",
+      "url": "https://localro.co.kr/village/33",
+      "year": "2024",
+      "region": {
+        "sido": "강원",
+        "sigungu": "강릉시"
+      },
+      "tagline": "당신이 정말로 살고 싶은 방식을 함께 찾아가요.",
+      "description": "강릉에서 자신만의 삶의 방식을 찾는 청년마을. 라이프스타일 탐색 중심.",
+      "tags": [
+        "정착/이주",
+        "느린삶",
+        "치유/힐링",
+        "공동체",
+        "어업/바다"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 34,
+      "name": "뭐하농스",
+      "url": "https://localro.co.kr/village/34",
+      "year": "2024",
+      "region": {
+        "sido": "충북",
+        "sigungu": "괴산군"
+      },
+      "tagline": "무언가를 하는 농부들의 공간",
+      "description": "뭐하농스가 위치한 충북 괴산은 수도권에서 2시간 이내에 위치한 국내 유일의 유기농업군. 다른 지역과 달리 매우 다양한 작물을 재배하고 있어서 창농을 준비하는 분들에게 적합한 환경.",
+      "tags": [
+        "농업",
+        "환경/지속가능",
+        "창업",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 39,
+      "name": "이인삼각",
+      "url": "https://localro.co.kr/village/39",
+      "year": "2024",
+      "region": {
+        "sido": "",
+        "sigungu": ""
+      },
+      "tagline": "2024년 선정 청년마을",
+      "description": "2024년 행정안전부 선정 청년마을.",
+      "tags": [
+        "공동체",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 41,
+      "name": "아웃도어 아일랜드",
+      "url": "https://localro.co.kr/village/41",
+      "year": "2024",
+      "region": {
+        "sido": "",
+        "sigungu": ""
+      },
+      "tagline": "2024년 선정 청년마을",
+      "description": "2024년 행정안전부 선정 청년마을. 아웃도어 액티비티/섬 콘텐츠 기반.",
+      "tags": [
+        "여행/체험",
+        "어업/바다",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "디노-영오연구",
+      "url": "https://localro.co.kr/village",
+      "year": "2024",
+      "region": {
+        "sido": "",
+        "sigungu": ""
+      },
+      "tagline": "단순한 관광형 여행이 아닌, 지역에 머무르는 체류형 경험을 만드는 디노-영오연구",
+      "description": "체류형 여행/지역살이 콘텐츠를 만드는 청년마을.",
+      "tags": [
+        "여행/체험",
+        "정착/이주",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "B비책기지",
+      "url": "https://localro.co.kr/village",
+      "year": "2024",
+      "region": {
+        "sido": "전북",
+        "sigungu": "고창군"
+      },
+      "tagline": "책문화와 세계유산을 연결하며 삶의 다양한 방식을 찾아가는 고창 청년마을",
+      "description": "고창 청년마을 B비책기지. 책문화와 세계유산(고창 고인돌 등)을 연결하며 삶의 다양한 방식을 찾는 마을.",
+      "tags": [
+        "문화/책",
+        "전통",
+        "예술/창작",
+        "느린삶",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 53,
+      "name": "글로컬타운",
+      "url": "https://localro.co.kr/village/53",
+      "year": "2025",
+      "region": {
+        "sido": "충북",
+        "sigungu": "음성군"
+      },
+      "tagline": "63개국의 문화가 공존하는 글로컬 크리에이터 마을",
+      "description": "충북 음성군에 조성된 청년마을. 외국인 청년 크리에이터 육성, 다문화 콘텐츠, 글로벌 축제 운영. 베트남 크리에이터 35명 양성. 인플루언서 숏츠영상 제작, 외국인 친구들과 작당모의, 해외배낭여행 구상, 베트남·칠레 음식 만들기, 스페인어·힌디어·이탈리아어 학습, 언어 교환, 살사춤·공연, 인도 영화 보기 등 다양한 다문화 활동. 글로컬63탐사대, 잼토리 1박2일 여행 프로그램 등 운영. 새마을금고·삼성생명·인터바스 등 민간기업 협력 숙소 리모델링.",
+      "tags": [
+        "글로벌/다문화",
+        "디지털/IT",
+        "예술/창작",
+        "창업",
+        "음식/요리",
+        "교육/배움",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "주도적마을",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "제주",
+        "sigungu": "제주시 일도동"
+      },
+      "tagline": "제주 청년마을",
+      "description": "제주시 일도동 청년마을 주도적마을. '주도적 실험단' 등 자기주도 프로그램 운영.",
+      "tags": [
+        "공동체",
+        "정착/이주",
+        "도전/실험",
+        "어업/바다"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "프로토타운 북성로",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "대구",
+        "sigungu": "중구 북성로"
+      },
+      "tagline": "실패를 두려워하지 않는 도전이 가능한 마을",
+      "description": "프로토타입(prototype)과 타운(town)이 결합된 이름. 대구 중구 북성로에서 실패를 두려워하지 않는 도전이 가능한 마을. '북성로 도시 산책' 등 프로그램 운영.",
+      "tags": [
+        "도전/실험",
+        "창업",
+        "예술/창작",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "서남예술촌",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "광주",
+        "sigungu": "동구 서남동"
+      },
+      "tagline": "청년들의 삶이 예술로 인쇄되는 마을",
+      "description": "광주 동구 서남동 청년마을. 예술 창작과 인쇄 문화 기반.",
+      "tags": [
+        "예술/창작",
+        "공동체",
+        "도전/실험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "곁마을",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "강원",
+        "sigungu": "고성군"
+      },
+      "tagline": "항상 곁에 있는 존재, 반려동물과 함께 살아가는 좋은 어촌",
+      "description": "강원 고성 청년마을 곁마을. 반려동물과 함께 살아가는 어촌 컨셉.",
+      "tags": [
+        "어업/바다",
+        "치유/힐링",
+        "공동체",
+        "느린삶"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "장수트레일빌리지",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "전북",
+        "sigungu": "장수군"
+      },
+      "tagline": "대한민국 트레일러닝의 성지, 자연 속에서 달리며 살아가는 청년 마을",
+      "description": "전북 장수군 청년마을 장수트레일빌리지. 트레일러닝의 성지로 자연 속에서 달리며 살아가는 마을.",
+      "tags": [
+        "산촌",
+        "여행/체험",
+        "치유/힐링",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "산타지 (무주)",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "전북",
+        "sigungu": "무주군"
+      },
+      "tagline": "전북 무주 청년마을",
+      "description": "전북 무주군 청년마을 산타지. 산림·자연 기반 콘텐츠.",
+      "tags": [
+        "산촌",
+        "여행/체험",
+        "치유/힐링",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "전체차랩",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "전남",
+        "sigungu": "보성군"
+      },
+      "tagline": "찻집과 게스트하우스 중심의 보성 청년마을",
+      "description": "전남 보성군 청년마을 전체차랩. 운영단체는 '그린티모시레'. '숙박비는 재능으로 받겠습니다' 프로그램으로 청년의 재능과 숙박을 교환하는 체류형 콘텐츠 운영. 보성의 찻집과 게스트하우스 중심으로 지역을 느끼고 탐색한 뒤 저녁엔 차를 나누며 서로의 하루와 재능 이야기. '로컬살롱' 등 프로그램 진행.",
+      "tags": [
+        "음식/요리",
+        "치유/힐링",
+        "예술/창작",
+        "여행/체험",
+        "느린삶",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "operator": "그린티모시레",
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "섬바다음식학교",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "경남",
+        "sigungu": "통영시"
+      },
+      "tagline": "섬과 바다의 시간으로 채운 식문화가 살아 숨 쉬는 도시, 통영",
+      "description": "경남 통영시 청년마을 섬바다음식학교. 통영의 해양 식문화 기반 음식학교 컨셉.",
+      "tags": [
+        "어업/바다",
+        "음식/요리",
+        "전통",
+        "교육/배움",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "거창한 농부",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "경남",
+        "sigungu": "거창군"
+      },
+      "tagline": "농사는 시작일 뿐, 진짜는 그 다음!",
+      "description": "경남 거창군 청년마을 거창한 농부. 농업을 통해 새로운 직업과 삶을 실험하고 설계하는 청년마을. 'X농부 프로젝트' 등 운영.",
+      "tags": [
+        "농업",
+        "창업",
+        "도전/실험",
+        "정착/이주",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "부여 벌룬빌리지",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "충남",
+        "sigungu": "부여군"
+      },
+      "tagline": "백마강의 물결과 부여의 하늘 아래, 작은 용기로 시작하는 모험",
+      "description": "충남 부여군 청년마을. 백마강 물결과 부여 하늘 아래, 작은 용기로 시작하는 모험이 청년들의 새로운 삶의 방식이 되는 곳. 자연과 함께 천천히, 그러나 분명하게 성장하는 지속가능한 청년마을.",
+      "tags": [
+        "전통",
+        "환경/지속가능",
+        "느린삶",
+        "도전/실험",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "미지알지 울릉",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "경북",
+        "sigungu": "울릉군"
+      },
+      "tagline": "우리나라 가장 동쪽 미지의 섬 울릉도",
+      "description": "경북 울릉군 청년마을 미지알지. 우리나라 가장 동쪽인 미지의 섬 울릉도의 관계/생활인구가 되기에 허들이 높은 문제를 신뢰성과 매력적인 울릉도 탐험코스 프로그램을 운영하는 울릉호스트를 육성하는 마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험",
+        "도전/실험",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "Weave On 중촌",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "대전",
+        "sigungu": "중구 중촌동"
+      },
+      "tagline": "맞춤패션 특화거리 기반 창작 실험 마을",
+      "description": "대전광역시 중구 중촌동 '맞춤패션 특화거리'를 기반으로 청년 창작자들이 연결되고 함께 성장하는 창작 실험 마을. '패션메이킹 입문과정' 등 운영.",
+      "tags": [
+        "예술/창작",
+        "창업",
+        "교육/배움",
+        "공동체"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "철원 통일마을",
+      "url": "https://localro.co.kr/village",
+      "year": "2025",
+      "region": {
+        "sido": "강원",
+        "sigungu": "철원군"
+      },
+      "tagline": "미리 만나는 통일 마을",
+      "description": "강원 철원군 청년마을. 철원 최북단 접경 지역에서 함께 살아가는 남북청년들의 통일 프로젝트, 미리 만나는 통일 마을.",
+      "tags": [
+        "공동체",
+        "글로벌/다문화",
+        "도전/실험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "난중일기",
+      "url": "https://localro.co.kr/village",
+      "year": "2024",
+      "region": {
+        "sido": "",
+        "sigungu": ""
+      },
+      "tagline": "'직업'이 아닌 '삶'을 선택한 사람들의 난중일기",
+      "description": "우리를 거쳐가는 전통의 새로움을 기록하다. '직업'이 아닌 '삶'을 선택한 사람들의 청년마을.",
+      "tags": [
+        "전통",
+        "예술/창작",
+        "정착/이주",
+        "느린삶"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": null,
+      "name": "강진 청년마을",
+      "url": "https://localro.co.kr/village",
+      "year": "2022",
+      "region": {
+        "sido": "전남",
+        "sigungu": "강진군"
+      },
+      "tagline": "독립된 성인기로 이행하는 시기인 '청년기'의 사람들이 함께 성장하는 마을",
+      "description": "전남 강진군 청년마을. '청년기'의 성장과 자립을 지원하는 마을.",
+      "tags": [
+        "공동체",
+        "정착/이주",
+        "교육/배움",
+        "치유/힐링"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      },
+      "category": "청년마을"
+    },
+    {
+      "id": 1053,
+      "name": "춘천 원평마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "농촌의 사계절을 만나는 춘천 원평마을",
+      "description": "강원도 춘천시 농촌체험휴양마을. 농촌체험과 휴양을 동시에 즐길 수 있는 마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1054,
+      "name": "춘천 용화산마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "춘천 사북면 농촌체험휴양마을",
+      "description": "강원도 춘천시 사북면 매산골에 위치한 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1055,
+      "name": "춘천 섬배마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "춘천 농촌체험휴양마을",
+      "description": "춘천시 농촌체험휴양마을협의회 소속 마을.",
+      "tags": [
+        "농업",
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1056,
+      "name": "춘천 강변강촌마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "춘천 강촌 농촌체험휴양마을",
+      "description": "춘천 강촌 일대 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1057,
+      "name": "춘천 복사꽃수레마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "복사꽃이 아름다운 춘천 마을",
+      "description": "춘천시 농촌체험휴양마을. 봄철 복사꽃이 명물.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1058,
+      "name": "춘천 수리봉마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "김장하던 날의 추억, 춘천 사북 수리봉마을",
+      "description": "춘천 사북면 농촌체험휴양마을. 김장 체험으로 알려짐.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1059,
+      "name": "춘천 박사마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "메주비누·옥수수 체험 박사정보화마을",
+      "description": "춘천 박사정보화마을. 메주비누 만들기, 옥수수 따기 체험 운영.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "음식/요리",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1060,
+      "name": "춘천 누리삼마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "춘천 누리삼 농촌체험휴양마을",
+      "description": "춘천시 누리삼 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1061,
+      "name": "춘천 가래골마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "춘천 가래골 농촌체험휴양마을",
+      "description": "춘천시 가래골마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1062,
+      "name": "춘천 다람이마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "춘천 다람이 농촌체험휴양마을",
+      "description": "춘천 다람이마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1063,
+      "name": "춘천 솔바우마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "춘천 솔바우 농촌체험휴양마을",
+      "description": "춘천시 솔바우 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1064,
+      "name": "춘천 온새미마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "옛날 그대로의 산마을, 춘천 온새미마을",
+      "description": "강원도 춘천시 사북면 아랫말길의 산마을. 옛날 그대로의 모습을 간직.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1065,
+      "name": "원주 매화마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "원주시"
+      },
+      "tagline": "은은한 매화 향기 가득한 원주 매호리마을",
+      "description": "강원도 원주시 호저면 매호리. 매화나무가 가득해 매년 3월 매화축제 개최. 오리농법 쌀, 도라지, 더덕, 고사리 재배. 항일운동 기념비와 효자비가 있는 따뜻한 마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원",
+        "축제",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1066,
+      "name": "원주 성황림마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "원주시"
+      },
+      "tagline": "산수경관 수려한 치악산 아래 신성한 숲의 마을",
+      "description": "강원도 원주시 신림면 성남리. 산수경관이 수려하고 신성한 숲이 있는 치악산 아래의 마을.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1067,
+      "name": "원주 연봉정마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "원주시"
+      },
+      "tagline": "원주 신림면 연봉정마을",
+      "description": "강원특별자치도 원주시 신림면 연봉정길 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1068,
+      "name": "원주 병방산촌농장",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "원주시"
+      },
+      "tagline": "새싹발효효소·약선차의 도시근교 산촌농장",
+      "description": "원주시 단계동 농산물공판장에서 5분 거리. 새싹발효효소, 새싹 장아찌, 새싹효소 다식, 약선차 만들기 체험.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1069,
+      "name": "강릉 대기리마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "강릉시"
+      },
+      "tagline": "별빛 쏟아지는 강원도 푸른고원 대기리마을",
+      "description": "강원도 강릉시 왕산면 용수길. 대관령 관광특구 인근. 별빛이 아름다운 푸른 고원의 마을.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1070,
+      "name": "강릉 안반데기마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "강릉시"
+      },
+      "tagline": "고랭지 채소밭으로 유명한 안반데기",
+      "description": "강원도 강릉시 왕산면 안반데기길. 해발 1,100m 고랭지 채소 재배 마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1071,
+      "name": "강릉 헌화로마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "강릉시"
+      },
+      "tagline": "문화·예술 향유, 농촌체험 중심 특성화 마을",
+      "description": "강원도 강릉시 옥계면 풍동로. 문화, 예술 향유, 레츠 제공 등 농촌 체험 중심 특성화 마을.",
+      "tags": [
+        "농업",
+        "예술/창작",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1072,
+      "name": "동해 봉정연꽃마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "동해시"
+      },
+      "tagline": "3,600㎡ 연꽃 단지의 봉황새마을",
+      "description": "강원도 동해시 단봉동. 봉황새마을이라고도 불리며 너른 연꽃 단지에 홍련과 백련이 어우러져 핀다. 매년 7월 연꽃·천연염색 축제. 봉황춤, 딸기·옥수수·감자·고구마 수확, 연잎수제비 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원",
+        "축제",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1073,
+      "name": "삼척 너와마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "삼척시"
+      },
+      "tagline": "사라져가는 너와집을 만나는 깊은 산속 마을",
+      "description": "강원도 삼척시 도계읍 신리. 점차 사라져가는 너와집을 만나볼 수 있는 마을. 가을에 너와집 짓기 체험, 송이채취 등 가족단위 산촌체험.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "가족여행"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1074,
+      "name": "삼척 덕풍계곡마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "삼척시"
+      },
+      "tagline": "삼척 가곡면 덕풍계곡 농촌체험휴양마을",
+      "description": "강원도 삼척시 가곡면 풍곡안길. 덕풍계곡 인근 마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "물놀이/계곡"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1075,
+      "name": "삼척 도계유리마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "삼척시"
+      },
+      "tagline": "삼척 도계읍 유리마을",
+      "description": "강원도 삼척시 도계읍 흥전남길.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1076,
+      "name": "삼척 가시오가피마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "삼척시"
+      },
+      "tagline": "삼척 가시오가피 농촌체험휴양마을",
+      "description": "강원도 삼척시 노곡면. 가시오가피 재배 마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1077,
+      "name": "횡성 산채마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "횡성군"
+      },
+      "tagline": "다양한 산나물을 맛볼 수 있는 횡성 산채마을",
+      "description": "산과 들에 산나물이 지천으로 자라며 5천여 평에 취나물, 곰취 등 산나물을 재배. 직접 수확한 산나물로 가마솥에 밥을 지어 먹는 체험. 농촌에서 살아보기 우수 운영마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "정착/이주",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1078,
+      "name": "횡성 덕고마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "횡성군"
+      },
+      "tagline": "횡성조씨 집성촌의 전통문화·횡성한우체험",
+      "description": "횡성조씨의 집성촌으로 전통문화가 살아있고 농촌의 특성을 살려 자연생태문화체험. 인성학교, 전통혼례체험, 횡성한우체험, 모내기, 농작물 수확. 겨울에는 비닐포대 눈썰매, 쥐불놀이, 연날리기.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "교육/배움",
+        "전통",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1079,
+      "name": "횡성 고라데이마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "횡성군"
+      },
+      "tagline": "농촌체험프로그램 우수마을",
+      "description": "강원 횡성군 농촌체험휴양마을. 농림축산식품부 소규모 농촌체험프로그램개발사업 대상지.",
+      "tags": [
+        "농업",
+        "창업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1080,
+      "name": "양구 약수마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "양구군"
+      },
+      "tagline": "농촌에서 살아보기 농식품부장관상 마을",
+      "description": "강원도 양구군 농촌체험휴양마을. '농촌에서 살아보기' 귀농·귀촌형 운영마을 최우수상 수상.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1081,
+      "name": "홍천 와동마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "홍천군"
+      },
+      "tagline": "홍천 와동 농촌체험휴양마을",
+      "description": "강원도 홍천군 와동 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1082,
+      "name": "홍천 부귀리마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "홍천군"
+      },
+      "tagline": "홍천 부귀리 농촌체험휴양마을",
+      "description": "강원도 홍천군 부귀리 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1083,
+      "name": "인제 하추리마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "인제군"
+      },
+      "tagline": "설악산과 내린천 사이 친환경 농업 산촌마을",
+      "description": "강원도 인제군 인제읍. 설악산과 내린천 사이 농업중심 산촌마을. 해발 250~600m 고지에 위치하여 고랭지 채소, 산채, 송이, 표고, 토종잡곡 생산. 우드칩 발효퇴비 친환경 농업. 황토방·펜션, 5~9월 내린천 래프팅, 트래킹, 번지점프.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "환경/지속가능",
+        "물놀이/계곡"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1084,
+      "name": "인제 백담마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "인제군"
+      },
+      "tagline": "백담사와 내설악 트레킹의 마을",
+      "description": "백담사가 자리한 설악산의 아름다움. 내설악 트레킹, 산림욕, 만해 한용운 만해박물관. 빙벽 타기, 래프팅, 패러글라이딩, 산악자전거, 번지점프.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "문화/책",
+        "물놀이/계곡"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1085,
+      "name": "평창 허브나라농원",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "평창군"
+      },
+      "tagline": "한국 최초의 허브 테마 농원",
+      "description": "1996년 문을 연 한국 최초의 허브 테마 농원. 평창의 깊은 계곡, 33,000㎡ 규모. 평창의 관광명소이자 한국 허브산업의 발상지.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원",
+        "물놀이/계곡"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1086,
+      "name": "정선 노추산마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "정선군"
+      },
+      "tagline": "정선 여량면 노추산 농촌체험휴양마을",
+      "description": "강원도 정선군 여량면 노추산로 일대 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1087,
+      "name": "철원 해마루촌",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "파주시"
+      },
+      "tagline": "민통선 안 막내 마을, 6·25 실향민의 귀향지",
+      "description": "파주시 진동면 동파리. 민통선 내 3개 마을 중 가장 마지막 조성. 휴전선 남방 6.4km. 6·25로 고향을 잃은 장단군 주민들의 귀향지. 60년간 출입 제한으로 자연생태 보존. 두부·인절미 만들기, 오디·메주 체험, 철새 관찰, 힐링 마을.",
+      "tags": [
+        "농업",
+        "치유/힐링",
+        "여행/체험",
+        "음식/요리",
+        "공동체",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1088,
+      "name": "철원 김화 농촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "철원군"
+      },
+      "tagline": "DMZ의 고장 철원 농촌체험마을",
+      "description": "강원도 철원군 농촌체험마을. 자연과 사람이 하나되는 DMZ의 고장.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1089,
+      "name": "양평 모꼬지마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "양평군"
+      },
+      "tagline": "맑은 계곡 여름물놀이 축제 마을",
+      "description": "맑은 계곡이 있는 농촌체험마을. 여름물놀이 축제, 미꾸라지 잡기, 뗏목타기, 민속놀이 체험, 왕달팽이 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "전통",
+        "축제",
+        "물놀이/계곡"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1090,
+      "name": "양평 보릿고개마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "양평군"
+      },
+      "tagline": "365일 즐거움이 넘치는 보릿고개 추억의 마을",
+      "description": "도시속의 번잡함을 멀리 두고 마을을 포근히 감싸 안은 아담한 산과 맑고 깨끗한 계곡물의 마을. 어려웠던 시절 먹던 건강밥상, 전통 먹을거리. 평화로운 자연의 소리와 풍경, 편안한 휴식.",
+      "tags": [
+        "농업",
+        "치유/힐링",
+        "여행/체험",
+        "전통",
+        "물놀이/계곡"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1091,
+      "name": "양평 여물리체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "양평군"
+      },
+      "tagline": "물 많고 토질 비옥한 곡식의 마을",
+      "description": "경기도 양평군 끝자락의 아름다운 농촌 마을. 본래 지평군 하북면. 예로부터 물이 많고 맑으며 토질이 비옥해 곡식이 잘 자라는 곳. 계절별 농산물 재배·수확 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1092,
+      "name": "가평 가정녹색농촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "가평군"
+      },
+      "tagline": "300년 역사 밀양 박씨 집성촌",
+      "description": "경기 가평. 300여 년 전 밀양 박씨가 정착해 형성한 마을. 현재 10대손. 가정마을의 이름은 한자로 나뭇가지 가자를 쓴다.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "정착/이주",
+        "전통",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1093,
+      "name": "가평 별바라기마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "가평군"
+      },
+      "tagline": "산과 들 그리고 맑은 물의 가평 마을",
+      "description": "경기 가평 농촌체험휴양마을. 산과 들, 맑은 물을 자랑.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1094,
+      "name": "가평 반딧불이 마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "가평군"
+      },
+      "tagline": "반딧불이 생태공원이 있는 청정 마을",
+      "description": "연인산, 귀목봉, 청계산, 운악산으로 둘러싸인 청정 마을. 명지산, 귀목봉, 청계산은 생태계보전지역. 여름철 파파리·늦반딧불이 관찰. 코스모피아 천문대.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1095,
+      "name": "포천 휴랜드관광농원",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "포천시"
+      },
+      "tagline": "약사계곡 종합 레저휴양타운",
+      "description": "포천시 이동면 각흘봉 남쪽 기슭 약사계곡. 펜션, 카라반, 글램핑, 일반야영장을 다 갖춘 가족중심 종합 레저휴양타운.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "물놀이/계곡",
+        "가족여행"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1096,
+      "name": "남양주 용암치유마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "치유농장",
+      "region": {
+        "sido": "경기",
+        "sigungu": "남양주시"
+      },
+      "tagline": "우수 농촌 치유마을 선정",
+      "description": "경기 남양주시 별내면. 우수 농촌 치유마을 선정. 천연 염색, 차, 도자기, 과일농장 등 다양한 체험거리와 농촌 자연 밥상. 천연염색, 마을 둘레길, 천문대, 도자기, 도예, 딸기·포도·블루베리 농장.",
+      "tags": [
+        "농업",
+        "예술/창작",
+        "치유/힐링",
+        "여행/체험",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1097,
+      "name": "괴산 백마권역마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "괴산군"
+      },
+      "tagline": "유럽풍 테마형 농촌체험휴양마을",
+      "description": "충북 괴산. 백마산과 백마저수지의 정기가 서린 마을. '물'과 '생명'의 소중함을 일깨워주는 체험프로그램. 숙박, 물놀이, 생태체험, 먹거리체험. 매년 1월 백마권역 겨울놀이축제.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "환경/지속가능",
+        "축제",
+        "물놀이/계곡"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1098,
+      "name": "괴산 둔율올갱이마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "괴산군"
+      },
+      "tagline": "괴산 칠성면 올갱이 마을",
+      "description": "충청북도 괴산군 칠성면 둔율길. 올갱이(다슬기) 채취로 유명한 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1099,
+      "name": "괴산 비학봉마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "괴산군"
+      },
+      "tagline": "괴산 칠성면 비학봉 농촌체험휴양마을",
+      "description": "충청북도 괴산군 칠성면 명태재로.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1100,
+      "name": "청주 도로줌마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "청주시"
+      },
+      "tagline": "좌구산 자락 청정 체험·휴양·숙박 마을",
+      "description": "청주의 동북쪽 끝 좌구산 자락. 체험, 휴양, 숙박시설을 겸비. 좌구산 등산코스, 대덕 숲 캠핑·휴식. '돌오줌' 어원의 마을. 동반식물심기, 스머지스틱, 제철과일청잼, 청원생명쌀 떡케이크 꾸미기.",
+      "tags": [
+        "농업",
+        "산촌",
+        "치유/힐링",
+        "여행/체험",
+        "문화/책",
+        "음식/요리"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1101,
+      "name": "보은 속리산 숲체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "숲체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "보은군"
+      },
+      "tagline": "속리산 아름드리 소나무 숲 자연치유 공간",
+      "description": "충북 보은군 속리산면. 속리산의 아름드리 소나무 숲속 대자연. 휴식·심신 수양·건강을 도모하는 자연치유 공간. 생태문화 교육(예약 필수), 꼬부랑길 카페 수제 대추차 체험, 산나물 체험.",
+      "tags": [
+        "산촌",
+        "치유/힐링",
+        "여행/체험",
+        "문화/책",
+        "교육/배움",
+        "환경/지속가능",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1102,
+      "name": "제천 덕산누리마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "제천시"
+      },
+      "tagline": "프로젝트참여형 살아보기 마을",
+      "description": "충북 제천시. 농촌에서 살아보기 프로젝트참여형 우수 운영마을. 가구제작기능사 자격증 취득 가능, 유휴시설 활용 목공방 운영 사례.",
+      "tags": [
+        "농업",
+        "예술/창작",
+        "여행/체험",
+        "문화/책",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1103,
+      "name": "청양 은골구기자마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "청양군"
+      },
+      "tagline": "4천만이 살고싶은 마을, 에코 파라다이스",
+      "description": "청양군 비봉면 관산리 산골마을. 충남도 지정 '4천만이 살고싶은 마을'. 고추, 구기자, 밤, 표고버섯, 산나물, 구기자한과. 100명 수영장·정자·농구대·족구장. 붕어·메기·산천어 잡기, 가재잡이.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "음식/요리",
+        "물놀이/계곡",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1104,
+      "name": "금산 막현리 산촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "금산군"
+      },
+      "tagline": "금산 1호 농촌체험휴양마을, 산촌생태체험",
+      "description": "충남 금산군 진산면 막현리. 금산 1호 농촌체험휴양마을. 산촌생태체험. 산더덕 체험. 물놀이와 체험이 가능. 대전에서 가까운 산세 좋은 곳.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "환경/지속가능",
+        "물놀이/계곡",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1105,
+      "name": "금산 적벽강 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "금산군"
+      },
+      "tagline": "강을 따라 만들어진 자연 글램핑 마을",
+      "description": "충남 금산군 부리면. 강을 따라 만들어진 자연에서 농촌체험은 물론 글램핑까지. 적벽강, 미류나무길 산책. 캠핑, 대벌 농장 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1106,
+      "name": "아산 외암마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "아산시"
+      },
+      "tagline": "햇살 스민 한옥 사이 고즈넉한 여유의 마을",
+      "description": "충남 아산. 따스한 햇빛이 내려앉은 외암마을. 햇살 스민 한옥 사이를 거닐며 고즈넉한 여유를 느끼는 곳. 조선시대부터 이어진 전통 한옥마을.",
+      "tags": [
+        "전통",
+        "느린삶"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1107,
+      "name": "부여 양송이마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "부여군"
+      },
+      "tagline": "뛰어난 맛과 향의 양송이버섯 무공해 자연마을",
+      "description": "충남 부여군 양송이마을. 뛰어난 맛과 향의 양송이버섯 무공해 자연마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1108,
+      "name": "부여 서울농장",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "워케이션거점",
+      "region": {
+        "sido": "충남",
+        "sigungu": "부여군"
+      },
+      "tagline": "부여에서 업무와 휴가를 즐기는 워케이션",
+      "description": "서울특별시와 협력 운영. 고즈넉한 부여에서 업무와 휴가. 공유오피스(30명, 무선인터넷·빔프로젝터), 단층/복층 숙소 12개, 카페테리아, 족구장. 워케이션 코디네이터 상주.",
+      "tags": [
+        "농업",
+        "워케이션",
+        "느린삶"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1109,
+      "name": "서천 판교 시간이 멈춘 마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "서천군"
+      },
+      "tagline": "레트로 감성 가득한 시간이 멈춘 마을",
+      "description": "충청남도 서천군 판교면. 드라마 세트장을 옮겨 놓은 듯한 레트로 감성. 목공소, 정미소, 이발소, 철공소, 양조산업 동일주조장. 옛 간판들, 판교극장 전시 공간, 옛날 감성 다방.",
+      "tags": [
+        "농업",
+        "예술/창작",
+        "여행/체험",
+        "음식/요리"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1110,
+      "name": "서천 해가마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "서천군"
+      },
+      "tagline": "서천 농촌체험휴양마을",
+      "description": "충청남도 서천군 농촌체험휴양마을. 향미 미션투어 등 체류형 프로그램.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1111,
+      "name": "서천 장항 두빛나래",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "청년커뮤니티",
+      "region": {
+        "sido": "충남",
+        "sigungu": "서천군"
+      },
+      "tagline": "장항 6080 음식골목의 청년 커뮤니티 카페",
+      "description": "서천 30년 전통 음식골목인 장항6080음식골목 맛나로의 청년 커뮤니티이자 카페. 서천의 향과 미를 한 번에. 향미 미션투어 시작점. 황금 달고나, 늦은 엽서, 천연 아로마 손소독제, 박대 굽기 체험.",
+      "tags": [
+        "여행/체험",
+        "음식/요리",
+        "공동체",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1112,
+      "name": "세종 아람달 체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "세종",
+        "sigungu": ""
+      },
+      "tagline": "여섯 마을이 의기투합한 농촌마을 종합개발",
+      "description": "세종시 아람달 체험마을. 활력 넘치고 살맛나는 농촌으로 발돋움하기 위해 여섯 개 마을이 의기 투합한 농촌마을 종합개발사업. 펜션형 숙박, 세미나실, 풋살 경기장. 민속체험, 농촌체험, 로컬푸드.",
+      "tags": [
+        "농업",
+        "창업",
+        "여행/체험",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1113,
+      "name": "정읍 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "정읍시"
+      },
+      "tagline": "정읍시 농촌체험휴양마을",
+      "description": "전북 정읍시 농촌체험휴양마을 8곳 운영.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1114,
+      "name": "임실 치즈마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "임실군"
+      },
+      "tagline": "한국 치즈의 발상지, 임실치즈 체험마을",
+      "description": "전북 임실군 치즈마을. 한국 치즈의 발상지. 치즈 만들기 체험, 피자 만들기 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1115,
+      "name": "완주 두레마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "완주군"
+      },
+      "tagline": "완주 농촌체험휴양마을",
+      "description": "전북 완주군 두레마을. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1116,
+      "name": "남원 흥부마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "남원시"
+      },
+      "tagline": "흥부전의 고장 남원 흥부마을",
+      "description": "전북 남원시 흥부마을. 흥부전 전설의 마을. 농촌체험 프로그램 운영.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1117,
+      "name": "진안 마이산마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "진안군"
+      },
+      "tagline": "마이산 자락 농촌체험휴양마을",
+      "description": "전북 진안군 마이산 자락 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1118,
+      "name": "부안 적벽강마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "부안군"
+      },
+      "tagline": "부안 변산반도 적벽강 마을",
+      "description": "전북 부안군 변산반도 적벽강 일대 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1119,
+      "name": "김제 벽골제마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "김제시"
+      },
+      "tagline": "한국 최고의 벼농사 평야 김제",
+      "description": "전북 김제시 벽골제 일대 농촌체험휴양마을. 한국 최고의 평야 지대.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1120,
+      "name": "고창 청보리밭마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "고창군"
+      },
+      "tagline": "고창 학원농장 청보리밭",
+      "description": "전북 고창군. 청보리밭과 메밀밭의 마을. 봄 청보리밭 축제.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "축제"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1121,
+      "name": "보성 강골전통마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "보성군"
+      },
+      "tagline": "옷소매 붉은 끝동 촬영지 열화정 고택의 마을",
+      "description": "전남 보성. 사극 <옷소매 붉은 끝동> 별당 '열화정' 고택. 일각대문, ㄴ모양 연못, 벚나무·목련·석류·대나무. '보성 소리, 멋, 맛에 빠지다' 프로그램. 우리 소리 체험, 차 만들기.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1122,
+      "name": "보성 선소마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "보성군"
+      },
+      "tagline": "임진왜란 이순신 식량조달의 어촌체험마을",
+      "description": "전남 보성. 끝없이 펼쳐진 득량만이 생업의 터전. 임진왜란 때 이순신 장군 식량조달지. 2001년 해양수산부 지정 어촌체험마을. 갯벌체험, 공룡알 화석. 자연생태학습장.",
+      "tags": [
+        "어업/바다",
+        "여행/체험",
+        "교육/배움",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1123,
+      "name": "보성 수진한옥",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "한옥체험숙소",
+      "region": {
+        "sido": "전남",
+        "sigungu": "보성군"
+      },
+      "tagline": "쉼이 있는 한옥 체험, 차밭 브런치",
+      "description": "전남 보성읍 사동길. 고즈넉한 한옥 숙박. 나만의 블렌딩 티 만들기. 한옥 브런치 도시락, 차밭 피크닉.",
+      "tags": [
+        "치유/힐링",
+        "여행/체험",
+        "전통",
+        "느린삶"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1124,
+      "name": "보성 봇재 보성애 물들다",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "차밭체험",
+      "region": {
+        "sido": "전남",
+        "sigungu": "보성군"
+      },
+      "tagline": "차밭에서 즐기는 다도와 브런치",
+      "description": "보성군. 봇재와 차밭에서 녹차로 만든 음료와 간식 즐기는 피크닉. 2~3시간 차밭 그늘에 앉아 차와 말차 디저트.",
+      "tags": [
+        "여행/체험",
+        "음식/요리"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1125,
+      "name": "고흥 유자마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "고흥군"
+      },
+      "tagline": "전남 고흥 유자 향기 가득한 마을",
+      "description": "전남 고흥 유자마을. 유자 향기 가득한 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1126,
+      "name": "강진 청자마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "강진군"
+      },
+      "tagline": "고려청자의 본고장 강진 청자마을",
+      "description": "전남 강진군. 고려청자의 본고장. 청자 만들기 체험.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1127,
+      "name": "담양 죽녹원마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "담양군"
+      },
+      "tagline": "대나무의 고장 담양",
+      "description": "전남 담양 대나무 마을. 죽세공품 만들기 체험.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1128,
+      "name": "순천 황전 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "순천시"
+      },
+      "tagline": "순천 황전 농촌체험휴양마을",
+      "description": "전남 순천시 황전면 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1129,
+      "name": "해남 두륜산 다도해마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "해남군"
+      },
+      "tagline": "해남 땅끝마을과 가까운 다도해 농촌체험",
+      "description": "전남 해남군. 두륜산과 다도해를 끼고 있는 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "음식/요리"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1130,
+      "name": "성주 남작골 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "성주군"
+      },
+      "tagline": "가야산국립공원 인근 캠핑·체험 마을",
+      "description": "경북 성주군 수륜면 보월리. 일반캠핑 사이트 14면+데크 6면. 카라반·트레일러 동반 가능. 가야산국립공원, 해인사 연계 관광.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1131,
+      "name": "안동 하회마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "안동시"
+      },
+      "tagline": "유네스코 세계문화유산 조선시대 전통 마을",
+      "description": "안동 하회마을. 조선시대 전통 마을. 유네스코 세계문화유산. 풍산 류씨 동성마을. 양반 한옥과 초가집.",
+      "tags": [
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1132,
+      "name": "영덕 블루로드마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "영덕군"
+      },
+      "tagline": "영덕 대게와 블루로드의 어촌마을",
+      "description": "경북 영덕군. 영덕대게의 본고장. 블루로드 트레일.",
+      "tags": [
+        "어업/바다",
+        "산촌",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1133,
+      "name": "포항 호미곶 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "포항시"
+      },
+      "tagline": "한반도의 동쪽 끝 호미곶 어촌체험",
+      "description": "경북 포항 호미곶. 한반도 동쪽 끝의 일출 명소. 어촌체험 프로그램.",
+      "tags": [
+        "어업/바다",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1134,
+      "name": "예천 회룡포 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "예천군"
+      },
+      "tagline": "내성천이 350도 휘감아도는 회룡포",
+      "description": "경북 예천 회룡포. 내성천이 350도 휘감아도는 육지 속의 섬. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "어업/바다",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1135,
+      "name": "청도 와인터널마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "청도군"
+      },
+      "tagline": "청도 감와인 체험 마을",
+      "description": "경북 청도. 청도반시 감와인 생산. 와인터널 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1136,
+      "name": "봉화 분천 산타마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "봉화군"
+      },
+      "tagline": "사철 산타가 있는 봉화 분천역 마을",
+      "description": "경북 봉화. 산타마을로 알려진 분천역. 사철 크리스마스 분위기. 백두대간협곡열차.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1137,
+      "name": "산청 지리산덕천강마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "산청군"
+      },
+      "tagline": "달콤한 수확의 기쁨, 산청 딸기 농촌체험",
+      "description": "경남 산청 지리산덕천강마을. 직접 딴 딸기로 봄의 달콤함. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1138,
+      "name": "합천 대기 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "합천군"
+      },
+      "tagline": "황매산 표고·블루베리·복분자의 사계절 푸른 마을",
+      "description": "경남 합천군 가회면 중촌리. 모산재외 누룩덤이 병풍, 마을 앞 수백년 소나무 숲. 옛선비 서당 매양재의 흔적, 대기저수지. 황매산 표고, 블루베리, 복분자. 2005년부터 녹색농촌 체험마을.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "환경/지속가능",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1139,
+      "name": "함양 지리산둘레길마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "함양군"
+      },
+      "tagline": "지리산둘레길이 지나는 함양 마을",
+      "description": "경남 함양 지리산둘레길 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1140,
+      "name": "남해 다랭이마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "남해군"
+      },
+      "tagline": "남해 가천 다랭이논의 농촌마을",
+      "description": "경남 남해 가천 다랭이마을. 바다와 다랭이논이 어우러진 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1141,
+      "name": "거제 외도 보타니아",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "거제시"
+      },
+      "tagline": "거제 외도 보타니아 식물원",
+      "description": "경남 거제 외도. 해상 식물원.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1142,
+      "name": "통영 사량도 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "통영시"
+      },
+      "tagline": "통영 사량도의 섬 어촌체험",
+      "description": "경남 통영 사량도. 섬 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1143,
+      "name": "하동 평사리 최참판댁마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "하동군"
+      },
+      "tagline": "토지의 무대 평사리, 차나무의 고장",
+      "description": "경남 하동. 박경리 <토지>의 무대 평사리. 최참판댁 한옥체험. 야생차밭.",
+      "tags": [
+        "여행/체험",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1144,
+      "name": "제주 가시리마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "제주",
+        "sigungu": "서귀포시"
+      },
+      "tagline": "바람과 말이 함께 달리는 가시리 봄길",
+      "description": "제주 서귀포 가시리마을. 말들이 노니는 벚꽃과 유채꽃이 이어지는 녹산로 풍경.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "공동체",
+        "꽃/정원"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1145,
+      "name": "제주 선흘 동백동산마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "제주",
+        "sigungu": "제주시"
+      },
+      "tagline": "동백동산 람사르 습지의 곶자왈 마을",
+      "description": "제주 선흘. 람사르 협약 등록 동백동산. 곶자왈 생태마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1146,
+      "name": "제주 어승생 한옥마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "제주",
+        "sigungu": "제주시"
+      },
+      "tagline": "제주 한옥과 돌담의 마을",
+      "description": "제주의 전통 한옥과 돌담이 어우러진 마을.",
+      "tags": [
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1147,
+      "name": "제주 김녕 미로공원마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "제주",
+        "sigungu": "제주시"
+      },
+      "tagline": "제주 김녕 어촌체험휴양마을",
+      "description": "제주 김녕. 어촌체험과 미로공원이 어우러진 마을.",
+      "tags": [
+        "농업",
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1148,
+      "name": "인천 강화 교동도 농촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "인천",
+        "sigungu": "강화군"
+      },
+      "tagline": "강화 교동도 농촌체험휴양마을",
+      "description": "인천 강화 교동도 농촌체험마을. 평화전망대 인근.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1149,
+      "name": "인천 옹진 자월도 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "인천",
+        "sigungu": "옹진군"
+      },
+      "tagline": "인천 옹진 섬 어촌체험",
+      "description": "인천 옹진군 자월도 어촌체험휴양마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1150,
+      "name": "강진 살아보기 운영마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "살아보기운영마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "강진군"
+      },
+      "tagline": "농촌에서 살아보기 시범 운영마을",
+      "description": "전남 강진. '농촌에서 살아보기' 사업 운영마을. 귀농·귀촌 희망 도시민이 최장 6개월간 거주하며 일자리·생활 체험.",
+      "tags": [
+        "농업",
+        "창업",
+        "여행/체험",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1151,
+      "name": "강원 화천 살아보기 운영마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "살아보기운영마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "화천군"
+      },
+      "tagline": "화천 농촌에서 살아보기 마을",
+      "description": "강원 화천 농촌에서 살아보기 운영마을.",
+      "tags": [
+        "농업",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1152,
+      "name": "전북 김제 살아보기 운영마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "살아보기운영마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "김제시"
+      },
+      "tagline": "김제 농촌에서 살아보기",
+      "description": "전북 김제 농촌에서 살아보기 운영마을.",
+      "tags": [
+        "농업",
+        "문화/책",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1153,
+      "name": "충남 부여 살아보기 운영마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "살아보기운영마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "부여군"
+      },
+      "tagline": "부여 농촌에서 살아보기",
+      "description": "충남 부여 농촌에서 살아보기 운영마을. 백마강과 백제 역사의 도시.",
+      "tags": [
+        "농업",
+        "정착/이주",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1154,
+      "name": "충북 음성 살아보기 운영마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "살아보기운영마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "음성군"
+      },
+      "tagline": "음성 농촌에서 살아보기",
+      "description": "충북 음성 농촌에서 살아보기 운영마을.",
+      "tags": [
+        "농업",
+        "문화/책",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1155,
+      "name": "강원 인제 치유농장",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "치유농장",
+      "region": {
+        "sido": "강원",
+        "sigungu": "인제군"
+      },
+      "tagline": "인제 치유의 숲 농장",
+      "description": "강원 인제군 치유농장. 치유의 숲과 자연 치유 프로그램.",
+      "tags": [
+        "농업",
+        "산촌",
+        "치유/힐링"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1156,
+      "name": "충남 서천 치유의숲",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "치유농장",
+      "region": {
+        "sido": "충남",
+        "sigungu": "서천군"
+      },
+      "tagline": "서천 치유의숲, 산림치유 프로그램",
+      "description": "충남 서천 치유의숲. 산림치유 프로그램으로 도시민의 몸과 마음을 힐링.",
+      "tags": [
+        "농업",
+        "산촌",
+        "치유/힐링"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1157,
+      "name": "전남 장성 편백숲 치유의숲",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "치유농장",
+      "region": {
+        "sido": "전남",
+        "sigungu": "장성군"
+      },
+      "tagline": "장성 축령산 편백나무숲",
+      "description": "전남 장성 축령산. 편백나무숲의 산림치유 명소. 피톤치드 가득한 치유공간.",
+      "tags": [
+        "농업",
+        "산촌",
+        "치유/힐링"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1158,
+      "name": "전주 한옥마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "전주시"
+      },
+      "tagline": "전주 한옥의 정수, 풍남동·교동",
+      "description": "전북 전주시. 700여 채 한옥이 모인 한옥마을. 한복체험, 전통문화 체험.",
+      "tags": [
+        "여행/체험",
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1159,
+      "name": "안동 군자마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "안동시"
+      },
+      "tagline": "광산 김씨 예안파 종택 군자마을",
+      "description": "경북 안동 와룡면. 광산 김씨 예안파 600년 세거지. 한옥 체험숙박.",
+      "tags": [
+        "여행/체험",
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1160,
+      "name": "경주 양동마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "경주시"
+      },
+      "tagline": "유네스코 세계문화유산 조선 양반 마을",
+      "description": "경북 경주 양동마을. 유네스코 세계문화유산. 월성 손씨와 여강 이씨의 동성마을. 500년 전통 한옥.",
+      "tags": [
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1161,
+      "name": "성주 한개마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "성주군"
+      },
+      "tagline": "성산 이씨 600년 집성촌",
+      "description": "경북 성주. 성산 이씨 600년 집성촌. 국가민속문화재.",
+      "tags": [
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1162,
+      "name": "서산 해미 외성마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "서산시"
+      },
+      "tagline": "해미읍성 외부 전통마을",
+      "description": "충남 서산. 해미읍성 외부의 전통마을. 천주교 성지 순례.",
+      "tags": [
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1163,
+      "name": "서산 중왕뱃마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "귀어귀촌마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "서산시"
+      },
+      "tagline": "귀어 정착 지원 우수마을",
+      "description": "충남 서산시 지곡면 중왕뱃마을길. 어촌계 가입 가입비 축소·거주기간 제한 폐지. 마을 공동 어업, 호형호제 멘토링, 어촌 살아보기 시범. 마을 기업 운영.",
+      "tags": [
+        "어업/바다",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1164,
+      "name": "통영 견유마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "귀어귀촌마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "통영시"
+      },
+      "tagline": "어촌관광 체험상품의 통영 견유마을",
+      "description": "경남 통영시 용남면 견유2길. 어촌관광 체험상품 개발, 반건조 생선 작업장. 마을 일자리 창출 및 어가 소득 증대.",
+      "tags": [
+        "어업/바다",
+        "여행/체험",
+        "정착/이주"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1165,
+      "name": "안산 대부도 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "안산시"
+      },
+      "tagline": "수도권 가까운 대부도 갯벌체험",
+      "description": "경기 안산 대부도. 수도권에서 가까운 갯벌체험마을. 조개잡이, 낙지잡이.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1166,
+      "name": "태안 학암포 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "태안군"
+      },
+      "tagline": "태안 학암포 갯벌·해변마을",
+      "description": "충남 태안 학암포. 갯벌체험과 해변이 어우러진 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1167,
+      "name": "여수 거문도 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "여수시"
+      },
+      "tagline": "여수 거문도 등대섬 어촌체험",
+      "description": "전남 여수 거문도. 등대섬으로 유명한 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1168,
+      "name": "신안 증도 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "신안군"
+      },
+      "tagline": "아시아 최초 슬로시티 신안 증도",
+      "description": "전남 신안 증도. 아시아 최초 슬로시티. 짱뚱어 다리, 태평염전, 갯벌체험.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1169,
+      "name": "원주 꽃양귀비마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "원주시"
+      },
+      "tagline": "용수골 꽃양귀비축제의 화려한 봄꽃 향연",
+      "description": "강원 원주. 붉은 물결로 채워진 봄. 용수골 꽃양귀비축제.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원",
+        "축제"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1170,
+      "name": "양평 들꽃수목원",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "양평군"
+      },
+      "tagline": "꽃길 따라 돗자리 펴고 쉬어가는 양평",
+      "description": "경기 양평. 꽃길 따라 돗자리 펴고 쉬기 좋은 들꽃수목원.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1171,
+      "name": "이천 산수유마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "이천시"
+      },
+      "tagline": "이천 산수유마을, 봄 노란 꽃 축제",
+      "description": "경기 이천시. 산수유 마을. 농림축산식품부 소규모 농촌체험프로그램 대상지.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원",
+        "축제"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1172,
+      "name": "양평 산수유꽃길마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "양평군"
+      },
+      "tagline": "양평 산수유꽃길마을",
+      "description": "경기 양평 산수유꽃길마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1173,
+      "name": "춘천 신내리 큰삼촌농촌체험",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "숲과 냇가, 신내리 다양한 농촌체험",
+      "description": "춘천 신내리. 숲이나 냇가에서 또는 마을 안에서 다양한 농촌체험. 농촌전통음식·문화·농사 체험.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험",
+        "문화/책",
+        "음식/요리",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1174,
+      "name": "춘천 강원숲체험장",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "숲체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "춘천시"
+      },
+      "tagline": "춘천호와 산이 어우러진 숲체험장",
+      "description": "춘천시 서면 오월리. 춘천댐과 춘천호, 몽덕산과 가덕산. 숲속의집, 야영장, 촉대봉 등산로. 회의실·숙박, 기업 연수·MT·학술세미나. 목공예체험, 숲놀이터, 집라인.",
+      "tags": [
+        "산촌",
+        "예술/창작",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1175,
+      "name": "영동 시골살이 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "영동군"
+      },
+      "tagline": "금강을 배경으로 한 자연경관 우수 마을",
+      "description": "금강을 배경으로 자연경관 우수. 경부고속도로 금강IC 인접. 금강 벚꽃 길, 청정 농산물. 토종벌꿀 채밀, 젤 캔들, 농산물 수확. 세미나실 갖춤.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1176,
+      "name": "충북 단양 다누리아쿠아리움마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "단양군"
+      },
+      "tagline": "단양 다누리아쿠아리움 인근 농촌체험",
+      "description": "충북 단양 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1177,
+      "name": "충남 보령 갈매못마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "보령시"
+      },
+      "tagline": "보령 갈매못 천주교 성지 어촌마을",
+      "description": "충남 보령 갈매못. 천주교 성지 인근 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1178,
+      "name": "전북 진안 운일암반일암마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "진안군"
+      },
+      "tagline": "진안 운일암반일암 계곡 마을",
+      "description": "전북 진안 운일암반일암 일대 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "물놀이/계곡"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1179,
+      "name": "경북 영주 부석사마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "영주시"
+      },
+      "tagline": "영주 부석사 인근 농촌체험",
+      "description": "경북 영주 부석사 인근 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1180,
+      "name": "경북 의성 산수유마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "의성군"
+      },
+      "tagline": "의성 사곡면 산수유마을",
+      "description": "경북 의성 사곡면 산수유마을. 봄철 노란 산수유꽃 축제.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "꽃/정원",
+        "축제"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1181,
+      "name": "경남 거창 항노화 농촌체험",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "거창군"
+      },
+      "tagline": "거창 항노화 농촌체험휴양마을",
+      "description": "경남 거창 항노화 체험 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1182,
+      "name": "전남 곡성 기차마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "곡성군"
+      },
+      "tagline": "곡성 섬진강 기차마을 농촌체험",
+      "description": "전남 곡성. 섬진강 기차마을. 농촌체험.",
+      "tags": [
+        "농업",
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1183,
+      "name": "전남 화순 운주사마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "화순군"
+      },
+      "tagline": "천불천탑 운주사 인근 농촌체험",
+      "description": "전남 화순. 천불천탑 운주사 인근 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1184,
+      "name": "충남 공주 한옥마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "공주시"
+      },
+      "tagline": "백제 고도 공주 한옥마을",
+      "description": "충남 공주. 백제 고도. 한옥마을 숙박체험.",
+      "tags": [
+        "여행/체험",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1185,
+      "name": "경기 안성 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "안성시"
+      },
+      "tagline": "안성 농촌체험휴양마을",
+      "description": "경기 안성 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1186,
+      "name": "충남 천안 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "천안시"
+      },
+      "tagline": "천안 농촌체험휴양마을",
+      "description": "충남 천안 농촌체험휴양마을. 호두과자의 고장.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1187,
+      "name": "충남 홍성 광천 토굴새우젓마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "홍성군"
+      },
+      "tagline": "광천 토굴새우젓의 발효 식문화 마을",
+      "description": "충남 홍성 광천. 토굴새우젓으로 유명. 발효식문화 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "음식/요리"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1188,
+      "name": "강원 양양 송이마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "양양군"
+      },
+      "tagline": "양양 송이의 본고장",
+      "description": "강원 양양. 송이버섯의 본고장. 가을 송이 채취 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1189,
+      "name": "강원 영월 김삿갓마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "영월군"
+      },
+      "tagline": "방랑시인 김삿갓의 영월 마을",
+      "description": "강원 영월. 방랑시인 김삿갓 유적지. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1190,
+      "name": "강원 태백 매봉산 고랭지마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "태백시"
+      },
+      "tagline": "매봉산 풍력발전기와 고랭지 배추밭",
+      "description": "강원 태백 매봉산. 풍력발전기와 고랭지 배추밭. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1191,
+      "name": "강원 정선 아우라지마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "정선군"
+      },
+      "tagline": "정선아리랑의 발상지 아우라지",
+      "description": "강원 정선 아우라지. 정선아리랑의 발상지. 강물이 어우러지는 곳.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1192,
+      "name": "경북 영양 두들마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "영양군"
+      },
+      "tagline": "재령 이씨 600년 집성촌, 음식디미방의 고장",
+      "description": "경북 영양 두들마을. 재령 이씨 집성촌. 정부인 안동 장씨의 한국 최고(最古) 한글 조리서 <음식디미방>.",
+      "tags": [
+        "문화/책",
+        "음식/요리",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1193,
+      "name": "경북 청송 신성리 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "청송군"
+      },
+      "tagline": "청송 사과의 고장",
+      "description": "경북 청송. 사과의 고장. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1194,
+      "name": "전남 무안 양파마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "무안군"
+      },
+      "tagline": "무안 양파의 고장",
+      "description": "전남 무안. 양파의 고장. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1195,
+      "name": "충북 옥천 묘목마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "옥천군"
+      },
+      "tagline": "옥천 묘목산업의 마을",
+      "description": "충북 옥천. 묘목산업의 본고장. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1196,
+      "name": "경남 의령 한우산마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "의령군"
+      },
+      "tagline": "의령 한우산 자락 농촌체험휴양마을",
+      "description": "경남 의령 한우산 자락 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1197,
+      "name": "전북 순창 고추장마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "순창군"
+      },
+      "tagline": "순창 전통고추장의 마을",
+      "description": "전북 순창. 전통고추장의 고장. 고추장 만들기 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1198,
+      "name": "전남 보성 율어 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "보성군"
+      },
+      "tagline": "보성 율어 농촌체험휴양마을",
+      "description": "전남 보성 율어면 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1199,
+      "name": "전남 진도 신비의바닷길마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "진도군"
+      },
+      "tagline": "진도 모세의 기적 신비의바닷길",
+      "description": "전남 진도. 모세의 기적이라 불리는 신비의 바닷길. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1200,
+      "name": "충남 당진 합덕수리민속박물관마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "당진시"
+      },
+      "tagline": "합덕제 수리민속의 마을",
+      "description": "충남 당진. 합덕제 수리민속 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1201,
+      "name": "경기 평택 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "평택시"
+      },
+      "tagline": "평택 농촌체험휴양마을",
+      "description": "경기 평택 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1202,
+      "name": "경기 여주 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "여주시"
+      },
+      "tagline": "여주 농촌체험휴양마을",
+      "description": "경기 여주 농촌체험휴양마을. 여주쌀의 고장.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1203,
+      "name": "경기 화성 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "화성시"
+      },
+      "tagline": "화성 농촌체험휴양마을",
+      "description": "경기 화성 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1204,
+      "name": "강원 양구 광치자연휴양림마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "양구군"
+      },
+      "tagline": "양구 광치자연휴양림 인근 마을",
+      "description": "강원 양구 광치자연휴양림 인근 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "산촌",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1205,
+      "name": "강원 고성 송지호마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "고성군"
+      },
+      "tagline": "고성 송지호 어촌체험휴양마을",
+      "description": "강원 고성 송지호 어촌체험휴양마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1206,
+      "name": "충남 예산 사과마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "예산군"
+      },
+      "tagline": "예산 사과의 고장",
+      "description": "충남 예산 사과 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1207,
+      "name": "전북 임실 신촌마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "임실군"
+      },
+      "tagline": "임실 신촌 농촌체험휴양마을",
+      "description": "전북 임실 신촌 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1208,
+      "name": "경북 문경 새재 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "문경시"
+      },
+      "tagline": "문경새재 옛길의 마을",
+      "description": "경북 문경 문경새재 옛길 인근 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1209,
+      "name": "경북 영덕 강구항 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "영덕군"
+      },
+      "tagline": "영덕 강구항 어촌체험마을",
+      "description": "경북 영덕 강구항 어촌체험마을. 영덕대게의 본거지.",
+      "tags": [
+        "어업/바다",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1210,
+      "name": "전남 영광 굴비마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "영광군"
+      },
+      "tagline": "영광 법성포 굴비의 마을",
+      "description": "전남 영광 법성포. 굴비의 본고장. 어촌체험휴양마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1211,
+      "name": "제주 표선 한지초마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "제주",
+        "sigungu": "서귀포시"
+      },
+      "tagline": "제주 표선 한지초 농촌체험휴양마을",
+      "description": "제주 서귀포 표선 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1212,
+      "name": "제주 우도 어촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험휴양마을",
+      "region": {
+        "sido": "제주",
+        "sigungu": "제주시"
+      },
+      "tagline": "우도 섬 어촌체험휴양마을",
+      "description": "제주 우도. 섬 어촌체험휴양마을. 해녀의 섬.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1213,
+      "name": "충남 보령 무창포 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "보령시"
+      },
+      "tagline": "무창포 신비의 바닷길",
+      "description": "충남 보령 무창포. 신비의 바닷길로 유명. 갯벌체험.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1214,
+      "name": "강원 영월 청령포 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "영월군"
+      },
+      "tagline": "영월 단종 유배지 청령포",
+      "description": "강원 영월 청령포. 단종 유배지. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1215,
+      "name": "충북 진천 농다리마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "진천군"
+      },
+      "tagline": "진천 농다리(籠橋) 옛 다리의 마을",
+      "description": "충북 진천. 천년 역사 농다리(고려시대 돌다리)가 있는 마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1216,
+      "name": "경기 김포 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "김포시"
+      },
+      "tagline": "김포 농촌체험휴양마을",
+      "description": "경기 김포 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1217,
+      "name": "경기 의왕 청계산 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "의왕시"
+      },
+      "tagline": "수도권 가까운 의왕 청계산",
+      "description": "경기 의왕 청계산 자락 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1218,
+      "name": "강원 화천 산천어마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "화천군"
+      },
+      "tagline": "화천 산천어축제의 마을",
+      "description": "강원 화천. 산천어축제로 유명. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "축제"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1219,
+      "name": "강원 인제 빙어호마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "인제군"
+      },
+      "tagline": "인제 빙어 낚시와 자연의 마을",
+      "description": "강원 인제. 빙어호 낚시로 유명. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1220,
+      "name": "충남 서산 해미읍성마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "서산시"
+      },
+      "tagline": "서산 해미읍성 전통마을",
+      "description": "충남 서산. 해미읍성 안팎의 전통마을.",
+      "tags": [
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1221,
+      "name": "전남 함평 나비축제마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "함평군"
+      },
+      "tagline": "함평 나비축제의 농촌체험",
+      "description": "전남 함평. 나비축제로 유명. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "축제"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1222,
+      "name": "전남 영암 월출산 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "영암군"
+      },
+      "tagline": "영암 월출산 자락 농촌체험",
+      "description": "전남 영암 월출산 자락 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1223,
+      "name": "경북 상주 곶감마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "상주시"
+      },
+      "tagline": "상주 곶감의 고장",
+      "description": "경북 상주. 곶감과 감의 고장. 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1224,
+      "name": "경북 군위 사라온 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "군위군"
+      },
+      "tagline": "군위 사라온 농촌체험휴양마을",
+      "description": "경북 군위 사라온 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1225,
+      "name": "경남 김해 봉하마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "김해시"
+      },
+      "tagline": "김해 봉하 친환경농업 마을",
+      "description": "경남 김해 봉하마을. 친환경농업과 추모공원.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1226,
+      "name": "경남 양산 통도사마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "양산시"
+      },
+      "tagline": "양산 통도사 인근 농촌체험",
+      "description": "경남 양산 통도사 인근 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1227,
+      "name": "강원 평창 효석문학마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "평창군"
+      },
+      "tagline": "평창 봉평 메밀꽃 필 무렵의 마을",
+      "description": "강원 평창 봉평. 이효석 <메밀꽃 필 무렵>의 무대. 메밀꽃 축제.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "꽃/정원",
+        "축제"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1228,
+      "name": "강원 평창 동강할미꽃마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "평창군"
+      },
+      "tagline": "평창 동강할미꽃 자생지",
+      "description": "강원 평창 동강할미꽃 자생지 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1229,
+      "name": "충북 음성 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "음성군"
+      },
+      "tagline": "음성 농촌체험휴양마을",
+      "description": "충북 음성 농촌체험휴양마을. 청결고추의 고장.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1230,
+      "name": "충남 보령 외연도 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "보령시"
+      },
+      "tagline": "보령 외연도 섬 어촌체험",
+      "description": "충남 보령 외연도. 섬 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1231,
+      "name": "전북 무주 반디불마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "무주군"
+      },
+      "tagline": "무주 반딧불이 청정마을",
+      "description": "전북 무주. 반딧불이 서식 청정 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1232,
+      "name": "경북 안동 화회 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "안동시"
+      },
+      "tagline": "안동 농촌체험휴양마을",
+      "description": "경북 안동 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1233,
+      "name": "충북 충주 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충북",
+        "sigungu": "충주시"
+      },
+      "tagline": "충주 사과·복숭아의 농촌체험",
+      "description": "충북 충주 농촌체험휴양마을. 사과와 복숭아의 고장.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "농산물수확"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1234,
+      "name": "강원 동해 추암 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "동해시"
+      },
+      "tagline": "동해 추암 촛대바위의 어촌체험",
+      "description": "강원 동해 추암. 촛대바위로 유명. 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1235,
+      "name": "강원 속초 외옹치 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "속초시"
+      },
+      "tagline": "속초 외옹치 어촌체험마을",
+      "description": "강원 속초 외옹치 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1236,
+      "name": "충남 보령 죽도상화원마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "보령시"
+      },
+      "tagline": "보령 죽도 상화원",
+      "description": "충남 보령 죽도. 상화원 정원과 농촌체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "꽃/정원"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1237,
+      "name": "전북 익산 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전북",
+        "sigungu": "익산시"
+      },
+      "tagline": "익산 농촌체험휴양마을",
+      "description": "전북 익산 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1238,
+      "name": "경남 진주 진양호반 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "진주시"
+      },
+      "tagline": "진주 진양호반 농촌체험",
+      "description": "경남 진주 진양호반 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1239,
+      "name": "충남 논산 강경 젓갈마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "논산시"
+      },
+      "tagline": "강경 젓갈의 발효 식문화 마을",
+      "description": "충남 논산 강경. 젓갈의 본고장. 발효식문화 체험.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책",
+        "음식/요리"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1240,
+      "name": "강원 양양 남대천 연어마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "양양군"
+      },
+      "tagline": "양양 남대천 연어 회귀의 마을",
+      "description": "강원 양양 남대천. 연어가 회귀하는 강. 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1241,
+      "name": "전남 곡성 침실습지 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "전남",
+        "sigungu": "곡성군"
+      },
+      "tagline": "곡성 침실습지 생태 마을",
+      "description": "전남 곡성 침실습지 생태 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "환경/지속가능"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1242,
+      "name": "경북 봉화 청량산 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "봉화군"
+      },
+      "tagline": "봉화 청량산 자락 마을",
+      "description": "경북 봉화 청량산 자락 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험",
+        "문화/책"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1243,
+      "name": "강원 영월 별마로천문대마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "영월군"
+      },
+      "tagline": "영월 별마로 천문대의 별빛 마을",
+      "description": "강원 영월 별마로천문대 인근 농촌체험휴양마을. 별 관측 명소.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1244,
+      "name": "충남 태안 만대항 어촌체험마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "어촌체험마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "태안군"
+      },
+      "tagline": "태안 만대항 어촌체험",
+      "description": "충남 태안 만대항 어촌체험마을.",
+      "tags": [
+        "어업/바다",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1245,
+      "name": "경기 광주 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "광주시"
+      },
+      "tagline": "경기 광주 농촌체험휴양마을",
+      "description": "경기 광주 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1246,
+      "name": "경기 동두천 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경기",
+        "sigungu": "동두천시"
+      },
+      "tagline": "동두천 농촌체험휴양마을",
+      "description": "경기 동두천 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1247,
+      "name": "경남 함안 농촌체험휴양마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "경남",
+        "sigungu": "함안군"
+      },
+      "tagline": "함안 농촌체험휴양마을",
+      "description": "경남 함안 농촌체험휴양마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1248,
+      "name": "충남 청양 알프스마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "충남",
+        "sigungu": "청양군"
+      },
+      "tagline": "청양 알프스마을, 칠갑산 자락",
+      "description": "충남 청양 칠갑산 자락 농촌체험휴양마을. 알프스 같은 풍경.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1249,
+      "name": "강원 평창 진부 산수유마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "농촌체험휴양마을",
+      "region": {
+        "sido": "강원",
+        "sigungu": "평창군"
+      },
+      "tagline": "평창 진부 산수유마을",
+      "description": "강원 평창 진부 산수유마을.",
+      "tags": [
+        "농업",
+        "여행/체험"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    },
+    {
+      "id": 1250,
+      "name": "경북 영주 무섬마을",
+      "url": "",
+      "year": "",
+      "is_pilot": false,
+      "category": "전통한옥마을",
+      "region": {
+        "sido": "경북",
+        "sigungu": "영주시"
+      },
+      "tagline": "영주 무섬마을, 외나무다리 전통마을",
+      "description": "경북 영주 무섬마을. 내성천에 둘러싸인 육지 속의 섬. 외나무다리. 전통 한옥마을.",
+      "tags": [
+        "어업/바다",
+        "문화/책",
+        "전통"
+      ],
+      "images": [],
+      "thumbnail": "",
+      "sns": {},
+      "contact": {
+        "email": "",
+        "phone": ""
+      }
+    }
+  ]
+}

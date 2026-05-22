@@ -2,7 +2,6 @@
 // 사용자가 모든 미션을 완료한 지역에 대해 의사결정을 돕는 정성/정량 리포트
 
 import { motion } from "framer-motion";
-import { baseMissions } from "../data/missions";
 import {
   residences,
   matchScore,
