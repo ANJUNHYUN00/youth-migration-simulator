@@ -111,7 +111,7 @@ export default function ResultScreen({ type, onStart }: Props) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.1, duration: 0.4 }}
         >
-          <PrimaryButton onClick={onStart}>청풍 시작하기 🍃</PrimaryButton>
+          <PrimaryButton onClick={onStart}>시작하기 🍃</PrimaryButton>
         </motion.div>
       </footer>
     </div>
