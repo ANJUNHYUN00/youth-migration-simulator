@@ -1,0 +1,6 @@
+mission_id,destination_name,lat,lng,coords_source,arrivalRoadviewUrl,arrival_url_source,roadview_coverage,notes
+ganghwa-market,강화풍물시장,37.741370,126.492831,https://access.visitkorea.or.kr/ms/detail.do?cotId=3b7f6ed1-8b09-4cb0-9158-5f9f7db1bd57 (visitkorea 열린관광 페이지 길안내 링크),https://kko.to/R4HFdMJL2_,카카오맵,O,"예상 분류 — coverage-check.html 검사 후 확정 필요. 강화읍 시내라 잡힐 가능성 매우 높음."
+ganghwa-mudflat,동막해수욕장,37.593115,126.457175,https://www.ganghwa.go.kr/open_content/tour/tour/tourInfoDetail.do?tour_seq=111 (강화군청 관광 페이지 지도보기 링크),,,O,"예상 분류 — 해안남로 본도로는 잡힐 가능성 ↑. 갯벌 안쪽은 X 가능 (도착지를 도로 쪽으로 잡으면 안전)."
+yeongwol-stars,별마로천문대,37.198366,128.486777,https://access.visitkorea.or.kr/ms/detail.do?cotId=74c9e763-fcd3-4548-a370-ced98495ea6b (visitkorea 열린관광 페이지 길안내 링크),,,X,"예상 분류 — 봉래산(799.8m) 정상이라 차도 미진입, X 강력 추정. 사진 캡쳐 대상. 미션 컨셉 재설계 결정 대기 중 (residence-poi-master.md 참고)."
+taean-sunset,만리포해수욕장,36.786417,126.142333,https://ko.wikipedia.org/wiki/%EB%A7%8C%EB%A6%AC%ED%8F%AC%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5 (위키백과 한국어판 임베드 지도),,,O,"예상 분류 — 만리포 해변 앞 도로 잡힐 가능성 높음."
+jindo-art,운림산방,34.466110,126.308060,https://ko.wikipedia.org/wiki/%EC%A7%84%EB%8F%84_%EC%9A%B4%EB%A6%BC%EC%82%B0%EB%B0%A9 (위키백과 한국어판: 북위 34°27′58″ 동경 126°18′29″ → 34.46611°),,,O,"예상 분류 — 운림산방로 도로 상이라 잡힐 가능성 높음. 부분 커버리지일 수 있음."

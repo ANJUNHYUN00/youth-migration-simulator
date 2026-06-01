@@ -8,6 +8,7 @@ import { useState } from "react";
 import { motion, AnimatePresence, type PanInfo } from "framer-motion";
 import type { Mission } from "../data/missions";
 import MiniRoadview from "../components/MiniRoadview";
+import RoadviewWithFallback from "../components/RoadviewWithFallback";
 
 type Props = {
   mission: Mission;
@@ -101,7 +102,23 @@ export default function MissionTravelingScreen({ mission, onComplete, onBack }: 
   const destination = getDestinationLabel(mission);
   const ctaLabel = getArrivalCtaLabel(mission);
 
-  // 미니 로드뷰 자산이 있으면 그 모드로 진행 — 4슬라이드 카드는 fallback
+  // 카카오 좌표가 있으면 임베드 우선 — panoId 못 잡으면 RoadviewWithFallback 내부에서
+  // 자동으로 미니 로드뷰(사진)로 폴백
+  if (mission.kakaoPosition) {
+    return (
+      <RoadviewWithFallback
+        position={mission.kakaoPosition}
+        fallbackSteps={mission.roadviewSteps}
+        mission={mission}
+        destination={destination}
+        ctaLabel={ctaLabel}
+        onBack={onBack ?? onComplete}
+        onComplete={onComplete}
+      />
+    );
+  }
+
+  // 좌표 없고 사진 미니 로드뷰만 있으면 그대로 사용 — 4슬라이드 카드는 최종 fallback
   if (mission.roadviewSteps && mission.roadviewSteps.length > 0) {
     return (
       <MiniRoadview

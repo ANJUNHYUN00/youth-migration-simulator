@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>청풍 — 카카오 로드뷰 커버리지 검사</title>
+  <style>
+    :root {
+      --bg: #FFF8F0;
+      --fg: #3E2C20;
+      --primary: #F08C42;
+      --secondary: #6FB87A;
+      --border: #E8D9C5;
+      --ok: #2E7D32;
+      --ng: #C62828;
+      --muted: #8A7A6A;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: var(--bg); color: var(--fg);
+      max-width: 960px; margin-inline: auto;
+    }
+    h1 { font-size: 22px; margin: 0 0 4px; }
+    .sub { color: var(--muted); font-size: 13px; margin: 0 0 24px; }
+    .card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-bottom: 16px; }
+    .card h2 { font-size: 14px; margin: 0 0 10px; color: var(--primary); font-weight: 700; }
+    label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+    input[type="text"], input[type="password"] {
+      width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: 13px; font-family: inherit;
+    }
+    .btn {
+      padding: 10px 16px; border: none; border-radius: 8px;
+      background: var(--primary); color: white; font-weight: 700; font-size: 13px;
+      cursor: pointer;
+    }
+    .btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+    .btn.secondary { background: var(--secondary); }
+    .btn.ghost { background: transparent; color: var(--primary); border: 1px solid var(--primary); }
+    .row { display: flex; gap: 8px; align-items: end; }
+    .row > .col-grow { flex: 1; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+    th { background: #FAF1E4; font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .pill.ok { background: #E6F4EA; color: var(--ok); }
+    .pill.ng { background: #FCE8E8; color: var(--ng); }
+    .pill.pending { background: #F0E8D8; color: var(--muted); }
+    pre { background: #2A2620; color: #F0E0C8; padding: 12px; border-radius: 8px; font-size: 12px; overflow-x: auto; }
+    .small { font-size: 12px; color: var(--muted); }
+    .help { font-size: 12px; color: var(--muted); line-height: 1.6; }
+    .help ol { padding-left: 18px; margin: 6px 0; }
+    code { background: #F4ECDD; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>🛰️ 카카오 로드뷰 커버리지 검사</h1>
+  <p class="sub">미션 좌표마다 <code>RoadviewClient.getNearestPanoId(pos, 50)</code>을 호출해서 카카오 로드뷰가 잡히는지 확인합니다.</p>
+
+  <div class="card">
+    <h2>1. 카카오 JS 앱키</h2>
+    <div class="help">
+      <ol>
+        <li><a href="https://developers.kakao.com" target="_blank" rel="noopener">developers.kakao.com</a> 에서 앱 생성 → "JavaScript 키" 복사</li>
+        <li>같은 앱의 <b>웹 플랫폼 → 사이트 도메인</b>에 <code>http://localhost:5173</code> 등록 (Vite dev 기본 포트)</li>
+        <li>아래에 키를 붙여넣고 "SDK 로드". 키는 브라우저 localStorage에만 저장됨 (서버 전송 X).</li>
+      </ol>
+    </div>
+    <label for="appkey">JavaScript 앱키</label>
+    <div class="row">
+      <div class="col-grow"><input id="appkey" type="password" placeholder="여기에 키 붙여넣기" autocomplete="off" /></div>
+      <button id="loadSdk" class="btn">SDK 로드</button>
+      <button id="clearKey" class="btn ghost" type="button">키 지우기</button>
+    </div>
+    <p class="small" id="sdkStatus" style="margin-top:10px;">SDK 미로드</p>
+  </div>
+
+  <div class="card">
+    <h2>2. 검사 대상 미션 좌표</h2>
+    <p class="small">아래 5개 좌표는 <code>agents/frontend/arrival-roadview-links.md</code> 와 동기화. 좌표 변경 시 이 HTML도 같이 수정 (검사 도구는 데모용이라 간단히 하드코딩).</p>
+    <table>
+      <thead>
+        <tr><th>mission_id</th><th>도착지</th><th>lat</th><th>lng</th></tr>
+      </thead>
+      <tbody id="missionList"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>3. 검사 실행</h2>
+    <div class="row">
+      <button id="run" class="btn secondary" disabled>전체 검사 시작</button>
+      <span class="small" id="runStatus"></span>
+    </div>
+    <table style="margin-top:14px;">
+      <thead>
+        <tr>
+          <th>mission_id</th>
+          <th>좌표</th>
+          <th>panoId</th>
+          <th>roadview_coverage</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody id="results"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>4. 시트 붙여넣기용 출력</h2>
+    <p class="small">검사 끝나면 아래 텍스트를 복사해서 <code>arrival-roadview-links.csv</code> 의 <code>roadview_coverage</code> 컬럼에 반영하세요. 마크다운 시트도 같이 수정 필요.</p>
+    <pre id="csvOut">검사 전</pre>
+    <button id="copy" class="btn ghost" type="button" disabled>결과 복사</button>
+  </div>
+
+  <script>
+    // 검사 대상 — arrival-roadview-links.md 와 동기 (5개 데모 미션)
+    const MISSIONS = [
+      { id: "ganghwa-market",  name: "강화풍물시장",     lat: 37.741370, lng: 126.492831 },
+      { id: "ganghwa-mudflat", name: "동막해수욕장",     lat: 37.593115, lng: 126.457175 },
+      { id: "yeongwol-stars",  name: "별마로천문대",     lat: 37.198366, lng: 128.486777 },
+      { id: "taean-sunset",    name: "만리포해수욕장",   lat: 36.786417, lng: 126.142333 },
+      { id: "jindo-art",       name: "운림산방",         lat: 34.466110, lng: 126.308060 },
+    ];
+
+    const KEY_STORAGE = "cheongpung.kakao.jsKey";
+
+    // -- 미션 리스트 표 그리기 ---------------------------------------
+    const missionListEl = document.getElementById("missionList");
+    MISSIONS.forEach(m => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td><code>${m.id}</code></td><td>${m.name}</td><td>${m.lat}</td><td>${m.lng}</td>`;
+      missionListEl.appendChild(tr);
+    });
+
+    // -- 앱키 로컬 저장 --------------------------------------------
+    const keyInput = document.getElementById("appkey");
+    keyInput.value = localStorage.getItem(KEY_STORAGE) || "";
+
+    document.getElementById("clearKey").addEventListener("click", () => {
+      localStorage.removeItem(KEY_STORAGE);
+      keyInput.value = "";
+    });
+
+    // -- SDK 로드 ---------------------------------------------------
+    const sdkStatusEl = document.getElementById("sdkStatus");
+    const runBtn = document.getElementById("run");
+
+    document.getElementById("loadSdk").addEventListener("click", () => {
+      const key = keyInput.value.trim();
+      if (!key) { sdkStatusEl.textContent = "키를 입력하세요"; return; }
+      localStorage.setItem(KEY_STORAGE, key);
+      if (window.kakao && window.kakao.maps) {
+        sdkStatusEl.textContent = "SDK 이미 로드됨 — 재로드 불필요";
+        runBtn.disabled = false;
+        return;
+      }
+      const script = document.createElement("script");
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(key)}&autoload=false&libraries=services`;
+      script.onload = () => {
+        kakao.maps.load(() => {
+          sdkStatusEl.innerHTML = '<span class="pill ok">로드 완료</span> 검사 시작 가능';
+          runBtn.disabled = false;
+        });
+      };
+      script.onerror = () => {
+        sdkStatusEl.innerHTML = '<span class="pill ng">로드 실패</span> 키·도메인 등록 확인 필요';
+      };
+      document.head.appendChild(script);
+      sdkStatusEl.textContent = "SDK 로드 중…";
+    });
+
+    // -- 검사 실행 --------------------------------------------------
+    const resultsEl = document.getElementById("results");
+    const runStatusEl = document.getElementById("runStatus");
+    const csvOutEl = document.getElementById("csvOut");
+    const copyBtn = document.getElementById("copy");
+
+    function getPanoIdAsync(client, lat, lng, radius = 50) {
+      return new Promise((resolve) => {
+        try {
+          client.getNearestPanoId(new kakao.maps.LatLng(lat, lng), radius, (panoId) => {
+            resolve(panoId ?? null);
+          });
+        } catch (e) {
+          resolve({ error: String(e) });
+        }
+      });
+    }
+
+    runBtn.addEventListener("click", async () => {
+      if (!(window.kakao && kakao.maps && kakao.maps.RoadviewClient)) {
+        runStatusEl.textContent = "SDK 미로드 — 위 단계 먼저";
+        return;
+      }
+      runBtn.disabled = true;
+      resultsEl.innerHTML = "";
+      const client = new kakao.maps.RoadviewClient();
+      const results = [];
+
+      for (const m of MISSIONS) {
+        runStatusEl.textContent = `검사 중… ${m.id}`;
+        // 1단계: 반경 50m
+        let pano = await getPanoIdAsync(client, m.lat, m.lng, 50);
+        let usedRadius = 50;
+        // 2단계 (fallback): 50m에서 못 잡으면 200m 확장 — 좌표 약간 오차 있을 수 있어서 한 번 더 본다
+        if (pano === null) {
+          pano = await getPanoIdAsync(client, m.lat, m.lng, 200);
+          usedRadius = 200;
+        }
+
+        let coverage, panoText, note;
+        if (pano && typeof pano !== "object") {
+          coverage = "O";
+          panoText = String(pano);
+          note = usedRadius === 50 ? "반경 50m" : "반경 50m에서는 없음 → 200m에서 잡힘";
+        } else if (pano && pano.error) {
+          coverage = "?";
+          panoText = "-";
+          note = `에러: ${pano.error}`;
+        } else {
+          coverage = "X";
+          panoText = "null";
+          note = "반경 50m·200m 모두 없음";
+        }
+
+        const tr = document.createElement("tr");
+        const pillClass = coverage === "O" ? "ok" : coverage === "X" ? "ng" : "pending";
+        tr.innerHTML = `
+          <td><code>${m.id}</code></td>
+          <td>${m.lat}, ${m.lng}</td>
+          <td><code>${panoText}</code></td>
+          <td><span class="pill ${pillClass}">${coverage}</span></td>
+          <td class="small">${note}</td>
+        `;
+        resultsEl.appendChild(tr);
+        results.push({ id: m.id, coverage, panoId: panoText, note });
+      }
+
+      runStatusEl.textContent = "검사 완료";
+      runBtn.disabled = false;
+
+      const csv = [
+        "mission_id,roadview_coverage,panoId,note",
+        ...results.map(r => `${r.id},${r.coverage},${r.panoId},"${r.note}"`)
+      ].join("\n");
+      csvOutEl.textContent = csv;
+      copyBtn.disabled = false;
+    });
+
+    copyBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(csvOutEl.textContent);
+      copyBtn.textContent = "복사됨!";
+      setTimeout(() => copyBtn.textContent = "결과 복사", 1500);
+    });
+  </script>
+</body>
+</html>

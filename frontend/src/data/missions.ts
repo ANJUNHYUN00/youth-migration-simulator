@@ -83,6 +83,9 @@ export type Mission = {
   // 정의되면 4슬라이드 카드 대신 미니 로드뷰(5-6 지점 화살표 네비)로 진행
   // 마지막 step이 도착 지점
   roadviewSteps?: RoadviewStep[];
+  // 카카오 로드뷰 임베드용 좌표 — 정의되면 RoadviewWithFallback이 SDK로 panoId 조회 후 임베드
+  // panoId 못 잡으면 자동으로 roadviewSteps(사진) 폴백으로 빠짐
+  kakaoPosition?: { lat: number; lng: number };
 };
 
 // ── 미니 로드뷰 한 지점 ────────────────────────

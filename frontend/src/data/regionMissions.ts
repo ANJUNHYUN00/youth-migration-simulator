@@ -22,12 +22,9 @@ const ganghwaMissions: Mission[] = [
     background: "neighbor",
     npc: { name: "갯벌 안내인", emoji: "🦀" },
     description: "썰물 시간의 갯벌 — 강화의 가장 강한 풍경",
-    realRoadview: [
-      "https://picsum.photos/seed/ganghwa-mudflat-depart/800/600",
-      "https://picsum.photos/seed/ganghwa-mudflat-alley/800/600",
-      "https://picsum.photos/seed/ganghwa-mudflat-approach/800/600",
-      "https://picsum.photos/seed/ganghwa-mudflat-arrive/800/600",
-    ],
+    // 카카오 로드뷰 임베드 좌표 — 동막해수욕장 (강화군청 관광 페이지 출처)
+    // agents/frontend/arrival-roadview-links.md 참고
+    kakaoPosition: { lat: 37.593115, lng: 126.457175 },
     dialogues: [
       {
         npc:
@@ -147,43 +144,9 @@ const ganghwaMissions: Mission[] = [
     background: "market",
     npc: { name: "풍물시장 사장님", emoji: "🧓" },
     description: "아삭아삭 순무민박에서 강화풍물시장까지 — 강화 대표 시장",
-    // 4지점 GPS — 네이버 거리뷰가 가까운 panoId 자동 매칭
-    // 좌표는 대략적 — 실제 거리뷰는 가장 가까운 촬영 지점으로 자동 스냅됨
-    // 미니 로드뷰 — 화살표 누르며 6지점 전진
-    // 사진은 일단 placeholder, 팀원이 네이버/카카오 로드뷰에서 캡처해 교체
-    roadviewSteps: [
-      {
-        photo: "https://picsum.photos/seed/ganghwa-market-1/1200/1600",
-        caption: "아삭아삭 순무민박 앞",
-        story: "민박 골목 입구에서 출발해요. 우측 길로 빠지면 읍내예요.",
-        forwardDirection: "right",
-      },
-      {
-        photo: "https://picsum.photos/seed/ganghwa-market-2/1200/1600",
-        caption: "우회전 후 읍내 진입",
-        forwardDirection: "straight",
-      },
-      {
-        photo: "https://picsum.photos/seed/ganghwa-market-3/1200/1600",
-        caption: "읍내 골목 — 작은 갈림길",
-        story: "강화는 옛 도읍지라 길이 좁고 휘어요. 천천히 걷기 좋은 동네예요.",
-        forwardDirection: "left",
-      },
-      {
-        photo: "https://picsum.photos/seed/ganghwa-market-4/1200/1600",
-        caption: "좌회전 후 시장 방향",
-        forwardDirection: "straight",
-      },
-      {
-        photo: "https://picsum.photos/seed/ganghwa-market-5/1200/1600",
-        caption: "강화풍물시장 간판이 보여요",
-        forwardDirection: "straight",
-      },
-      {
-        photo: "https://picsum.photos/seed/ganghwa-market-6/1200/1600",
-        caption: "풍물시장 안쪽 — 도착",
-      },
-    ],
+    // 카카오 로드뷰 임베드 좌표 — 강화풍물시장 (visitkorea 출처)
+    // agents/frontend/arrival-roadview-links.md 참고. 검사 결과 X면 자동으로 사진 폴백.
+    kakaoPosition: { lat: 37.741370, lng: 126.492831 },
     // 도착 후 "실제 로드뷰로 확인해보기" — 새 탭에서 카카오맵 거리뷰
     arrivalRoadviewUrl: "https://kko.to/R4HFdMJL2_",
     dialogues: [
@@ -645,12 +608,8 @@ const taeanMissions: Mission[] = [
     background: "neighbor",
     npc: { name: "노을 사진가", emoji: "📸" },
     description: "서해 노을이 가장 길게 머무는 해변",
-    realRoadview: [
-      "https://picsum.photos/seed/taean-sunset-depart/800/600",
-      "https://picsum.photos/seed/taean-sunset-alley/800/600",
-      "https://picsum.photos/seed/taean-sunset-approach/800/600",
-      "https://picsum.photos/seed/taean-sunset-arrive/800/600",
-    ],
+    // 카카오 로드뷰 임베드 좌표 — 만리포해수욕장 (위키백과 임베드 지도 출처)
+    kakaoPosition: { lat: 36.786417, lng: 126.142333 },
     dialogues: [
       {
         npc:
@@ -1179,12 +1138,8 @@ const jindoMissions: Mission[] = [
     background: "library",
     npc: { name: "미술관 해설사", emoji: "👨‍🎨" },
     description: "한국화의 고향, 운림산방에서 한 시간",
-    realRoadview: [
-      "https://picsum.photos/seed/jindo-art-depart/800/600",
-      "https://picsum.photos/seed/jindo-art-alley/800/600",
-      "https://picsum.photos/seed/jindo-art-approach/800/600",
-      "https://picsum.photos/seed/jindo-art-arrive/800/600",
-    ],
+    // 카카오 로드뷰 임베드 좌표 — 운림산방 (위키백과 DMS → 10진수)
+    kakaoPosition: { lat: 34.466110, lng: 126.308060 },
     dialogues: [
       {
         npc:
