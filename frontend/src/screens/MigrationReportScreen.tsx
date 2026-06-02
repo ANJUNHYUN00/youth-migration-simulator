@@ -1,7 +1,9 @@
 // 이주 리포트 화면 — PRD: 맞는 이유/우려 이유 + 핵심 지표 4개 + 지역 비교 + 공유 + 이주 결정
 // 사용자가 모든 미션을 완료한 지역에 대해 의사결정을 돕는 정성/정량 리포트
 
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { toPng } from "html-to-image";
 import {
   residences,
   matchScore,
@@ -9,6 +11,7 @@ import {
   type LifeStyleType,
 } from "../data/residences";
 import { calculateMatch, type RegionRecord } from "../data/journey";
+import { lifestyleMeta } from "../data/quiz";
 
 type Props = {
   residence: Residence;
@@ -39,6 +42,63 @@ function calcMetrics(record: RegionRecord) {
   // 비용감: cost + market
   const cost = Math.min(100, 50 + (has("cost") + has("market")) * 25);
   return { adaptation, infra, relation, cost };
+}
+
+// 라이프스타일 유형별 자격증 카드 테마 (파스텔 그라데이션 + 액센트)
+type CardTheme = {
+  cardBg: string;
+  ringBg: string;
+  ringInner: string;
+  accent: string;
+  title: string;
+  divider: string;
+  stamp: string;
+};
+
+const LIFESTYLE_THEME: Record<LifeStyleType, CardTheme> = {
+  자연탐험형: {
+    cardBg: "linear-gradient(160deg,#E9F6EC 0%,#DBEFE2 55%,#EAF7EE 100%)",
+    ringBg: "linear-gradient(160deg,#BFE6C8,#9FD8AE)",
+    ringInner: "rgba(255,255,255,0.8)",
+    accent: "#3E9D62",
+    title: "#2F7A4B",
+    divider: "rgba(62,157,98,0.22)",
+    stamp: "#3E9D62",
+  },
+  레저형: {
+    cardBg: "linear-gradient(160deg,#E6F2FB 0%,#D7E9F8 55%,#EAF4FC 100%)",
+    ringBg: "linear-gradient(160deg,#B7DBF3,#94C4E8)",
+    ringInner: "rgba(255,255,255,0.8)",
+    accent: "#3B7FB3",
+    title: "#2E6A98",
+    divider: "rgba(59,127,179,0.22)",
+    stamp: "#3B7FB3",
+  },
+  디지털노마드형: {
+    cardBg: "linear-gradient(160deg,#EFEBFC 0%,#E4DCF8 55%,#F1ECFD 100%)",
+    ringBg: "linear-gradient(160deg,#CFC2F0,#B7A4E6)",
+    ringInner: "rgba(255,255,255,0.8)",
+    accent: "#6E54C8",
+    title: "#5840A8",
+    divider: "rgba(110,84,200,0.2)",
+    stamp: "#6E54C8",
+  },
+  집돌이형: {
+    cardBg: "linear-gradient(160deg,#FFF1E5 0%,#FFE6D2 55%,#FFF2E8 100%)",
+    ringBg: "linear-gradient(160deg,#FFD3AD,#FBBE8C)",
+    ringInner: "rgba(255,255,255,0.8)",
+    accent: "#E07B36",
+    title: "#C26224",
+    divider: "rgba(224,123,54,0.22)",
+    stamp: "#E07B36",
+  },
+};
+
+// 거주지 id 기반 결정적 자격증 번호 (5자리)
+function reportNumber(id: string): string {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return String(10000 + (h % 90000));
 }
 
 export default function MigrationReportScreen({
@@ -81,6 +141,58 @@ export default function MigrationReportScreen({
     (r) => r.id !== residence.id && (allProgress[r.id]?.visitCount ?? 0) > 0
   );
 
+  // ── 자격증 카드용 데이터 ──────────────────────────
+  const cardType: LifeStyleType = lifestyle ?? residence.matchType;
+  const meta = lifestyleMeta[cardType];
+  const theme = LIFESTYLE_THEME[cardType];
+  const reportNo = reportNumber(residence.id);
+  const completedCount = record.completedMissionIds.length;
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [saving, setSaving] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToast(msg);
+    window.setTimeout(() => setToast(null), 1800);
+  };
+
+  // 카드를 PNG로 저장
+  const handleSaveImage = async () => {
+    if (!cardRef.current || saving) return;
+    setSaving(true);
+    try {
+      const dataUrl = await toPng(cardRef.current, {
+        pixelRatio: 2,
+        cacheBust: true,
+      });
+      const link = document.createElement("a");
+      link.download = `청풍_이주리포트_${residence.region}.png`;
+      link.href = dataUrl;
+      link.click();
+      showToast("이미지를 저장했어요");
+    } catch {
+      showToast("이미지 저장에 실패했어요");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  // 이벤트 공유 (Web Share API → 클립보드 폴백)
+  const handleShare = async () => {
+    const text = `청풍에서 ${residence.region} 귀촌을 체험했어요! 나의 유형은 '${cardType}', 적합도 ${match}%`;
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: "청풍 이주 리포트", text });
+      } else {
+        await navigator.clipboard.writeText(text);
+        showToast("공유 문구를 복사했어요");
+      }
+    } catch {
+      /* 사용자가 공유를 취소한 경우 — 무시 */
+    }
+  };
+
   return (
     <div className="relative min-h-[calc(100dvh-6rem)] flex flex-col bg-cream">
       <header className="pt-10 px-5 flex items-center gap-3">
@@ -109,17 +221,167 @@ export default function MigrationReportScreen({
             {residence.region}, 어떨까요?
           </h1>
         </div>
-        <button
-          type="button"
-          aria-label="공유"
-          className="w-9 h-9 rounded-full bg-white shadow-soft text-ink text-base
-                     flex items-center justify-center"
-        >
-          ↗
-        </button>
       </header>
 
       <main className="flex-1 px-5 mt-4 pb-6 overflow-y-auto space-y-4">
+        {/* ===== 귀촌 자격증 카드 (라이프스타일 유형 중심) ===== */}
+        <motion.section
+          initial={{ opacity: 0, y: 14, scale: 0.97 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          {/* 캡처 대상 — 애니메이션 transform 영향 없는 정적 카드 */}
+          <div
+            ref={cardRef}
+            className="relative overflow-hidden rounded-[28px] p-6 shadow-soft"
+            style={{ background: theme.cardBg }}
+          >
+            {/* 대각선 인증 스탬프 워터마크 */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 flex items-center justify-center"
+            >
+              <div
+                className="rotate-[-18deg] rounded-2xl border-2 px-6 py-3 text-center"
+                style={{ borderColor: theme.stamp, opacity: 0.12 }}
+              >
+                <p
+                  className="text-[16px] font-black tracking-[0.2em]"
+                  style={{ color: theme.stamp }}
+                >
+                  CHEONGPUNG
+                </p>
+                <p
+                  className="text-[9px] font-bold tracking-[0.3em]"
+                  style={{ color: theme.stamp }}
+                >
+                  RESIDENCE REPORT
+                </p>
+              </div>
+            </div>
+
+            {/* 상단: 배지 + 자격증 번호 */}
+            <div className="relative flex items-center justify-between">
+              <span
+                className="px-3 py-1 rounded-full bg-white/70 text-[12px] font-extrabold"
+                style={{ color: theme.accent }}
+              >
+                귀촌 자격증
+              </span>
+              <span
+                className="text-[13px] font-bold tabular-nums"
+                style={{ color: theme.accent }}
+              >
+                청풍번호. {reportNo}
+              </span>
+            </div>
+
+            {/* 캐릭터 링 (화환 느낌) */}
+            <div className="relative mt-5 flex justify-center">
+              <div
+                className="relative w-[148px] h-[148px] rounded-full flex items-center justify-center"
+                style={{
+                  background: theme.ringBg,
+                  boxShadow: `inset 0 0 0 7px ${theme.ringInner}`,
+                }}
+              >
+                <div className="w-[108px] h-[108px] rounded-full bg-white/80 flex items-center justify-center shadow-inner">
+                  <span className="text-[62px] leading-none" aria-hidden>
+                    {meta.emoji}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 유형명 + 태그라인 */}
+            <div className="relative mt-4 text-center">
+              <h2
+                className="text-[26px] font-extrabold leading-tight"
+                style={{ color: theme.title }}
+              >
+                {cardType}
+              </h2>
+              <p
+                className="mt-1 text-[13px] font-bold"
+                style={{ color: theme.accent }}
+              >
+                {meta.tagline}
+              </p>
+            </div>
+
+            {/* 디바이더 */}
+            <div
+              className="relative my-4 h-px"
+              style={{ background: theme.divider }}
+            />
+
+            {/* 정보 행 */}
+            <div className="relative space-y-2.5">
+              <CardRow label="담당 지역" value={residence.region} color={theme.title} />
+              <CardRow label="적합도" value={`${match}%`} color={theme.title} />
+              <CardRow
+                label="체험 미션"
+                value={`${completedCount} / 8`}
+                color={theme.title}
+              />
+            </div>
+
+            {/* 브랜드 */}
+            <div className="relative mt-5 flex items-center justify-center gap-1.5 opacity-80">
+              <span className="text-[15px]" aria-hidden>
+                🍃
+              </span>
+              <span
+                className="text-[15px] font-extrabold tracking-tight"
+                style={{ color: theme.title }}
+              >
+                청풍
+              </span>
+            </div>
+          </div>
+        </motion.section>
+
+        {/* 이미지 저장 + 이벤트 공유 */}
+        <div className="flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={handleSaveImage}
+            disabled={saving}
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white
+                       border border-cream-200 text-ink-soft text-[13px] font-bold
+                       shadow-soft active:scale-[0.99] transition disabled:opacity-50"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path
+                d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {saving ? "저장 중..." : "이미지 저장"}
+          </button>
+          <button
+            type="button"
+            onClick={handleShare}
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-primary
+                       text-white text-[13px] font-extrabold shadow-soft
+                       active:scale-[0.99] transition"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path
+                d="M14 9V5l7 7-7 7v-4C7 14 4 17 3 20c0-7 4-11 11-11Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            이벤트 공유
+          </button>
+        </div>
+
         {/* 한 줄 요약 */}
         <section className="bg-gradient-to-br from-nature-50 to-primary-50
                             border border-nature-200 rounded-2xl p-4 shadow-soft">
@@ -222,6 +484,43 @@ export default function MigrationReportScreen({
           좀 더 둘러볼게요
         </button>
       </footer>
+
+      {/* 저장/공유 토스트 */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
+            className="absolute left-1/2 bottom-28 -translate-x-1/2 z-50
+                       px-4 py-2.5 rounded-full bg-ink/90 text-white text-[13px] font-bold
+                       shadow-soft whitespace-nowrap"
+            role="status"
+          >
+            {toast}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+// 자격증 카드 정보 행 — 라벨(좌) / 값(우)
+function CardRow({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: string;
+  color: string;
+}) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-ink-soft text-[12px] font-semibold">{label}</span>
+      <span className="text-[15px] font-extrabold" style={{ color }}>
+        {value}
+      </span>
     </div>
   );
 }
