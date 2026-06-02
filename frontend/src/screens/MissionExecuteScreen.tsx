@@ -27,9 +27,12 @@ export default function MissionExecuteScreen({
 }: Props) {
   const [turnIdx, setTurnIdx] = useState(0);
   const [showReward, setShowReward] = useState(false);
+  // 사용자가 미션 중 고른 선택지 라벨 — 완료 화면의 "내가 한 선택" 기록에 사용
   const [picks, setPicks] = useState<string[]>([]);
   // 누적 적합도 변화
   const [fitDelta, setFitDelta] = useState(0);
+  // 완료 시점의 최종 적합도 변화량 (오버레이 진행 버튼에서 onComplete로 전달)
+  const [finalDelta, setFinalDelta] = useState(0);
   // 수치 입력 단계의 임시 값
   const [numericInput, setNumericInput] = useState("");
   // 마지막 수치 입력값 (NPC 텍스트 치환용)
@@ -50,8 +53,9 @@ export default function MissionExecuteScreen({
   const finish = (extraDelta: number) => {
     const total = fitDelta + extraDelta;
     setFitDelta(total);
+    setFinalDelta(total);
     setShowReward(true);
-    window.setTimeout(() => onComplete(total), 1800);
+    // 자동 전환 대신, 완료 오버레이에서 "내가 한 선택"을 확인하고 직접 진행한다.
   };
 
   const handlePick = (optionIdx: number) => {
@@ -226,7 +230,11 @@ export default function MissionExecuteScreen({
       {/* 미션 완료 보상 오버레이 */}
       <AnimatePresence>
         {showReward && (
-          <RewardOverlay reward={mission.reward} />
+          <RewardOverlay
+            reward={mission.reward}
+            picks={picks}
+            onContinue={() => onComplete(finalDelta)}
+          />
         )}
       </AnimatePresence>
     </div>
@@ -434,7 +442,15 @@ function Background({ variant }: { variant: BackgroundVariant }) {
 // 미션 완료 보상 오버레이 — +N 점 애니메이션
 // =====================================================================
 
-function RewardOverlay({ reward }: { reward: number }) {
+function RewardOverlay({
+  reward,
+  picks,
+  onContinue,
+}: {
+  reward: number;
+  picks: string[];
+  onContinue: () => void;
+}) {
   return (
     <>
       <motion.div
@@ -444,7 +460,7 @@ function RewardOverlay({ reward }: { reward: number }) {
         exit={{ opacity: 0 }}
       />
       {/* 중앙 정렬은 wrapper, 등장 애니메이션은 안쪽 motion에서 — transform 충돌 회피 */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[min(86%,320px)]">
       <motion.div
         initial={{ opacity: 0, scale: 0.7, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -472,15 +488,57 @@ function RewardOverlay({ reward }: { reward: number }) {
         </motion.p>
         <motion.div
           initial={{ y: 12, opacity: 0 }}
-          animate={{ y: [0, -8, 0], opacity: 1 }}
-          transition={{
-            opacity: { delay: 0.5, duration: 0.4 },
-            y: { delay: 0.5, duration: 1.2, repeat: Infinity, ease: "easeInOut" },
-          }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.4 }}
           className="mt-2 px-4 py-2 rounded-full bg-primary text-white text-[20px] font-extrabold shadow-soft"
         >
           축적 점수 +{reward}
         </motion.div>
+
+        {/* 내가 한 선택 — 미션 중 고른 답변들을 돌아보는 기록 */}
+        {picks.length > 0 && (
+          <motion.div
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.65, duration: 0.4 }}
+            className="mt-4 w-full bg-white rounded-2xl px-4 py-3 shadow-soft text-left"
+          >
+            <p className="text-[10px] font-bold text-ink-mute uppercase tracking-widest mb-2">
+              내가 한 선택
+            </p>
+            <ul className="space-y-1.5">
+              {picks.map((p, i) => (
+                <li
+                  key={`${i}-${p}`}
+                  className="flex items-start gap-2 text-ink text-[12px] leading-snug"
+                >
+                  <span
+                    className="mt-0.5 w-4 h-4 rounded-full bg-nature-100 text-nature-600
+                               text-[9px] font-extrabold flex items-center justify-center shrink-0"
+                    aria-hidden
+                  >
+                    {i + 1}
+                  </span>
+                  <span>{p}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+
+        {/* 진행 버튼 — 자동 전환 대신 직접 확인 후 이동 */}
+        <motion.button
+          type="button"
+          onClick={onContinue}
+          initial={{ y: 12, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: picks.length > 0 ? 0.85 : 0.65, duration: 0.4 }}
+          whileTap={{ scale: 0.98 }}
+          className="mt-4 w-full py-3.5 rounded-2xl bg-white text-primary
+                     text-[15px] font-extrabold shadow-soft"
+        >
+          여정에 기록하기 →
+        </motion.button>
       </motion.div>
       </div>
     </>
