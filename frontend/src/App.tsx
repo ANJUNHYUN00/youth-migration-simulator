@@ -9,6 +9,7 @@ import MissionTravelingScreen from "./screens/MissionTravelingScreen";
 import MissionExecuteScreen from "./screens/MissionExecuteScreen";
 import DailySummaryScreen from "./screens/DailySummaryScreen";
 import DayEndCeremonyScreen from "./screens/DayEndCeremonyScreen";
+import MigrationReportCinematic from "./screens/MigrationReportCinematic";
 import JourneyScreen from "./screens/JourneyScreen";
 import MigrationReportScreen from "./screens/MigrationReportScreen";
 import MoveInScreen from "./screens/MoveInScreen";
@@ -42,6 +43,11 @@ import {
   completeMissionFor,
   type RegionRecord,
 } from "./data/journey";
+import {
+  generateMigrationReport,
+  markReportViewed,
+  saveReport,
+} from "./data/migrationReport";
 import { missionsForResidence } from "./data/regionMissions";
 import {
   buildDayPlan,
@@ -163,6 +169,9 @@ export default function App() {
   } | null>(null);
   // 예약 찜(하트) — 화면 상태만, 영속 X
   const [bookingLiked, setBookingLiked] = useState<Set<string>>(new Set());
+  // 이주 리포트 시네마틱 — 풀스크린 모달 (열려있는 청년마을 id)
+  const [cinematicResidenceId, setCinematicResidenceId] = useState<string | null>(null);
+  const [cinematicLoading, setCinematicLoading] = useState(false);
 
   // 진행 상태 localStorage 영속
   useEffect(() => {
@@ -376,10 +385,41 @@ export default function App() {
       setTab3Route("community");
     });
 
-  const handleCeremonyGoReport = () =>
+  // 이주 리포트 시네마틱 열기 — 캐시 없으면 생성
+  const handleOpenCinematic = async (residence: Residence) => {
+    const rec = regionProgress[residence.id];
+    if (!rec) return;
+    setCinematicLoading(true);
+    try {
+      let report = rec.migrationReport;
+      if (!report) {
+        const missions = missionsForResidence(residence.id);
+        report = await generateMigrationReport(
+          residence,
+          rec,
+          missions,
+          profile?.lifestyle ?? null
+        );
+        setRegionProgress((p) => saveReport(p, residence.id, report!));
+      }
+      setCinematicResidenceId(residence.id);
+    } finally {
+      setCinematicLoading(false);
+    }
+  };
+
+  // 의식 화면 추천에서 시네마틱 열기
+  const handleCeremonyOpenCinematic = () =>
     finishDayAnd(() => {
-      if (selected) handleOpenReport(selected);
+      if (selected) void handleOpenCinematic(selected);
     });
+
+  const handleCloseCinematic = () => {
+    if (cinematicResidenceId) {
+      setRegionProgress((p) => markReportViewed(p, cinematicResidenceId));
+    }
+    setCinematicResidenceId(null);
+  };
 
   // 미션 선택 시 mode에 따라 라우팅 분기
   const handleSelectMission = (m: Mission) => {
@@ -562,10 +602,12 @@ export default function App() {
               currentDay >= currentDayPlan.dayCount
                 ? [
                     {
-                      icon: "📋",
-                      title: "이주 결정 리포트 보기",
-                      subtitle: "지금까지 쌓인 흔적이 한 장으로",
-                      onClick: handleCeremonyGoReport,
+                      icon: cinematicLoading ? "⏳" : "🎬",
+                      title: cinematicLoading
+                        ? "이주 리포트 만드는 중..."
+                        : "이주 리포트 열기",
+                      subtitle: "당신의 시간을 한 편의 시퀀스로",
+                      onClick: handleCeremonyOpenCinematic,
                     },
                     {
                       icon: "🗺️",
@@ -662,6 +704,7 @@ export default function App() {
             homeRegion={homeRegion}
             onOpenSettings={handleOpenSettings}
             onOpenReport={handleOpenReport}
+            onOpenCinematic={(r) => void handleOpenCinematic(r)}
           />
         )}
 
@@ -829,6 +872,29 @@ export default function App() {
         story={selected ? storiesByResidenceId[selected.id] ?? null : null}
         onClose={handleMailboxMissionClose}
       />
+
+      {/* 이주 리포트 시네마틱 — 풀스크린 모달 */}
+      {cinematicResidenceId && (() => {
+        const residence = residences.find((r) => r.id === cinematicResidenceId);
+        const rec = regionProgress[cinematicResidenceId];
+        const report = rec?.migrationReport;
+        if (!residence || !report) return null;
+        return (
+          <MigrationReportCinematic
+            residence={residence}
+            report={report}
+            missions={missionsForResidence(residence.id)}
+            isFirstView={!report.hasBeenViewed}
+            onClose={handleCloseCinematic}
+            onApplyResidence={() => {
+              handleCloseCinematic();
+              setMoveInResidenceId(residence.id);
+              setTab("journey");
+              setTab2Route("move-in");
+            }}
+          />
+        );
+      })()}
     </div>
   );
 }

@@ -34,6 +34,8 @@ type Props = {
   homeRegion: string;
   onOpenSettings: () => void;
   onOpenReport: (residence: Residence) => void;
+  // 이주 리포트 시네마틱 — 캐싱된 리포트가 있을 때만 노출
+  onOpenCinematic?: (residence: Residence) => void;
 };
 
 export default function JourneyScreen({
@@ -44,6 +46,7 @@ export default function JourneyScreen({
   homeRegion,
   onOpenSettings,
   onOpenReport,
+  onOpenCinematic,
 }: Props) {
   const [view, setView] = useState<ViewMode>("score");
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -145,6 +148,9 @@ export default function JourneyScreen({
             lifestyle={lifestyle}
             onClose={() => setSelectedId(null)}
             onOpenReport={() => onOpenReport(selected)}
+            onOpenCinematic={
+              onOpenCinematic ? () => onOpenCinematic(selected) : undefined
+            }
           />
         )}
       </AnimatePresence>
@@ -364,13 +370,16 @@ function RegionBottomSheet({
   lifestyle,
   onClose,
   onOpenReport,
+  onOpenCinematic,
 }: {
   residence: Residence;
   record: RegionRecord | undefined;
   lifestyle: LifeStyleType | null;
   onClose: () => void;
   onOpenReport: () => void;
+  onOpenCinematic?: () => void;
 }) {
+  const hasCinematic = !!record?.migrationReport;
   const visited = (record?.visitCount ?? 0) > 0;
   const score = record?.score ?? 0;
   const match = calculateMatch(lifestyle, residence, record);
@@ -480,17 +489,30 @@ function RegionBottomSheet({
           </div>
         </div>
 
-        {/* CTA */}
-        <button
-          type="button"
-          onClick={onOpenReport}
-          disabled={!allDone}
-          className="mt-4 w-full py-3.5 rounded-2xl bg-primary text-white text-[14px] font-extrabold
-                     shadow-soft active:scale-[0.99] transition
-                     disabled:opacity-50 disabled:active:scale-100"
-        >
-          {allDone ? "📋 이주 리포트 보기" : `미션 완료 시 활성화 (${completedCount}/8)`}
-        </button>
+        {/* CTA — 시네마틱 리포트가 있으면 우선 노출 */}
+        {hasCinematic && onOpenCinematic ? (
+          <button
+            type="button"
+            onClick={onOpenCinematic}
+            className="mt-4 w-full py-3.5 rounded-2xl
+                       bg-gradient-to-r from-[#FFB400] to-[#FF7043]
+                       text-white text-[14px] font-extrabold
+                       shadow-soft active:scale-[0.99] transition"
+          >
+            🎬 이주 리포트 다시 보기
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={onOpenReport}
+            disabled={!allDone}
+            className="mt-4 w-full py-3.5 rounded-2xl bg-primary text-white text-[14px] font-extrabold
+                       shadow-soft active:scale-[0.99] transition
+                       disabled:opacity-50 disabled:active:scale-100"
+          >
+            {allDone ? "📋 이주 리포트 보기" : `미션 완료 시 활성화 (${completedCount}/8)`}
+          </button>
+        )}
       </motion.div>
     </>
   );

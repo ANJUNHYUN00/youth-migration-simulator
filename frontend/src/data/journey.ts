@@ -17,6 +17,25 @@ export type RegionRecord = {
   fitScore: number;  // 적합도 추가 점수 — 미션 답변(traits)으로 누적 (-N ~ +N)
   // 현재 일차 (1-based) — 잠시섬 체류 일자. 기본 1, 일차 완료 의식 후 +1
   currentDay?: number;
+  // 이주 리포트 (시네마틱 엔딩 시퀀스) — 생성 시점 스냅샷 + AI 요약 캐시
+  migrationReport?: MigrationReport;
+};
+
+// 이주 리포트 — 마지막 일차 완료 시 잠금 해제되는 시네마틱 엔딩
+export type MigrationReport = {
+  generatedAt: string;         // ISO timestamp
+  // Slide 1 — 점수 카드
+  infoScore: number;           // 완료 미션 수
+  accumulationScore: number;   // 축적 점수
+  relationshipScore: number;   // 적합도 % (0-100)
+  // Slide 2 — AI 요약 (Claude or 정적 폴백, 캐싱됨)
+  aiSummary: string;
+  aiSummarySource: "claude" | "template";
+  // Slide 3 — 미션 타임라인 (일차별 그룹)
+  // missionId 순서는 완료 순. day는 dayPlan 기반.
+  timeline: { missionId: string; day: number }[];
+  // 시청 여부 — 처음엔 자동재생, 다음부터는 자유 탐색 모드
+  hasBeenViewed: boolean;
 };
 
 // 적합도 (0~100) — 라이프스타일 매칭 베이스 + 미션 답변 누적
