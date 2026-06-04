@@ -172,3 +172,242 @@ type DialogueTurn = {
 - `clay-baram-solo`(플레이어)도 누끼 풀바디 일러스트로 교체 검토 — 현재 라이프스타일 v2에서
   플레이어 캐릭터가 바람이/지음이로 갈리는데, 프로필별로 다르게 노출할지 정해야 함
 - 말풍선 탭 인터랙션 사용성 테스트 — "탭하여 답하기" 힌트가 충분히 발견되는지
+
+---
+
+# 후속 작업 (같은 날, 같은 PR)
+
+초기 개편 후 사용성·일관성 다듬기와 별개 화면들 정비. 6개 영역.
+
+## 5. 미션 화면 — 캐릭터 사이즈/위치 글로벌 통일
+
+**파일**: `frontend/src/screens/MissionExecuteScreen.tsx`
+
+초기엔 병원 미션만 풀바디 사이즈로 override 했는데, 사용자 피드백이 "그 크기를 다른 미션에도
+적용해" 였음. 결과적으로 **풀바디 톤이 기본값**이 되고, NPC vs 플레이어 사이즈만 다르게 둠.
+
+### 최종 사이즈 정책
+
+```ts
+// 모든 NPC 공통 (이전엔 hospital 전용 override 였음)
+const DEFAULT_NPC_SIZE = "w-[78vw] max-w-[420px] h-auto";
+
+// 미션별 미세 조정용 — 현재는 비어있음, 필요 시 한 줄 추가
+const MISSION_ID_NPC_SIZE: Record<string, string> = {};
+
+// 플레이어("나") 는 NPC보다 작게.
+// clay-baram-solo PNG가 작은 소스라 너무 키우면 픽셀 깨짐 → 중간 크기로 타협
+const PLAYER_AVATAR_SIZE = "w-[48vw] max-w-[240px] h-auto";
+```
+
+NPC 위치/그림자/이모지도 글로벌 통일:
+- 컨테이너: `top-[6%]` (이전 분기 로직 `isLargeAvatar ? top-[6%] : top-[14%]` 제거)
+- 발밑 그림자: `w-60`
+- 이모지 배지: 항상 숨김 (풀바디 일러스트라 표정·캐릭터성 이미 있음)
+
+`isLargeAvatar` 분기 자체를 없애서 코드 단순화.
+
+### 떠다니는 모션 복귀 (2겹 모션 구조)
+
+초기엔 화자 전환 시 NPC가 "밑으로 내려가며 사라진다"는 위화감 때문에 floating을 뺐었는데,
+floating 자체는 캐릭터의 생명력이라 다시 살림. 대신 exit 시점에 y가 끼어들지 않도록
+**외곽 motion(opacity 크로스페이드) + 내부 motion(y 떠다님)** 으로 레이어 분리.
+
+```tsx
+<AnimatePresence mode="wait">
+  <motion.div  // 외곽 — 화자 전환 페이드
+    key={speakerImg}
+    initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+    transition={{ duration: 0.25 }}
+  >
+    <motion.img  // 내부 — 떠다님
+      animate={{ y: [0, -4, 0] }}
+      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+      className={`${imgSize} ...`}
+    />
+  </motion.div>
+</AnimatePresence>
+```
+
+---
+
+## 6. JourneyScreen — 헤더 톤 통일 + 이주 리포트 카드 잠금/스택
+
+**파일**: `frontend/src/screens/JourneyScreen.tsx`
+
+### 헤더 — Community/Booking과 동일 톤
+
+| | 이전 | 지금 |
+|---|---|---|
+| 컨테이너 | `pt-10 px-5` | `px-6 pt-7 pb-4 relative` |
+| Pre-label | `text-[12px] font-medium` "나의 여정" | `text-[10px] font-bold tracking-[0.18em] uppercase` **"Travel"** |
+| h1 | `text-[20px]` "다녀온 지역, 쌓인 시간" | `text-[28px]` **"쌓인 시간"** |
+| Subtitle | (없음) | `text-[12px] text-ink-soft` "다녀온 지역의 흔적이 쌓여요" |
+
+세 탭(Community/Booking/Travel) 모두 영문 pre-label + 굵은 한글 h1 + 짧은 서브카피 구조로 정렬.
+
+### 가장 많이 탐색한 지역 → "이주 리포트" 카드 (잠금 + 스택)
+
+이전엔 `findTopRegion()`으로 단일 "최다 탐색" 카드가 항상 떴는데, 이건 이주 리포트와 의미가
+어긋남. 새 정책:
+
+- **미방문**: 기존 🌱 EmptyState
+- **다녀왔지만 리포트 미생성**: 🔒 `LockedReportCard` (점선 테두리, 안내 카피)
+- **리포트 1+개**: 해당 지역마다 `TopRegionCard` 1장씩, `space-y-2`로 세로 스택
+
+```tsx
+{!hasAnyVisit ? (
+  <EmptyState />
+) : reportResidences.length === 0 ? (
+  <LockedReportCard />
+) : (
+  reportResidences.map((r) => <TopRegionCard ... />)
+)}
+
+// 리포트 생성된 지역 = regionProgress[id].migrationReport 가 있는 곳
+const reportResidences = residences.filter(
+  (r) => regionProgress[r.id]?.migrationReport
+);
+```
+
+카드 pre-label "가장 많이 탐색한 지역" → "이주 리포트". `findTopRegion` 임포트 제거.
+
+---
+
+## 7. TravelingScreen — 떠나기 탭과 위치 통일
+
+**파일**: `frontend/src/screens/TravelingScreen.tsx`
+
+이동 화면이 떠나기 지도에서 자연스럽게 흘러가야 하는데 헤더/지도 위치가 어긋나 점프 느낌이
+있었음. Departure 기준으로 맞춤.
+
+| | 이전 | 지금 |
+|---|---|---|
+| 헤더 | `pt-12 px-6 text-center` | `pt-12 px-5 text-center` |
+| 지도 컨테이너 | `flex-1 px-3 mt-4` + 내부 `max-w-[320px]` | `flex-1 px-3 mb-4` + 내부 `max-w-[320px] **mt-24**` |
+
+Departure가 지도를 `mt-24`로 살짝 내려두기 때문에 Traveling도 동일하게 맞춤 → 화면 전환 시
+지도 위치 일관.
+
+---
+
+## 8. ArrivalScreen — 알아보기 CTA 약 1.5배 아래로
+
+**파일**: `frontend/src/screens/ArrivalScreen.tsx`
+
+마을 도착 화면의 `{region} 알아보기 →` CTA가 너무 위에 떠 있어 손가락 닿기 애매. 아래
+"돌아가기" 보조 액션 영역의 위쪽 padding을 줄이면서 flex-1이 더 확장 → CTA가 자연히 내려옴.
+
+```diff
+- <div className="relative px-5 pt-8 pb-6 flex justify-center">
++ <div className="relative px-5 pt-2 pb-6 flex justify-center">
+```
+
+순효과: CTA가 24~32px 정도 아래로 (= ≈1.5배 깊이).
+
+---
+
+## 9. SplashScreen — 동심원 애니메이션 → 풀스크린 이미지
+
+**파일**: `frontend/src/screens/onboarding/SplashScreen.tsx`
+
+기존 회전 SVG + 카피 + 로딩 점 구조를 전부 제거하고, `character1/splash/start_image.png`
+한 장으로 대체. 2.2초 자동 진행은 유지.
+
+### 자산
+- 원본: `character1/splash/start_image.png` (루트)
+- 서빙용 사본: `frontend/public/character1/splash/start_image.png`
+
+### 코드
+```tsx
+return (
+  <div className="relative min-h-[100dvh] overflow-hidden bg-cream">
+    <img
+      src="/character1/splash/start_image.png"
+      alt="청풍 시작 화면"
+      className="absolute inset-0 w-full h-full object-cover ..."
+    />
+  </div>
+);
+```
+
+> 이미지 비율이 화면과 안 맞을 땐 `object-cover` ↔ `object-contain` 토글.
+
+---
+
+## 10. 본 지역 선택 — 전국 시/도 + 시/군/구 2단계 픽커
+
+**파일**:
+- 새: `frontend/src/data/koreaRegions.ts`
+- 수정: `frontend/src/screens/onboarding/HomeRegionScreen.tsx`
+- 수정: `frontend/src/App.tsx`, `frontend/src/screens/DepartureScreen.tsx`
+
+이전엔 본 지역이 6개 광역(서울/인천/대전/대구/광주/부산) 카드 그리드로 한정됐는데, 사용자가
+"경북 경산시" 같은 시/군/구까지 다 고를 수 있어야 한다고 요청.
+
+### 데이터 — `koreaRegions.ts`
+
+```ts
+export type SidoInfo = {
+  short: string;     // "경북"
+  full: string;      // "경상북도"
+  emoji: string;
+  pos: RegionPos;    // 시/도 대표 좌표
+  sigungu: string[]; // 소속 시/군/구
+};
+
+export const KOREA_SIDOS: SidoInfo[] = [/* 17개 광역 */];
+
+// 주요 시/군/구만 정확 좌표 (~35곳). 그 외는 시/도 대표로 폴백.
+export const SIGUNGU_POS: Record<string, RegionPos> = {
+  "경기 수원시": { xPct: 34, yPct: 27 },
+  "강원 춘천시": { xPct: 47, yPct: 22 },
+  "경북 포항시": { xPct: 65, yPct: 53 },
+  // ...
+};
+
+// 저장 포맷: "{시도}" 또는 "{시도} {시군구}"
+export function formatRegionName(sidoShort, sigungu): string;
+
+// 저장값 → 좌표 해석. SIGUNGU_POS 정확매칭 → 시도 prefix 폴백.
+export function resolveRegionPos(name: string): RegionPos | undefined;
+```
+
+17 광역 모두 등록(`강원특별자치도`, `전북특별자치도` 포함, 2024년 행정구역 반영). 시/군/구는
+시/도별 전체 리스트(서울 25구, 경기 31시군, 경남 18시군, ...) 약 250곳.
+
+### UI — `HomeRegionScreen.tsx` 2단계
+
+| 단계 | 내용 |
+|---|---|
+| **Step A** | 17 시/도 **세로 스크롤 텍스트 리스트** (`max-h-[60vh]`), 정식명("서울특별시" 등) + 우측 `›`. 처음엔 3열 이모지 그리드였는데 사용자 피드백으로 텍스트 리스트로 변경 — 톤 일관 + 빠른 탐색 |
+| **Step B** | 선택된 시/도의 시/군/구 리스트. 맨 위에 `"{시도} 전체"` 옵션 + 시군구 항목들. 단일시(세종)는 시군구 단계 자동 통과 (안내 카드만) |
+
+상단에 선택된 시/도 칩(nature 톤) + "시/도 다시 고르기" 텍스트 버튼. ← 뒤로가기는 Step B에선
+Step A로 되돌리고, Step A에선 외부 onBack.
+
+### 좌표 라우팅
+
+`App.tsx` / `DepartureScreen.tsx`의 `HOME_POSITIONS[name]` 직접 접근을 `resolveRegionPos` 우선
+순위로 변경:
+
+```ts
+const homePos =
+  resolveRegionPos(homeRegion) ??  // koreaRegions 새 매핑
+  HOME_POSITIONS[homeRegion] ??    // 레거시 6개 광역
+  (matchedResidence ? {...} : HOME_POSITIONS["서울"]);
+```
+
+### 레거시 호환
+
+기존 저장값 `"서울"`(시군구 없음) 같은 단순 시도명은 `parseInitial`에서 시군구 `""`("전체")로
+사전 선택해 재선택 없이 진행 가능.
+
+---
+
+## 자산 목록 (이번 PR 추가분)
+
+- `frontend/public/character1/resident_talk/town_hal_1.png` — 병원 NPC 할머니 풀바디
+- `frontend/public/character1/splash/start_image.png` — 스플래시 이미지
+- (루트) `character1/resident_talk/town_hal_1.png`, `character1/splash/start_image.png` — 원본
+

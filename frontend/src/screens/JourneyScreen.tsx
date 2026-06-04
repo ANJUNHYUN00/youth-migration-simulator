@@ -10,7 +10,6 @@ import { residences, type Residence, type LifeStyleType } from "../data/residenc
 import { baseMissions } from "../data/missions";
 import {
   calculateMatch,
-  findTopRegion,
   isAllMissionsDone,
   type RegionRecord,
 } from "../data/journey";
@@ -54,9 +53,14 @@ export default function JourneyScreen({
   const selected = selectedId
     ? residences.find((r) => r.id === selectedId) ?? null
     : null;
-  const top = useMemo(() => findTopRegion(regionProgress), [regionProgress]);
   const hasAnyVisit = useMemo(
     () => Object.values(regionProgress).some((r) => r.visitCount > 0),
+    [regionProgress]
+  );
+  // 이주 리포트가 생성된 지역들 — 여러 곳 가능, 카드로 쌓아서 보여줌
+  const reportResidences = useMemo(
+    () =>
+      residences.filter((r) => regionProgress[r.id]?.migrationReport),
     [regionProgress]
   );
 
@@ -69,14 +73,17 @@ export default function JourneyScreen({
         aria-hidden
       />
 
-      {/* 헤더 */}
-      <header className="pt-10 px-5">
-        <p className="text-ink-soft text-[12px] font-medium tracking-widest uppercase">
-          나의 여정
+      {/* 헤더 — Community/Booking 탭과 동일한 톤·크기·정렬 */}
+      <header className="px-6 pt-7 pb-4 relative">
+        <p className="text-[10px] font-bold text-ink-mute tracking-[0.18em] uppercase">
+          Travel
         </p>
-        <h1 className="mt-0.5 text-ink text-[20px] font-extrabold leading-tight">
-          다녀온 지역, 쌓인 시간
+        <h1 className="mt-1 text-[28px] font-extrabold text-ink leading-tight">
+          쌓인 시간
         </h1>
+        <p className="mt-1 text-[12px] text-ink-soft">
+          다녀온 지역의 흔적이 쌓여요
+        </p>
       </header>
 
       {/* 프로필 카드 — 옵션 A (탭2 상단에 프로필 흡수) */}
@@ -90,16 +97,22 @@ export default function JourneyScreen({
         />
       </section>
 
-      {/* 최다 탐색 지역 카드 */}
-      <section className="px-4 mt-3">
-        {top && hasAnyVisit ? (
-          <TopRegionCard
-            residence={top}
-            record={regionProgress[top.id]}
-            lifestyle={lifestyle}
-          />
-        ) : (
+      {/* 이주 리포트 카드 — 리포트 생성된 지역만 노출, 여러 곳이면 쌓아서 표시.
+          아직 어디도 다녀오지 않았으면 EmptyState, 다녀왔지만 리포트 미생성이면 잠금 카드. */}
+      <section className="px-4 mt-3 space-y-2">
+        {!hasAnyVisit ? (
           <EmptyState />
+        ) : reportResidences.length === 0 ? (
+          <LockedReportCard />
+        ) : (
+          reportResidences.map((r) => (
+            <TopRegionCard
+              key={r.id}
+              residence={r}
+              record={regionProgress[r.id]}
+              lifestyle={lifestyle}
+            />
+          ))
         )}
       </section>
 
@@ -179,7 +192,7 @@ function TopRegionCard({
     <div className="bg-gradient-to-br from-nature-50 to-primary-50
                     border border-nature-200 rounded-2xl p-4 shadow-soft">
       <p className="text-[10px] font-bold text-nature-600 uppercase tracking-widest">
-        가장 많이 탐색한 지역
+        이주 리포트
       </p>
       <div className="mt-1 flex items-center gap-2">
         <span className="text-2xl" aria-hidden>
@@ -235,6 +248,24 @@ function EmptyState() {
       </p>
       <p className="mt-1 text-ink-soft text-[12px]">
         떠나기 탭에서 첫 여정을 시작해보세요.
+      </p>
+    </div>
+  );
+}
+
+// 다녀온 곳은 있지만 아직 이주 리포트는 생성되지 않은 상태 — 잠금 카드
+function LockedReportCard() {
+  return (
+    <div className="bg-cream-50 border border-dashed border-cream-300 rounded-2xl p-5 text-center">
+      <div className="text-2xl" aria-hidden>
+        🔒
+      </div>
+      <p className="mt-2 text-ink text-[13.5px] font-extrabold">
+        이주 리포트가 생성되면 열려요
+      </p>
+      <p className="mt-1 text-ink-soft text-[11.5px] leading-relaxed">
+        지역에서 미션 8개를 모두 마치면<br />
+        그곳의 이주 리포트가 만들어져요.
       </p>
     </div>
   );

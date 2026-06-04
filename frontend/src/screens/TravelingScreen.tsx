@@ -47,17 +47,17 @@ export default function TravelingScreen({
         aria-hidden
       />
 
-      {/* 상단 안내 */}
-      <header className="pt-12 px-6 text-center">
+      {/* 상단 안내 — 떠나기(Departure) 헤더와 동일한 위치(pt-12 px-5) */}
+      <header className="pt-12 px-5 text-center">
         <p className="text-ink-soft text-[12px] font-medium">{caption}</p>
         <h1 className="mt-1 text-ink text-[20px] font-extrabold">
           {origin.region} <span className="text-primary">→</span> {destination.region}
         </h1>
       </header>
 
-      {/* 지도 */}
-      <section className="flex-1 px-3 mt-4 flex items-start justify-center">
-        <div className="w-full max-w-[320px]">
+      {/* 지도 — 떠나기 탭과 동일하게 내부 div mt-24 로 아래로 살짝 내림 */}
+      <section className="flex-1 px-3 mb-4 flex items-start justify-center">
+        <div className="w-full max-w-[320px] mt-24">
           <KoreaMap>
             {/* 화살표 경로 (SVG 오버레이) — viewBox 100x100 + preserveAspectRatio=none 으로 % 좌표 그대로 사용 */}
             <svg

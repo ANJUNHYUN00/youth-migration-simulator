@@ -35,6 +35,7 @@ import {
   type LifeStyleType,
 } from "./data/residences";
 import { HOME_POSITIONS, type RegionPos } from "./data/regions";
+import { resolveRegionPos } from "./data/koreaRegions";
 import { type Mission } from "./data/missions";
 import {
   advanceDay,
@@ -278,6 +279,7 @@ export default function App() {
   const nickname = profile.nickname ?? "여행자";
   const matchedResidence = residences.find((r) => r.region === homeRegion);
   const homePos: RegionPos =
+    resolveRegionPos(homeRegion) ??
     HOME_POSITIONS[homeRegion] ??
     (matchedResidence
       ? { xPct: matchedResidence.xPct, yPct: matchedResidence.yPct }

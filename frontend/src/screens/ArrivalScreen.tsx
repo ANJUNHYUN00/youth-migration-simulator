@@ -72,8 +72,9 @@ export default function ArrivalScreen({
       {/* 빈 영역 — 배경 이미지가 보이도록 */}
       <div className="flex-1" />
 
-      {/* 단순 CTA — "○○ 알아보기" */}
-      <div className="relative z-10 flex justify-center pb-4">
+      {/* 단순 CTA — "○○ 알아보기". 아래 보조 액션 영역의 pt를 줄여
+          flex-1이 더 확장되도록 → 결과적으로 알아보기 버튼이 약 1.5배 아래로 내려옴. */}
+      <div className="relative z-10 flex justify-center pb-2">
         <motion.button
           type="button"
           onClick={onStartMissions}
@@ -87,8 +88,8 @@ export default function ArrivalScreen({
         </motion.button>
       </div>
 
-      {/* 본 지역으로 돌아가기 — 작은 보조 액션 */}
-      <div className="relative px-5 pt-8 pb-6 flex justify-center">
+      {/* 본 지역으로 돌아가기 — 작은 보조 액션 (위 간격 축소로 알아보기 버튼이 아래로 내려옴) */}
+      <div className="relative px-5 pt-2 pb-6 flex justify-center">
         <motion.button
           type="button"
           onClick={onReturnHome}

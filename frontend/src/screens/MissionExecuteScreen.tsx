@@ -40,12 +40,14 @@ const MISSION_ID_NPC_AVATAR: Record<string, string> = {
   hospital: "/character1/resident_talk/town_hal_1.png",
 };
 
-// 미션별 NPC 아바타 크기 override — 풀바디 일러스트는 크게 노출
-// 값은 Tailwind 임의값 사이즈 (예: "w-[78vw] max-w-[420px]")
+// NPC 아바타 기본 사이즈 — 풀바디 일러스트 톤. 모든 미션에 동일 적용.
+// 미션별로 더 키우거나 줄이고 싶을 때만 MISSION_ID_NPC_SIZE 에 override.
+const DEFAULT_NPC_SIZE = "w-[78vw] max-w-[420px] h-auto";
 const MISSION_ID_NPC_SIZE: Record<string, string> = {
-  hospital: "w-[78vw] max-w-[420px] h-auto",
+  // 예: market: "w-[60vw] max-w-[320px] h-auto",
 };
-const DEFAULT_NPC_SIZE = "w-40 h-40";
+// 플레이어("나") 아바타 사이즈 — NPC(78vw)보단 작지만 또렷이 보이는 중간 크기.
+const PLAYER_AVATAR_SIZE = "w-[48vw] max-w-[240px] h-auto";
 
 // NPC 이름 → 클레이 캐릭터 (외지인/이주자 톤은 바람, 로컬은 지음)
 function pickNpcAvatar(name: string): string {
@@ -182,8 +184,6 @@ export default function MissionExecuteScreen({
   const avatarSrc =
     MISSION_ID_NPC_AVATAR[mission.id] ?? pickNpcAvatar(mission.npc.name);
   const avatarSize = MISSION_ID_NPC_SIZE[mission.id] ?? DEFAULT_NPC_SIZE;
-  // 풀바디 일러스트(미션 override 사이즈) 사용 시 위치/그림자/이모지도 함께 조정
-  const isLargeAvatar = mission.id in MISSION_ID_NPC_SIZE;
 
   return (
     <div className="relative min-h-[calc(100dvh-6rem)] overflow-hidden bg-cream">
@@ -223,14 +223,11 @@ export default function MissionExecuteScreen({
         const speakerName = isPlayer ? "나" : mission.npc.name;
         const speakerImg = isPlayer ? PLAYER_AVATAR : avatarSrc;
         const pillBg = isPlayer ? "bg-[#5B9BD5]" : "bg-[#FF7043]";
-        // 미션 override 사이즈는 NPC·플레이어 양쪽에 동일 적용
-        const imgSize = avatarSize;
-        // 큰 일러스트는 위치를 살짝 올리고 그림자도 키움
-        const containerTop = isLargeAvatar ? "top-[6%]" : "top-[14%]";
-        const shadowW = isLargeAvatar ? "w-60" : "w-28";
+        // NPC는 풀바디 일러스트 크기, 플레이어("나")는 그보다 약 1/3 작게
+        const imgSize = isPlayer ? PLAYER_AVATAR_SIZE : avatarSize;
         return (
           <div
-            className={`absolute left-1/2 ${containerTop} -translate-x-1/2 z-10 flex flex-col items-center pointer-events-none`}
+            className="absolute left-1/2 top-[6%] -translate-x-1/2 z-10 flex flex-col items-center pointer-events-none"
           >
             <AnimatePresence mode="wait">
               <motion.span
@@ -245,36 +242,38 @@ export default function MissionExecuteScreen({
               </motion.span>
             </AnimatePresence>
             <div className="relative">
-              {/* 발밑 그림자 — 일러스트 크기에 맞춰 스케일 */}
+              {/* 발밑 그림자 — 풀바디 일러스트에 맞춰 크게 */}
               <div
                 aria-hidden
-                className={`absolute left-1/2 -translate-x-1/2 -bottom-1
-                           ${shadowW} h-3 rounded-[50%] bg-[#3E2C20]/22 blur-md`}
+                className="absolute left-1/2 -translate-x-1/2 -bottom-1
+                           w-60 h-3 rounded-[50%] bg-[#3E2C20]/22 blur-md"
               />
-              {/* 캐릭터 전환은 제자리에서 순수 opacity 크로스페이드 — 위치·크기 변화 없음 */}
+              {/* 전환은 외곽 motion(opacity), 떠다니는 모션은 내부 motion(y) 으로 레이어 분리.
+                  exit 시점에 floating이 같이 끼어들지 않아 제자리에서 깔끔하게 페이드. */}
               <AnimatePresence mode="wait">
-                <motion.img
+                <motion.div
                   key={speakerImg}
-                  src={speakerImg}
-                  alt={speakerName}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25 }}
-                  className={`relative ${imgSize} object-contain select-none
-                             drop-shadow-[0_8px_12px_rgba(80,70,40,0.25)]`}
-                />
-              </AnimatePresence>
-              {/* NPC 이모지 — NPC 차례일 때만 표시, 큰 일러스트는 이모지 숨김(가독성) */}
-              {!isPlayer && !isLargeAvatar && (
-                <div
-                  className="absolute -top-1 -right-1 w-10 h-10 rounded-full
-                             bg-white shadow-soft ring-2 ring-cream-200
-                             flex items-center justify-center text-[22px]"
+                  className="relative"
                 >
-                  <span aria-hidden>{mission.npc.emoji}</span>
-                </div>
-              )}
+                  <motion.img
+                    src={speakerImg}
+                    alt={speakerName}
+                    animate={{ y: [0, -4, 0] }}
+                    transition={{
+                      duration: 2.4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    className={`relative ${imgSize} object-contain select-none
+                               drop-shadow-[0_8px_12px_rgba(80,70,40,0.25)]`}
+                  />
+                </motion.div>
+              </AnimatePresence>
+              {/* 풀바디 일러스트 톤에선 이모지 배지 숨김 — 이미지에 표정/캐릭터성이 이미 있어 중복 */}
             </div>
           </div>
         );

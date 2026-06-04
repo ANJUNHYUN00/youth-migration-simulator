@@ -22,6 +22,7 @@ import {
   type LifestyleProfile,
 } from "../data/lifestyle";
 import { HOME_POSITIONS, type RegionPos } from "../data/regions";
+import { resolveRegionPos } from "../data/koreaRegions";
 import { selectNearbyMissions } from "../data/villageMissions";
 
 type Props = {
@@ -53,8 +54,11 @@ export default function DepartureScreen({
   const [detailKey, setDetailKey] = useState<string | null>(null);
   const [startedKeys, setStartedKeys] = useState<Set<string>>(new Set());
 
-  // 홈 지역 좌표 — HOME_POSITIONS 우선, 없으면 같은 이름 레지던스 좌표, 최후 서울
+  // 홈 지역 좌표 — koreaRegions(resolveRegionPos) 우선,
+  // 없으면 HOME_POSITIONS / 같은 이름 레지던스 좌표, 최후 서울
   const homePos: RegionPos = useMemo(() => {
+    const resolved = resolveRegionPos(homeRegion);
+    if (resolved) return resolved;
     if (HOME_POSITIONS[homeRegion]) return HOME_POSITIONS[homeRegion];
     const r = residences.find((x) => x.region === homeRegion);
     if (r) return { xPct: r.xPct, yPct: r.yPct };
