@@ -1,11 +1,19 @@
-// 미션 리스트 — 가로 스와이프 카드뉴스 형식
-// 각 카드: 카테고리 / 큰 아이콘 / 흥미 질문 / 티저 / 배울 점 / 시작 CTA
+// 미션 리스트 — 카테고리 4섹션 + 코버플로우 캐러셀
+// 헤더/진행률 그대로, 그 아래 sticky 카테고리 탭 + 세로 스크롤 섹션들
 
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import MissionStoryCard from "../components/MissionStoryCard";
+import CategoryTabs from "../components/CategoryTabs";
+import MissionCarousel from "../components/MissionCarousel";
+import MissionImageCard from "../components/MissionImageCard";
 import { finalMission, type Mission } from "../data/missions";
 import { missionsForResidence } from "../data/regionMissions";
-import { missionHooks } from "../data/missionHooks";
+import {
+  MISSION_GROUP_ORDER,
+  groupMissions,
+  missionGroupMeta,
+  type MissionGroup,
+} from "../data/missionCategories";
 
 type Props = {
   region: string;
@@ -28,16 +36,76 @@ export default function MissionListScreen({
   onSelectMission,
   onSelectFinal,
 }: Props) {
-  const allMissions = missionsForResidence(residenceId);
+  const allMissions = useMemo(
+    () => missionsForResidence(residenceId),
+    [residenceId]
+  );
+  const grouped = useMemo(() => groupMissions(allMissions), [allMissions]);
+
+  const counts: Record<MissionGroup, number> = {
+    roadview: grouped.roadview.length,
+    real: grouped.real.length,
+    people: grouped.people.length,
+    rest: grouped.rest.length,
+  };
+
   const total = allMissions.length;
   const doneCount = allMissions.filter((m) => completedIds.has(m.id)).length;
-  const percent = Math.round((doneCount / total) * 100);
-  const allDone = doneCount === total;
+  const percent = total === 0 ? 0 : Math.round((doneCount / total) * 100);
+  const allDone = total > 0 && doneCount === total;
+
+  // 세로 스크롤 컨테이너 + 섹션 ref — sticky 탭 활성 추적용
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<Record<MissionGroup, HTMLElement | null>>({
+    roadview: null,
+    real: null,
+    people: null,
+    rest: null,
+  });
+  const [activeGroup, setActiveGroup] = useState<MissionGroup>("roadview");
+
+  // IntersectionObserver — 가장 화면 중앙에 가까운 섹션을 active로
+  useEffect(() => {
+    const root = scrollRef.current;
+    if (!root) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let best: { g: MissionGroup; ratio: number } | null = null;
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          const g = (e.target as HTMLElement).dataset.group as MissionGroup;
+          if (!g) continue;
+          if (!best || e.intersectionRatio > best.ratio) {
+            best = { g, ratio: e.intersectionRatio };
+          }
+        }
+        if (best) setActiveGroup(best.g);
+      },
+      {
+        root,
+        rootMargin: "-30% 0px -50% 0px",
+        threshold: [0, 0.15, 0.4, 0.7, 1],
+      }
+    );
+    for (const g of MISSION_GROUP_ORDER) {
+      const el = sectionRefs.current[g];
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  const handleTabSelect = (g: MissionGroup) => {
+    const el = sectionRefs.current[g];
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
-    <div className="relative h-[calc(100dvh-6rem)] flex flex-col bg-cream overflow-hidden">
+    <div
+      ref={scrollRef}
+      className="relative h-[calc(100dvh-6rem)] bg-cream overflow-y-auto"
+    >
       {/* 헤더 */}
-      <header className="pt-12 px-5 flex items-center gap-3 shrink-0">
+      <header className="pt-12 px-5 flex items-center gap-3">
         <button
           type="button"
           onClick={onBack}
@@ -66,7 +134,7 @@ export default function MissionListScreen({
       </header>
 
       {/* 진행률 + 축적 점수 + 적합도 변화 */}
-      <section className="px-5 mt-4 shrink-0">
+      <section className="px-5 mt-4">
         <div className="bg-white rounded-2xl p-3.5 shadow-soft border border-cream-200">
           <div className="flex items-baseline justify-between">
             <p className="text-ink text-[12px] font-bold">미션 진행률</p>
@@ -105,92 +173,115 @@ export default function MissionListScreen({
         </div>
       </section>
 
-      {/* 안내 — 스와이프 힌트 */}
-      <div className="px-5 mt-4 shrink-0 flex items-center justify-between">
-        <h2 className="text-ink text-[13px] font-extrabold">
-          오늘의 체험 카드
-        </h2>
-        <p className="text-ink-mute text-[11px]">← 옆으로 넘겨보기 →</p>
-      </div>
+      <div className="h-4" />
 
-      {/* 가로 스와이프 카드 덱 */}
-      <section
-        className="flex-1 min-h-0 mt-3
-                   overflow-x-auto overflow-y-hidden
-                   snap-x snap-mandatory
-                   flex items-stretch gap-3 px-5 pb-6
-                   [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {allMissions.map((m, i) => (
-          <motion.div
-            key={m.id}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.04, duration: 0.3 }}
-            className="snap-center shrink-0 w-[85%] max-w-[320px] flex"
+      {/* sticky 카테고리 탭 */}
+      <CategoryTabs
+        active={activeGroup}
+        counts={counts}
+        onSelect={handleTabSelect}
+      />
+
+      {/* 카테고리 섹션 4개 */}
+      {MISSION_GROUP_ORDER.map((g, gi) => {
+        const meta = missionGroupMeta[g];
+        const items = grouped[g];
+        if (items.length === 0) return null;
+        return (
+          <section
+            key={g}
+            data-group={g}
+            ref={(el) => {
+              sectionRefs.current[g] = el;
+            }}
+            style={{ scrollMarginTop: 56 }}
+            className="pt-6 pb-2"
           >
-            <MissionStoryCard
-              mission={m}
-              hook={missionHooks[m.id]}
-              done={completedIds.has(m.id)}
-              onClick={() => onSelectMission(m)}
+            <div className="px-5 flex items-baseline justify-between">
+              <div>
+                <h2 className="text-ink text-[16px] font-extrabold">
+                  {meta.title}
+                </h2>
+                <p className="text-ink-soft text-[12px] mt-0.5">
+                  {meta.subtitle}
+                </p>
+              </div>
+              <span className="text-ink-mute text-[12px] font-bold tabular-nums">
+                {items.length}개
+              </span>
+            </div>
+            <MissionCarousel
+              items={items.map((m, i) => (
+                <MissionImageCard
+                  key={m.id}
+                  mission={m}
+                  bgImage={meta.bg}
+                  done={completedIds.has(m.id)}
+                  eager={gi < 2 && i === 0}
+                  onClick={() => onSelectMission(m)}
+                />
+              ))}
             />
-          </motion.div>
-        ))}
+          </section>
+        );
+      })}
 
-        {/* 최종 미션 — 마지막 카드 */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: allMissions.length * 0.04, duration: 0.3 }}
-          className="snap-center shrink-0 w-[85%] max-w-[320px] flex"
+      {/* 최종 미션 */}
+      <section className="px-5 pt-4 pb-10">
+        <div className="flex items-baseline justify-between">
+          <h2 className="text-ink text-[16px] font-extrabold">
+            🏁 오늘의 마무리
+          </h2>
+        </div>
+        <p className="text-ink-soft text-[12px] mt-0.5 mb-3">
+          모든 체험이 끝나면 리포트가 열려요
+        </p>
+        <button
+          type="button"
+          disabled={!allDone}
+          onClick={onSelectFinal}
+          className={`relative w-full flex flex-col p-5 rounded-3xl
+                      border text-left shadow-soft transition
+                      ${
+                        allDone
+                          ? "bg-gradient-to-br from-primary-50 to-nature-50 border-primary active:scale-[0.99]"
+                          : "bg-cream-100 border-cream-200 opacity-70 cursor-not-allowed"
+                      }`}
         >
-          <button
-            type="button"
-            disabled={!allDone}
-            onClick={onSelectFinal}
-            className={`relative w-full h-full flex flex-col p-5 rounded-3xl
-                        border text-left shadow-soft transition
-                        ${
-                          allDone
-                            ? "bg-gradient-to-br from-primary-50 to-nature-50 border-primary active:scale-[0.99]"
-                            : "bg-cream-100 border-cream-200 opacity-70 cursor-not-allowed"
-                        }`}
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-extrabold tracking-widest uppercase text-primary">
+              FINAL
+            </span>
+            <span className="text-[12px] font-extrabold text-primary tabular-nums">
+              +{finalMission.reward}점
+            </span>
+          </div>
+
+          <div className="mt-4 text-[56px] leading-none" aria-hidden>
+            {finalMission.icon}
+          </div>
+
+          <p className="mt-3 text-ink-mute text-[11px] font-bold tracking-wide">
+            {finalMission.title}
+          </p>
+          <h3 className="mt-1 text-ink text-[19px] font-extrabold leading-snug">
+            {allDone
+              ? "오늘의 체험을 한 장의 리포트로"
+              : "모든 체험 완료 후 열려요"}
+          </h3>
+
+          <p className="mt-2 text-ink-soft text-[13px] leading-relaxed">
+            {finalMission.description}
+          </p>
+
+          <div
+            className={`mt-5 text-[12px] font-extrabold ${
+              allDone ? "text-primary" : "text-ink-mute"
+            }`}
           >
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-extrabold tracking-widest uppercase text-primary">
-                FINAL
-              </span>
-              <span className="text-[12px] font-extrabold text-primary tabular-nums">
-                +{finalMission.reward}점
-              </span>
-            </div>
-
-            <div className="mt-4 text-[56px] leading-none" aria-hidden>
-              {finalMission.icon}
-            </div>
-
-            <p className="mt-3 text-ink-mute text-[11px] font-bold tracking-wide">
-              {finalMission.title}
-            </p>
-            <h3 className="mt-1 text-ink text-[19px] font-extrabold leading-snug">
-              {allDone
-                ? "오늘의 체험을 한 장의 리포트로"
-                : "모든 체험 완료 후 열려요"}
-            </h3>
-
-            <p className="mt-2 text-ink-soft text-[13px] leading-relaxed">
-              {finalMission.description}
-            </p>
-
-            <div
-              className={`mt-auto pt-5 text-[12px] font-extrabold
-                ${allDone ? "text-primary" : "text-ink-mute"}`}
-            >
-              {allDone ? "리포트 만들기 →" : "🔒 잠금"}
-            </div>
-          </button>
-        </motion.div>
+            {allDone ? "리포트 만들기 →" : "🔒 잠금"}
+          </div>
+        </button>
       </section>
     </div>
   );
