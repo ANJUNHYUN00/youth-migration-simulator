@@ -11,6 +11,24 @@ import {
 } from "../data/missions";
 import type { LifeStyleType } from "../data/residences";
 
+// variant → 클레이 씬 이미지. 매칭 없는 variant는 베이지 그라데이션만.
+// neighbor는 데이터상 outdoor 기본값처럼 광범위하게 쓰여서(갯벌·산책·일몰 등)
+// 이발소 이미지가 어울리지 않아 의도적으로 매핑에서 제외함.
+const SCENE_BG: Partial<Record<BackgroundVariant, string>> = {
+  market: "/character1/clay-market.png",
+  transit: "/character1/clay-bus-stop.png",
+  home: "/character1/clay-hanok-nap.png",
+};
+
+// NPC 이름 → 클레이 캐릭터 (배경 제거된 투명 PNG)
+// 외부에서 온 이주자/노마드 계열은 바람(파랑), 그 외 로컬은 지음(주황)
+function pickNpcAvatar(name: string): string {
+  if (/이주민|이주자|노마드|크리에이터|정착|먼저 온|서퍼/.test(name)) {
+    return "/character1/clay-baram-solo.png";
+  }
+  return "/character1/clay-jieum-solo.png";
+}
+
 type Props = {
   mission: Mission;
   residenceMatchType: LifeStyleType;
@@ -84,10 +102,16 @@ export default function MissionExecuteScreen({
     setTurnIdx(turn.numeric.next);
   };
 
+  const sceneBg = SCENE_BG[mission.background];
+  const avatarSrc = pickNpcAvatar(mission.npc.name);
+
   return (
     <div className="relative min-h-[calc(100dvh-6rem)] flex flex-col overflow-hidden bg-cream">
-      {/* 상단 헤더 */}
-      <header className="absolute top-0 left-0 right-0 z-30 px-4 pt-4 pb-2 flex items-center gap-2">
+      {/* === 배경 — 베이지 그라데이션 + (선택) 클레이 씬 이미지 === */}
+      <SceneBackground sceneBg={sceneBg} />
+
+      {/* === 상단 헤더 === */}
+      <header className="relative z-30 px-4 pt-4 pb-2 flex items-center gap-2 shrink-0">
         <button
           type="button"
           onClick={onClose}
@@ -110,11 +134,8 @@ export default function MissionExecuteScreen({
         </span>
       </header>
 
-      {/* 배경 + NPC */}
-      <section className="relative flex-1 flex items-end justify-center pb-4">
-        <Background variant={mission.background} />
-
-        {/* NPC 캐릭터 (배경 위 가운데) */}
+      {/* === NPC 영역 — 클레이 캐릭터 + 이모지 배지 + 이름 칩 === */}
+      <section className="relative z-10 flex-1 flex items-end justify-center pb-4 min-h-0">
         <motion.div
           initial={{ y: 12, opacity: 0 }}
           animate={{ y: [0, -3, 0], opacity: 1 }}
@@ -122,19 +143,46 @@ export default function MissionExecuteScreen({
             y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
             opacity: { duration: 0.4 },
           }}
-          className="relative z-10 mb-16 flex flex-col items-center"
+          className="flex flex-col items-center"
         >
-          {/* 캐릭터 — 이모지 + 그림자 (SVG 일러스트 대체) */}
-          <div className="text-[88px] leading-none drop-shadow-lg" aria-hidden>
-            {mission.npc.emoji}
+          <div className="relative">
+            {/* 발밑 바닥 그림자 — 캐릭터가 서 있는 느낌 */}
+            <div
+              aria-hidden
+              className="absolute left-1/2 -translate-x-1/2 -bottom-1
+                         w-28 h-3 rounded-[50%] bg-[#3E2C20]/22 blur-md
+                         pointer-events-none"
+            />
+            {/* 투명 PNG — 컨테이너 프레임 없이 배경 위에 그대로 */}
+            <img
+              src={avatarSrc}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              draggable={false}
+              className="relative w-44 h-auto object-contain select-none pointer-events-none
+                         drop-shadow-[0_8px_12px_rgba(80,70,40,0.25)]"
+            />
+            {/* 이모지 배지 — 머리 옆(우상단) */}
+            <div
+              className="absolute -top-1 -right-1 w-12 h-12 rounded-full
+                         bg-white shadow-soft ring-2 ring-cream-200
+                         flex items-center justify-center text-[26px]"
+            >
+              <span aria-hidden>{mission.npc.emoji}</span>
+            </div>
           </div>
-          <span className="mt-1 px-2 py-0.5 rounded-full bg-white/95 text-ink-soft text-[10px] font-bold shadow-soft">
+          {/* 이름 칩 */}
+          <span
+            className="mt-2 px-3 py-1 rounded-full bg-white/95 backdrop-blur
+                       text-ink text-[12px] font-bold shadow-soft"
+          >
             {mission.npc.name}
           </span>
         </motion.div>
       </section>
 
-      {/* 하단 대화 패널 */}
+      {/* === 하단 대화 패널 === */}
       <AnimatePresence mode="wait">
         <motion.section
           key={turnIdx}
@@ -146,16 +194,37 @@ export default function MissionExecuteScreen({
                      shadow-[0_-12px_30px_-12px_rgba(80,70,40,0.18)]
                      px-5 pt-4 pb-[max(env(safe-area-inset-bottom),20px)]"
         >
+          {/* 진행 점 인디케이터 */}
+          <div className="flex items-center justify-center gap-1.5 mb-3">
+            {mission.dialogues.map((_, i) => (
+              <span
+                key={i}
+                className={`block rounded-full transition-all duration-300 ${
+                  i === turnIdx
+                    ? "w-5 h-1.5 bg-primary"
+                    : i < turnIdx
+                    ? "w-1.5 h-1.5 bg-primary/40"
+                    : "w-1.5 h-1.5 bg-cream-200"
+                }`}
+                aria-hidden
+              />
+            ))}
+            <span className="sr-only">
+              대화 {turnIdx + 1} / {mission.dialogues.length}
+            </span>
+          </div>
+
           {/* 말풍선 */}
           <div className="relative">
             <div
-              className="absolute left-6 -top-3 w-5 h-5 bg-cream-100 border-l border-t border-cream-200 rotate-45"
+              className="absolute left-6 -top-2 w-4 h-4 bg-white
+                         border-l border-t border-cream-200 rotate-45"
               aria-hidden
             />
-            <div className="relative bg-cream-100 rounded-2xl px-4 py-3 border border-cream-200">
-              <p className="text-[10px] font-bold text-ink-mute mb-1">
-                {mission.npc.name}
-              </p>
+            <div
+              className="relative bg-white rounded-3xl px-4 py-3.5
+                         border border-cream-200 shadow-soft"
+            >
               <p className="text-ink text-[14px] leading-relaxed whitespace-pre-line">
                 {npcText}
               </p>
@@ -170,11 +239,19 @@ export default function MissionExecuteScreen({
                   key={`${turnIdx}-${i}`}
                   type="button"
                   onClick={() => handlePick(i)}
-                  className="w-full text-left px-4 py-3 rounded-2xl
-                             bg-white border border-cream-200 text-ink text-[13px] font-semibold
-                             hover:bg-cream-50 active:scale-[0.99] transition"
+                  className="w-full text-left px-4 py-3.5 rounded-3xl
+                             bg-white border border-cream-200 shadow-soft
+                             text-ink text-[13px] font-semibold
+                             active:scale-[0.99] transition
+                             flex items-center justify-between gap-3"
                 >
-                  {opt.label}
+                  <span className="flex-1">{opt.label}</span>
+                  <span
+                    className="text-ink-mute text-[14px] shrink-0"
+                    aria-hidden
+                  >
+                    →
+                  </span>
                 </button>
               ))}
             </div>
@@ -194,7 +271,7 @@ export default function MissionExecuteScreen({
                     setNumericInput(e.target.value.replace(/[^0-9]/g, ""))
                   }
                   placeholder={turn.numeric.placeholder}
-                  className="flex-1 px-4 py-3 rounded-2xl border border-cream-200
+                  className="flex-1 px-4 py-3.5 rounded-3xl border border-cream-200
                              bg-white text-ink text-[14px] focus:outline-none
                              focus:border-primary placeholder:text-ink-mute"
                 />
@@ -206,7 +283,7 @@ export default function MissionExecuteScreen({
                 type="button"
                 onClick={handleNumericSubmit}
                 disabled={!numericInput}
-                className="mt-2 w-full py-3 rounded-2xl bg-primary text-white
+                className="mt-2 w-full py-3.5 rounded-3xl bg-primary text-white
                            text-[14px] font-extrabold shadow-soft
                            active:scale-[0.99] transition
                            disabled:opacity-40 disabled:active:scale-100"
@@ -215,218 +292,47 @@ export default function MissionExecuteScreen({
               </button>
             </div>
           )}
-
-          {/* 진행 인디케이터 */}
-          <p className="mt-3 text-center text-[10px] text-ink-mute">
-            대화 {turnIdx + 1} / {mission.dialogues.length}
-          </p>
         </motion.section>
       </AnimatePresence>
 
       {/* 미션 완료 보상 오버레이 */}
       <AnimatePresence>
-        {showReward && (
-          <RewardOverlay reward={mission.reward} />
-        )}
+        {showReward && <RewardOverlay reward={mission.reward} />}
       </AnimatePresence>
     </div>
   );
 }
 
 // =====================================================================
-// 배경 — variant별 단순 SVG 일러스트
+// 배경 — 베이지 그라데이션 베이스 + (선택) 클레이 씬 이미지 + 가독성 마스크
 // =====================================================================
 
-function Background({ variant }: { variant: BackgroundVariant }) {
+function SceneBackground({ sceneBg }: { sceneBg: string | undefined }) {
   return (
-    <svg
-      viewBox="0 0 100 100"
-      preserveAspectRatio="xMidYMid slice"
-      className="absolute inset-0 w-full h-full"
+    <div
+      className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       aria-hidden
     >
-      <defs>
-        <linearGradient id="bgSky" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#FFE4C8" />
-          <stop offset="1" stopColor="#FFF8F0" />
-        </linearGradient>
-        <linearGradient id="bgFloor" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stopColor="#EDDFC2" />
-          <stop offset="1" stopColor="#D8C49E" />
-        </linearGradient>
-      </defs>
-      {/* 공통 배경 */}
-      <rect width="100" height="65" fill="url(#bgSky)" />
-      <rect y="65" width="100" height="35" fill="url(#bgFloor)" />
-      {/* 호라이즌 */}
-      <line x1="0" y1="65" x2="100" y2="65" stroke="#B89E78" strokeWidth="0.3" />
-
-      {variant === "market" && (
-        <g>
-          {/* 시장 차양 */}
-          <path d="M 8 28 L 92 28 L 88 38 L 12 38 Z" fill="#E76F51" />
-          <path d="M 12 38 L 88 38" stroke="#FFFFFF" strokeWidth="0.6" strokeDasharray="2 3" />
-          {/* 좌판 박스 */}
-          <rect x="14" y="56" width="22" height="12" fill="#A8755A" />
-          <rect x="14" y="54" width="22" height="3" fill="#7B5640" />
-          <rect x="40" y="56" width="22" height="12" fill="#A8755A" />
-          <rect x="40" y="54" width="22" height="3" fill="#7B5640" />
-          <rect x="66" y="56" width="22" height="12" fill="#A8755A" />
-          <rect x="66" y="54" width="22" height="3" fill="#7B5640" />
-          {/* 채소 */}
-          <circle cx="20" cy="52" r="2" fill="#7BB57F" />
-          <circle cx="26" cy="51" r="2.5" fill="#A8D5A8" />
-          <circle cx="46" cy="52" r="2" fill="#FF7043" />
-          <circle cx="52" cy="51" r="2.5" fill="#FFC53D" />
-          <circle cx="72" cy="51" r="2" fill="#7BB57F" />
-        </g>
+      {/* 베이지 그라데이션 베이스 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FFE4C8] via-cream to-cream-100" />
+      {/* 클레이 씬 이미지 — 블러 + 채도/밝기 ↓, 가장자리 부드럽게 scale-110 */}
+      {sceneBg && (
+        <img
+          src={sceneBg}
+          alt=""
+          aria-hidden
+          loading="lazy"
+          draggable={false}
+          className="absolute inset-0 w-full h-full object-cover scale-110 select-none pointer-events-none"
+          style={{
+            filter: "blur(10px) brightness(0.96) saturate(0.7)",
+            opacity: 0.55,
+          }}
+        />
       )}
-
-      {variant === "hospital" && (
-        <g>
-          {/* 병원 로비 */}
-          <rect x="0" y="20" width="100" height="45" fill="#F4F4F4" />
-          <rect x="20" y="30" width="60" height="20" fill="#E55A30" rx="1" />
-          <rect x="34" y="34" width="6" height="12" fill="#FFFFFF" />
-          <rect x="29" y="38" width="16" height="4" fill="#FFFFFF" />
-          <rect x="55" y="35" width="22" height="3" fill="#FFFFFF" />
-          <text x="50" y="60" fontSize="3" fill="#3E2C20" textAnchor="middle" fontWeight="bold">
-            거제 종합병원
-          </text>
-          {/* 접수 데스크 */}
-          <rect x="14" y="70" width="72" height="10" fill="#D9C2A2" />
-          <rect x="14" y="68" width="72" height="3" fill="#7B5640" />
-        </g>
-      )}
-
-      {variant === "cafe" && (
-        <g>
-          {/* 카페 인테리어 */}
-          <rect x="0" y="20" width="100" height="45" fill="#EFE0CB" />
-          {/* 선반 */}
-          <rect x="8" y="30" width="84" height="2" fill="#7B5640" />
-          <circle cx="14" cy="36" r="2.5" fill="#FFFFFF" />
-          <circle cx="22" cy="36" r="2.5" fill="#A8755A" />
-          <circle cx="30" cy="36" r="2.5" fill="#FFFFFF" />
-          <rect x="40" y="33" width="6" height="6" fill="#5A4630" />
-          <rect x="50" y="33" width="6" height="6" fill="#5A4630" />
-          {/* 카운터 */}
-          <rect x="10" y="56" width="80" height="12" fill="#A8755A" />
-          <rect x="10" y="54" width="80" height="3" fill="#7B5640" />
-        </g>
-      )}
-
-      {variant === "home" && (
-        <g>
-          {/* 거실 */}
-          <rect x="0" y="20" width="100" height="45" fill="#FBE6C2" />
-          {/* 창문 */}
-          <rect x="22" y="28" width="22" height="18" fill="#A4C8DE" />
-          <line x1="33" y1="28" x2="33" y2="46" stroke="#FFFFFF" strokeWidth="0.6" />
-          <line x1="22" y1="37" x2="44" y2="37" stroke="#FFFFFF" strokeWidth="0.6" />
-          {/* 액자 */}
-          <rect x="58" y="30" width="12" height="14" fill="#7B5640" />
-          <rect x="59" y="31" width="10" height="12" fill="#F4E5C0" />
-          {/* 소파 */}
-          <rect x="10" y="60" width="80" height="8" fill="#A8755A" rx="1" />
-        </g>
-      )}
-
-      {variant === "office" && (
-        <g>
-          <rect x="0" y="20" width="100" height="45" fill="#E8F0F4" />
-          {/* 책상 */}
-          <rect x="14" y="58" width="72" height="10" fill="#A8755A" />
-          <rect x="14" y="56" width="72" height="3" fill="#7B5640" />
-          {/* 노트북 */}
-          <rect x="40" y="50" width="22" height="8" fill="#3E2C20" />
-          <rect x="40" y="50" width="22" height="2" fill="#5A4630" />
-          {/* 컵 */}
-          <rect x="68" y="50" width="6" height="8" fill="#FFFFFF" />
-          {/* 보드 */}
-          <rect x="22" y="28" width="56" height="18" fill="#FFFFFF" />
-          <line x1="28" y1="34" x2="72" y2="34" stroke="#B89E78" strokeWidth="0.3" />
-          <line x1="28" y1="38" x2="72" y2="38" stroke="#B89E78" strokeWidth="0.3" />
-          <line x1="28" y1="42" x2="60" y2="42" stroke="#B89E78" strokeWidth="0.3" />
-        </g>
-      )}
-
-      {variant === "transit" && (
-        <g>
-          {/* 도로 */}
-          <rect x="0" y="55" width="100" height="20" fill="#A8755A" />
-          <path
-            d="M 0 65 L 100 65"
-            stroke="#FFFFFF"
-            strokeWidth="0.8"
-            strokeDasharray="6 6"
-          />
-          {/* 버스 정류장 */}
-          <rect x="60" y="36" width="28" height="3" fill="#5A4630" />
-          <path d="M 60 36 L 64 32 L 84 32 L 88 36 Z" fill="#7B5640" />
-          <rect x="61" y="39" width="2" height="22" fill="#5A5D60" />
-          <rect x="85" y="39" width="2" height="22" fill="#5A5D60" />
-          <rect x="64" y="42" width="20" height="14" fill="#FFFFFF" />
-          {/* 버스 (멀리서) */}
-          <rect x="6" y="58" width="22" height="9" fill="#FFC53D" rx="1" />
-          <rect x="8" y="60" width="6" height="4" fill="#A4C8DE" />
-          <rect x="16" y="60" width="6" height="4" fill="#A4C8DE" />
-          <circle cx="11" cy="68" r="1.4" fill="#3E2C20" />
-          <circle cx="23" cy="68" r="1.4" fill="#3E2C20" />
-        </g>
-      )}
-
-      {variant === "library" && (
-        <g>
-          <rect x="0" y="20" width="100" height="45" fill="#F4E5C0" />
-          {/* 책장들 */}
-          {[0, 1, 2].map((row) =>
-            Array.from({ length: 4 }, (_, col) => (
-              <g key={`shelf-${row}-${col}`}>
-                <rect
-                  x={10 + col * 20}
-                  y={28 + row * 12}
-                  width="16"
-                  height="10"
-                  fill="#7B5640"
-                />
-                {Array.from({ length: 5 }, (_, b) => (
-                  <rect
-                    key={b}
-                    x={10 + col * 20 + 1 + b * 3}
-                    y={29 + row * 12}
-                    width="2.5"
-                    height="8"
-                    fill={
-                      b % 3 === 0
-                        ? "#E55A30"
-                        : b % 3 === 1
-                        ? "#7BB57F"
-                        : "#A4C8DE"
-                    }
-                  />
-                ))}
-              </g>
-            ))
-          )}
-        </g>
-      )}
-
-      {variant === "neighbor" && (
-        <g>
-          <rect x="0" y="20" width="100" height="45" fill="#EFE0CB" />
-          {/* 거실 큰 창 */}
-          <rect x="20" y="26" width="60" height="22" fill="#A4C8DE" />
-          <line x1="50" y1="26" x2="50" y2="48" stroke="#FFFFFF" strokeWidth="0.6" />
-          {/* 식탁 */}
-          <rect x="22" y="60" width="56" height="8" fill="#A8755A" rx="1" />
-          {/* 찻주전자 */}
-          <rect x="40" y="54" width="8" height="6" fill="#7B5640" rx="1" />
-          <rect x="52" y="55" width="4" height="5" fill="#FFFFFF" />
-          <rect x="58" y="55" width="4" height="5" fill="#FFFFFF" />
-        </g>
-      )}
-    </svg>
+      {/* 하단으로 갈수록 단단해지는 마스크 — 말풍선/옵션 가독성 우선 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-cream/25 via-cream/40 to-cream" />
+    </div>
   );
 }
 
@@ -445,43 +351,48 @@ function RewardOverlay({ reward }: { reward: number }) {
       />
       {/* 중앙 정렬은 wrapper, 등장 애니메이션은 안쪽 motion에서 — transform 충돌 회피 */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.7, y: 16 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95 }}
-        transition={{ type: "spring", damping: 16, stiffness: 220 }}
-        className="flex flex-col items-center text-center"
-      >
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.1, type: "spring", damping: 10 }}
-          className="w-20 h-20 rounded-full bg-gradient-to-br from-nature-300 to-nature-500
-                     flex items-center justify-center text-5xl text-white shadow-soft"
-          aria-hidden
+          initial={{ opacity: 0, scale: 0.7, y: 16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ type: "spring", damping: 16, stiffness: 220 }}
+          className="flex flex-col items-center text-center"
         >
-          ✓
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.1, type: "spring", damping: 10 }}
+            className="w-20 h-20 rounded-full bg-gradient-to-br from-nature-300 to-nature-500
+                       flex items-center justify-center text-5xl text-white shadow-soft"
+            aria-hidden
+          >
+            ✓
+          </motion.div>
+          <motion.p
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-4 text-white text-[18px] font-extrabold"
+          >
+            미션 완료!
+          </motion.p>
+          <motion.div
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: [0, -8, 0], opacity: 1 }}
+            transition={{
+              opacity: { delay: 0.5, duration: 0.4 },
+              y: {
+                delay: 0.5,
+                duration: 1.2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              },
+            }}
+            className="mt-2 px-4 py-2 rounded-full bg-primary text-white text-[20px] font-extrabold shadow-soft"
+          >
+            축적 점수 +{reward}
+          </motion.div>
         </motion.div>
-        <motion.p
-          initial={{ y: 10, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-4 text-white text-[18px] font-extrabold"
-        >
-          미션 완료!
-        </motion.p>
-        <motion.div
-          initial={{ y: 12, opacity: 0 }}
-          animate={{ y: [0, -8, 0], opacity: 1 }}
-          transition={{
-            opacity: { delay: 0.5, duration: 0.4 },
-            y: { delay: 0.5, duration: 1.2, repeat: Infinity, ease: "easeInOut" },
-          }}
-          className="mt-2 px-4 py-2 rounded-full bg-primary text-white text-[20px] font-extrabold shadow-soft"
-        >
-          축적 점수 +{reward}
-        </motion.div>
-      </motion.div>
       </div>
     </>
   );
