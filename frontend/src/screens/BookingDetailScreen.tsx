@@ -2,6 +2,7 @@
 // 큰 이미지 + 메타 + blurb + 매칭사유 + provides + 후기 + 하단 고정 예약하기
 
 import type { Residence } from "../data/residences";
+import { envMeta, stanceMeta } from "../data/lifestyle";
 import {
   pickResidenceImage,
   ratings,
@@ -128,7 +129,14 @@ export default function BookingDetailScreen({
             {residence.matchReason}
           </p>
           <p className="mt-2 text-[11px] text-ink-mute">
-            추천 라이프스타일 · <span className="font-bold text-ink-soft">{residence.matchType}</span>
+            추천 유형 ·{" "}
+            <span className="font-bold text-ink-soft">
+              {stanceMeta[residence.stance].name}
+            </span>{" "}
+            <span className="text-ink-mute">
+              {envMeta[residence.envType].emoji}{" "}
+              {envMeta[residence.envType].blurb}
+            </span>
           </p>
         </div>
       </section>

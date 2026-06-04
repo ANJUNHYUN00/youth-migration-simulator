@@ -20,6 +20,7 @@ import {
   houseStageFromProgress,
   SPACE_STAGE_NAMES,
 } from "../data/dayPlan";
+import type { LifestyleProfile } from "../data/lifestyle";
 import HouseStage from "../components/HouseStage";
 
 type ViewMode = "score" | "match";
@@ -27,6 +28,7 @@ type ViewMode = "score" | "match";
 type Props = {
   regionProgress: Record<string, RegionRecord>;
   lifestyle: LifeStyleType | null;
+  profile?: LifestyleProfile;
   // 옵션 A — 프로필 카드 노출용
   nickname: string;
   homeRegion: string;
@@ -37,6 +39,7 @@ type Props = {
 export default function JourneyScreen({
   regionProgress,
   lifestyle,
+  profile,
   nickname,
   homeRegion,
   onOpenSettings,
@@ -78,6 +81,7 @@ export default function JourneyScreen({
         <ProfileCard
           nickname={nickname}
           lifestyle={lifestyle}
+          profile={profile}
           homeRegion={homeRegion}
           onOpenSettings={onOpenSettings}
         />

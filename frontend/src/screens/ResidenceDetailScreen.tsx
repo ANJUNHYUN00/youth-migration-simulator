@@ -8,7 +8,7 @@ import {
   type LifeStyleType,
   type Residence,
 } from "../data/residences";
-import { lifestyleMeta } from "../data/quiz";
+import { envMeta, stanceMeta } from "../data/lifestyle";
 import type { RegionRecord } from "../data/journey";
 
 type Props = {
@@ -26,7 +26,6 @@ export default function ResidenceDetailScreen({
   onBack,
 }: Props) {
   const match = matchScore(lifestyle, residence);
-  const meta = lifestyle ? lifestyleMeta[lifestyle] : null;
   // 미션 기반 인프라 인사이트
   const completedIds = new Set(record?.completedMissionIds ?? []);
   const hasHospital = completedIds.has("hospital");
@@ -72,7 +71,7 @@ export default function ResidenceDetailScreen({
               className="px-2 py-0.5 rounded-full bg-primary-50 text-primary
                          text-[11px] font-extrabold"
             >
-              {lifestyle ? `${lifestyle}과 ${match}%` : `매칭 ${match}%`}
+              매칭 {match}%
             </span>
             {residence.hasSupport && (
               <span className="px-2 py-0.5 rounded-full bg-nature-500 text-white
@@ -164,12 +163,13 @@ export default function ResidenceDetailScreen({
             <p className="text-ink text-[14px] leading-relaxed">
               {residence.matchReason}
             </p>
-            {meta && (
-              <p className="mt-2 text-ink-soft text-[12px]">
-                <span className="text-primary font-bold">{lifestyle}</span> ·{" "}
-                {meta.tagline}
-              </p>
-            )}
+            <p className="mt-2 text-ink-soft text-[12px]">
+              <span className="text-primary font-bold">
+                {stanceMeta[residence.stance].name}
+              </span>{" "}
+              · {envMeta[residence.envType].emoji}{" "}
+              {envMeta[residence.envType].blurb}
+            </p>
           </div>
         </section>
 

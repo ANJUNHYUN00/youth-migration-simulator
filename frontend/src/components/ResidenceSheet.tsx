@@ -4,6 +4,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import type { Residence } from "../data/residences";
+import { envMeta, stanceMeta } from "../data/lifestyle";
 import PrimaryButton from "./PrimaryButton";
 
 type Props = {
@@ -51,7 +52,10 @@ export default function ResidenceSheet({ residence, onClose, onDepart }: Props) 
                            text-[11px] font-bold"
               >
                 <span aria-hidden>{residence.themeEmoji}</span>
-                {residence.matchType}
+                {stanceMeta[residence.stance].name}
+                <span className="text-ink-mute font-medium">
+                  · {envMeta[residence.envType].emoji} {envMeta[residence.envType].blurb}
+                </span>
               </span>
               <span className="text-ink-mute text-[12px]">{residence.duration}</span>
             </div>

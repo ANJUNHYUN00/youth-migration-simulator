@@ -5,11 +5,11 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  fitDeltaForOption,
+  fitDeltaForOptionV2,
   type BackgroundVariant,
   type Mission,
 } from "../data/missions";
-import type { LifeStyleType } from "../data/residences";
+import type { Stance } from "../data/lifestyle";
 
 // variant → 클레이 씬 이미지. 매칭 없는 variant는 베이지 그라데이션만.
 // neighbor는 데이터상 outdoor 기본값처럼 광범위하게 쓰여서(갯벌·산책·일몰 등)
@@ -47,7 +47,8 @@ function pickNpcAvatar(name: string): string {
 
 type Props = {
   mission: Mission;
-  residenceMatchType: LifeStyleType;
+  residenceStance: Stance;
+  residenceStanceAlt?: Stance[];
   onClose: () => void;
   // 누적 적합도 변화량을 함께 전달
   onComplete: (fitDelta: number) => void;
@@ -55,7 +56,8 @@ type Props = {
 
 export default function MissionExecuteScreen({
   mission,
-  residenceMatchType,
+  residenceStance,
+  residenceStanceAlt,
   onClose,
   onComplete,
 }: Props) {
@@ -91,7 +93,7 @@ export default function MissionExecuteScreen({
   const handlePick = (optionIdx: number) => {
     const opt = turn.options?.[optionIdx];
     if (!opt) return;
-    const delta = fitDeltaForOption(opt, residenceMatchType);
+    const delta = fitDeltaForOptionV2(opt, residenceStance, residenceStanceAlt);
     setPicks((p) => [...p, opt.label]);
 
     if (opt.next === undefined) {

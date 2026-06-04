@@ -1,28 +1,30 @@
-// 청풍 온보딩 — 10단계 답안 → 라이프스타일 유형 산출
-// 라이프스타일 4유형: 레저형 / 자연탐험형 / 디지털노마드형 / 집돌이형
+// 청풍 온보딩 — 답안 누적 → 새 유형 시스템 결과 산출
+// 메인 = 자세 (Stance: alone/together × rest/make) — 답안에서 산출
+// 부제 = 환경 (EnvType: mountain/sea/field/village) — 사용자가 직접 선택
 
-import type { LifeStyleType } from "./residences";
+import type { EnvType, Stance } from "./lifestyle";
 
 // =====================================================================
-// OnboardingData — 사용자가 채워가는 누적 답안
+// OnboardingData
 // =====================================================================
 
-export type BalanceA = "mountain" | "sea";
-export type BalanceB = "read" | "chat";
-export type BalanceC = "hanok" | "modern";
+// balanceA(산 vs 바다)는 v2에서 제거 — EnvChoiceScreen이 환경 직접 선택
+export type BalanceB = "alone" | "together";  // 혼자/같이
+export type BalanceC = "rest" | "make";       // 쉼/만들기
 
 export type OnboardingData = {
   email: string;
-  birth: { year: string };         // 태어난 년도만 수집
-  homeRegion: string;              // 현재 거주 지역 (서울/부산/...)
-  interests: string[];            // 취미/관심사 (multi)
-  balanceA?: BalanceA;             // 산 vs 바다
-  balanceB?: BalanceB;             // 혼자 책 vs 친구와 수다
-  balanceC?: BalanceC;             // 한옥민박 vs 모던게스트하우스
-  values: string[];                // 소중히 여기는 가치 (multi, max 5)
-  dayScene?: string;               // 풍경의 하루 (single)
-  healing?: string;                // 힐링 (single)
-  regionDesc: string;              // 살고싶은 지역의 특징 (주관식)
+  birth: { year: string };
+  homeRegion: string;
+  interests: string[];
+  balanceB?: BalanceB;
+  balanceC?: BalanceC;
+  values: string[];
+  dayScene?: string;
+  healing?: string;
+  regionDesc: string;
+  // v2: 환경 직접 선택
+  envChoice?: EnvType;
 };
 
 export const initialOnboardingData: OnboardingData = {
@@ -35,78 +37,129 @@ export const initialOnboardingData: OnboardingData = {
 };
 
 // =====================================================================
-// 옵션 목록 — 각 객관식 화면에서 사용
+// 옵션 목록 — 자세(Stance) 가중치 기반
 // =====================================================================
 
-// 취미/관심사 칩 (단순 수집용 — 스코어링에 영향 X)
 export const interestOptions: string[] = [
   "영화", "독서", "공연", "전시", "음악", "여행",
   "맛집투어", "캠핑", "반려동물", "뜨개질", "공예",
   "러닝", "바이크", "테니스", "등산", "요가/명상",
 ];
 
-// 가치 칩 (multi, max 5)
-export const valueOptions: { label: string; weight: Partial<Record<LifeStyleType, number>> }[] = [
-  { label: "건강", weight: { 자연탐험형: 1 } },
-  { label: "시간", weight: { 디지털노마드형: 1 } },
-  { label: "자기계발", weight: { 디지털노마드형: 1 } },
-  { label: "도전", weight: { 레저형: 1 } },
-  { label: "안정감", weight: { 집돌이형: 1 } },
-  { label: "자기 표현", weight: { 디지털노마드형: 1 } },
-  { label: "가족", weight: { 집돌이형: 1 } },
-  { label: "우정", weight: { 레저형: 1 } },
-  { label: "공동체", weight: { 레저형: 1 } },
-  { label: "봉사/나눔", weight: { 자연탐험형: 1 } },
-  { label: "취미생활", weight: { 디지털노마드형: 1 } },
-  { label: "자기관리", weight: { 집돌이형: 1 } },
-  { label: "사랑", weight: { 레저형: 1 } },
-  { label: "사회적 영향력", weight: { 디지털노마드형: 1 } },
+type StanceWeight = Partial<Record<Stance, number>>;
+
+// 가치 칩 (multi, max 5) — 4축 매핑이 명확하게 재구성
+export const valueOptions: { label: string; weight: StanceWeight }[] = [
+  // alone_rest 톤
+  { label: "고요함", weight: { alone_rest: 2 } },
+  { label: "안정감", weight: { alone_rest: 2 } },
+  { label: "회복", weight: { alone_rest: 2, together_rest: 1 } },
+  { label: "자기관리", weight: { alone_rest: 1, alone_make: 1 } },
+  // alone_make 톤
+  { label: "몰입", weight: { alone_make: 2 } },
+  { label: "자기 표현", weight: { alone_make: 2 } },
+  { label: "탐험", weight: { alone_make: 2 } },
+  { label: "성장", weight: { alone_make: 1, together_make: 1 } },
+  // together_rest 톤
+  { label: "사랑", weight: { together_rest: 2 } },
+  { label: "친밀감", weight: { together_rest: 2 } },
+  { label: "함께함", weight: { together_rest: 1, together_make: 1 } },
+  // together_make 톤
+  { label: "공동체", weight: { together_make: 2 } },
+  { label: "기여", weight: { together_make: 2 } },
+  { label: "도전", weight: { together_make: 1, alone_make: 1 } },
 ];
 
-// 풍경의 하루 (single)
-export type DaySceneOption = { label: string; weight: Partial<Record<LifeStyleType, number>> };
+// 풍경의 하루 (single) — 자세 4축을 골고루 자극
+export type DaySceneOption = { label: string; weight: StanceWeight };
 export const dayScenes: DaySceneOption[] = [
   {
-    label: "새벽 안개 속에서 천천히 산책하기",
-    weight: { 자연탐험형: 3 },
+    label: "혼자 카페에서 책 읽으며 흘려보내기",
+    weight: { alone_rest: 3 },
   },
   {
-    label: "카페에서 일하고 점심엔 도시락",
-    weight: { 디지털노마드형: 3 },
+    label: "조용한 작업실에서 손에 흙·실 묻히기",
+    weight: { alone_make: 3 },
   },
   {
-    label: "작업실에서 작업, 저녁엔 시장 들르기",
-    weight: { 디지털노마드형: 2, 자연탐험형: 1 },
+    label: "친구들과 동네 시장 구경하고 수다",
+    weight: { together_rest: 3 },
   },
   {
-    label: "친구들과 늦은 점심, 바닷가 산책",
-    weight: { 레저형: 3 },
+    label: "동네 사람들과 모여 함께 일하기",
+    weight: { together_make: 3 },
   },
   {
-    label: "텃밭 가꾸고 조용한 저녁 보내기",
-    weight: { 집돌이형: 3 },
+    label: "산책하다 카페 들르고, 잠깐 끄적이기",
+    weight: { alone_rest: 1, alone_make: 1, together_rest: 1 },
   },
 ];
 
-// 힐링 (single)
-export type HealingOption = { label: string; weight: Partial<Record<LifeStyleType, number>> };
+// 힐링 (single) — 자세 4축 명확
+export type HealingOption = { label: string; weight: StanceWeight };
 export const healings: HealingOption[] = [
-  { label: "완전한 고요", weight: { 집돌이형: 3 } },
+  { label: "완전한 고요 속에서 푹 자기", weight: { alone_rest: 3 } },
   {
-    label: "마음 맞는 사람과의 대화",
-    weight: { 레저형: 2, 디지털노마드형: 1 },
+    label: "작업실에서 무언가 손으로 만들기",
+    weight: { alone_make: 3 },
   },
-  { label: "가벼운 산책", weight: { 자연탐험형: 3 } },
   {
-    label: "따뜻한 차 한 잔",
-    weight: { 집돌이형: 2, 자연탐험형: 1 },
+    label: "친한 사람과 따뜻한 차 한 잔",
+    weight: { together_rest: 3 },
   },
-  { label: "푹 자기", weight: { 집돌이형: 3 } },
+  {
+    label: "함께 모여 새로운 걸 시도하는 워크숍",
+    weight: { together_make: 3 },
+  },
+  {
+    label: "산책하며 마음 비우기",
+    weight: { alone_rest: 2, together_rest: 1 },
+  },
 ];
 
 // =====================================================================
-// 라이프스타일 유형 메타 — ResultScreen에서 사용
+// 환경 선택 옵션
 // =====================================================================
+
+export type EnvChoiceOption = {
+  value: EnvType;
+  emoji: string;
+  label: string;
+  hint: string;
+};
+
+export const envChoices: EnvChoiceOption[] = [
+  {
+    value: "mountain",
+    emoji: "🏔",
+    label: "산·숲",
+    hint: "고요한 산 공기와 계곡",
+  },
+  {
+    value: "sea",
+    emoji: "🌊",
+    label: "바다·해안",
+    hint: "파도 소리와 갯벌",
+  },
+  {
+    value: "field",
+    emoji: "🌾",
+    label: "들·평야",
+    hint: "너른 논과 밭",
+  },
+  {
+    value: "village",
+    emoji: "🏘",
+    label: "도시·골목",
+    hint: "사람 사는 골목과 시장",
+  },
+];
+
+// =====================================================================
+// 라이프스타일 메타 — 옛 (호환용, 점진 제거 예정)
+// =====================================================================
+
+import type { LifeStyleType } from "./residences";
 
 export const lifestyleMeta: Record<
   LifeStyleType,
@@ -139,84 +192,76 @@ export const lifestyleMeta: Record<
 };
 
 // =====================================================================
-// 스코어링 — 답안 데이터 → 라이프스타일 유형
+// 스코어링 — 답안 → { env, stance }
 // =====================================================================
 
-export function scoreOnboarding(data: OnboardingData): LifeStyleType {
-  const tally: Record<LifeStyleType, number> = {
-    레저형: 0,
-    자연탐험형: 0,
-    디지털노마드형: 0,
-    집돌이형: 0,
+export function scoreOnboarding(data: OnboardingData): {
+  env: EnvType;
+  stance: Stance;
+} {
+  const stanceTally: Record<Stance, number> = {
+    alone_rest: 0,
+    alone_make: 0,
+    together_rest: 0,
+    together_make: 0,
   };
 
-  // balanceA (산 vs 바다)
-  if (data.balanceA === "mountain") tally.자연탐험형 += 2;
-  if (data.balanceA === "sea") tally.레저형 += 2;
+  const apply = (w: StanceWeight) => {
+    for (const [k, v] of Object.entries(w) as [Stance, number][]) {
+      stanceTally[k] += v;
+    }
+  };
 
-  // balanceB (책 vs 수다)
-  if (data.balanceB === "read") {
-    tally.집돌이형 += 1;
-    tally.디지털노마드형 += 1;
+  // balanceB (혼자 vs 같이) — sociality 강한 신호
+  if (data.balanceB === "alone") {
+    stanceTally.alone_rest += 2;
+    stanceTally.alone_make += 2;
   }
-  if (data.balanceB === "chat") {
-    tally.레저형 += 1;
-    tally.자연탐험형 += 1;
+  if (data.balanceB === "together") {
+    stanceTally.together_rest += 2;
+    stanceTally.together_make += 2;
   }
 
-  // balanceC (한옥 vs 모던)
-  if (data.balanceC === "hanok") {
-    tally.자연탐험형 += 1;
-    tally.집돌이형 += 1;
+  // balanceC (쉼 vs 만들기) — activity mode 강한 신호
+  if (data.balanceC === "rest") {
+    stanceTally.alone_rest += 2;
+    stanceTally.together_rest += 2;
   }
-  if (data.balanceC === "modern") tally.디지털노마드형 += 2;
+  if (data.balanceC === "make") {
+    stanceTally.alone_make += 2;
+    stanceTally.together_make += 2;
+  }
 
   // values (multi)
   for (const v of data.values) {
     const opt = valueOptions.find((o) => o.label === v);
-    if (!opt) continue;
-    for (const [k, w] of Object.entries(opt.weight) as [
-      LifeStyleType,
-      number
-    ][]) {
-      tally[k] += w;
-    }
+    if (opt) apply(opt.weight);
   }
 
   // dayScene (single)
   if (data.dayScene) {
     const opt = dayScenes.find((d) => d.label === data.dayScene);
-    if (opt) {
-      for (const [k, w] of Object.entries(opt.weight) as [
-        LifeStyleType,
-        number
-      ][]) {
-        tally[k] += w;
-      }
-    }
+    if (opt) apply(opt.weight);
   }
 
   // healing (single)
   if (data.healing) {
     const opt = healings.find((h) => h.label === data.healing);
-    if (opt) {
-      for (const [k, w] of Object.entries(opt.weight) as [
-        LifeStyleType,
-        number
-      ][]) {
-        tally[k] += w;
-      }
+    if (opt) apply(opt.weight);
+  }
+
+  // 최고점 자세 (동점 시 alone_rest 기본)
+  let bestStance: Stance = "alone_rest";
+  let max = -1;
+  for (const k of Object.keys(stanceTally) as Stance[]) {
+    if (stanceTally[k] > max) {
+      max = stanceTally[k];
+      bestStance = k;
     }
   }
 
-  // 최고점 유형 (동점 시 자연탐험형 기본)
-  let best: LifeStyleType = "자연탐험형";
-  let max = -1;
-  for (const k of Object.keys(tally) as LifeStyleType[]) {
-    if (tally[k] > max) {
-      max = tally[k];
-      best = k;
-    }
-  }
-  return best;
+  // 환경: 사용자 직접 선택 (envChoice). 미선택 시 기본 mountain.
+  const env: EnvType = data.envChoice ?? "mountain";
+
+  return { env, stance: bestStance };
 }

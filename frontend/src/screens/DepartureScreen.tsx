@@ -17,12 +17,17 @@ import {
   type LifeStyleType,
   type Residence,
 } from "../data/residences";
+import {
+  matchResidenceScore,
+  type LifestyleProfile,
+} from "../data/lifestyle";
 import { HOME_POSITIONS, type RegionPos } from "../data/regions";
 import { selectNearbyMissions } from "../data/villageMissions";
 
 type Props = {
   homeRegion: string;
   lifestyle: LifeStyleType | null;
+  profile?: LifestyleProfile;
   onBack: () => void;
   onDepart: (residence: Residence) => void;
 };
@@ -33,7 +38,7 @@ const MISSION_COUNT = 15;
 
 export default function DepartureScreen({
   homeRegion,
-  lifestyle,
+  profile,
   onBack,
   onDepart,
 }: Props) {
@@ -71,13 +76,49 @@ export default function DepartureScreen({
       ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [activeMissionKey, view]);
 
-  // 추천 = recommended:true AND matchType === 사용자 라이프스타일 (보통 2개)
-  // 라이프스타일이 없으면 fallback: 추천 전체
-  const recommended = residences.filter((r) => {
-    if (!r.recommended) return false;
-    if (!lifestyle) return true;
-    return r.matchType === lifestyle;
-  });
+  // 추천 = profile 환경 일치 우선 + 자세 점수로 정렬. 환경 일치 부족 시 보조 추가.
+  // 결과는 최대 3곳만 (환경 일치하는 곳을 메인으로)
+  const recommended = useMemo(() => {
+    const base = residences.filter((r) => r.recommended);
+    if (!profile) return base.slice(0, 3);
+
+    const score = (r: Residence) =>
+      matchResidenceScore(profile, {
+        envType: r.envType,
+        stance: r.stance,
+        stanceAlt: r.stanceAlt,
+      });
+
+    // 1) 환경 일치하는 청년마을 (자세 점수 내림차순)
+    const envMatched = base
+      .filter((r) => r.envType === profile.env)
+      .sort((a, b) => score(b) - score(a));
+
+    // 2) 환경은 다르지만 자세가 강하게 일치 (alt 포함)하는 보조
+    const stanceFallback = base
+      .filter(
+        (r) =>
+          r.envType !== profile.env &&
+          (r.stance === profile.stance ||
+            r.stanceAlt?.includes(profile.stance))
+      )
+      .sort((a, b) => score(b) - score(a));
+
+    // 환경 일치를 우선으로 채우고, 모자라면 자세 fallback. 최대 3개.
+    return [...envMatched, ...stanceFallback].slice(0, 3);
+  }, [profile]);
+
+  // 가장 추천 — 정렬 결과 첫 번째 (점수 >= 30일 때만)
+  const topRecommendedId = useMemo(() => {
+    if (!profile || recommended.length === 0) return null;
+    const top = recommended[0];
+    const score = matchResidenceScore(profile, {
+      envType: top.envType,
+      stance: top.stance,
+      stanceAlt: top.stanceAlt,
+    });
+    return score >= 30 ? top.id : null;
+  }, [profile, recommended]);
   const detailMission =
     missions.find((m) => m.key === detailKey) ?? null;
 
@@ -124,9 +165,9 @@ export default function DepartureScreen({
       <div className="mt-2 px-5 flex items-center justify-between gap-2 shrink-0">
         <p className="text-ink-soft text-[12px] leading-relaxed">
           {view === "recommended"
-            ? lifestyle
-              ? `${lifestyle}에 어울리는 ${recommended.length}곳을 골라봤어요.`
-              : "추천 레지던스예요."
+            ? profile
+              ? `당신에게 어울리는 청년마을 ${recommended.length}곳을 골라봤어요.`
+              : "추천 청년마을이에요."
             : `${homeRegion}에서 가까운 문화 미션 ${missions.length}곳이에요.`}
         </p>
         <div className="flex bg-white border border-cream-200 rounded-full p-0.5 shadow-soft shrink-0">
@@ -156,6 +197,7 @@ export default function DepartureScreen({
                     yPct={r.yPct}
                     region={r.region}
                     isActive={selectedId === r.id}
+                    isTop={topRecommendedId === r.id}
                     onClick={() => setSelectedId(r.id)}
                   />
                 ))}

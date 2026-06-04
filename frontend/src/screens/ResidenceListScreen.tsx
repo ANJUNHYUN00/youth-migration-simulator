@@ -73,8 +73,8 @@ export default function ResidenceListScreen({
 
       <p className="px-5 mt-2 text-ink-soft text-[12px] leading-relaxed">
         {lifestyle
-          ? `${lifestyle}에 가까운 곳부터 보여드려요.`
-          : "여러 지역의 레지던스를 둘러볼 수 있어요."}
+          ? "당신에게 가까운 곳부터 보여드려요."
+          : "여러 청년마을을 둘러볼 수 있어요."}
       </p>
 
       <main className="flex-1 px-5 mt-3 pb-6 overflow-y-auto">
@@ -135,7 +135,7 @@ export function ResidenceCard({
           className="absolute top-2 right-2 px-2 py-0.5 rounded-full
                      bg-white/95 text-primary text-[11px] font-extrabold shadow-soft"
         >
-          {lifestyle ? `${lifestyle}과 ${match}%` : `매칭 ${match}%`}
+          매칭 {match}%
         </span>
         {/* 지원금 뱃지 */}
         {residence.hasSupport && (

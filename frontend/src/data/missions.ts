@@ -530,7 +530,7 @@ export const finalMission = {
   mode: "final" as const,
 };
 
-// 옵션의 traits를 거주지의 matchType과 비교해 적합도 변화량(±) 산출
+// 옵션의 traits를 거주지의 matchType과 비교해 적합도 변화량(±) 산출 — 옛 시스템
 // - traits에 matchType 포함: +2
 // - traits에 보조 lifestyle 포함(나열 중 첫 번째 외): +1
 // - 비어 있거나 어긋남: 0
@@ -541,6 +541,26 @@ export function fitDeltaForOption(
   if (!option || !option.traits || option.traits.length === 0) return 0;
   if (option.traits[0] === residenceMatchType) return 2;
   if (option.traits.includes(residenceMatchType)) return 1;
+  return 0;
+}
+
+// v2 — 옵션 traits를 새 Stance로 매핑 후 거주지 stance와 비교
+// 옛 LifeStyleType 트레이트를 그대로 두고 시스템만 stance 기반으로 진화
+// 같은 stance 그룹 매칭: 첫 번째 +2, 그 외 +1, 보조(stanceAlt) +1, 어긋남 0
+import { oldToStance, type Stance } from "./lifestyle";
+
+export function fitDeltaForOptionV2(
+  option: DialogueOption | undefined,
+  residenceStance: Stance,
+  residenceStanceAlt?: Stance[]
+): number {
+  if (!option || !option.traits || option.traits.length === 0) return 0;
+  const traitStances: Stance[] = option.traits.map((t) => oldToStance[t]);
+  if (traitStances[0] === residenceStance) return 2;
+  if (traitStances.includes(residenceStance)) return 1;
+  if (residenceStanceAlt && traitStances.some((s) => residenceStanceAlt.includes(s))) {
+    return 1;
+  }
   return 0;
 }
 

@@ -97,6 +97,8 @@ const PROGRESS_KEY = "cheongpung.progress.v1";
 type SavedProfile = {
   homeRegionName: string;
   lifestyle: LifeStyleType;
+  // v2: 새 유형 시스템 — 추천 매칭과 결과 화면에서 사용
+  profileV2?: import("./data/lifestyle").LifestyleProfile;
   email?: string;
   nickname?: string;
 };
@@ -247,6 +249,7 @@ export default function App() {
     const next: SavedProfile = {
       homeRegionName: r.data.homeRegion || "서울",
       lifestyle: r.lifestyle,
+      profileV2: r.profile,
       email,
       nickname,
     };
@@ -489,6 +492,7 @@ export default function App() {
           <DepartureScreen
             homeRegion={homeRegion}
             lifestyle={profile.lifestyle}
+            profile={profile.profileV2}
             onBack={() => setTab1Route("home")}
             onDepart={(r: Residence) => {
               setSelected(r);
@@ -610,7 +614,8 @@ export default function App() {
         {tab === "home" && tab1Route === "mission-execute" && activeMission && selected && (
           <MissionExecuteScreen
             mission={activeMission}
-            residenceMatchType={selected.matchType}
+            residenceStance={selected.stance}
+            residenceStanceAlt={selected.stanceAlt}
             onClose={() => {
               setActiveMission(null);
               setTab1Route("mission-list");
@@ -652,6 +657,7 @@ export default function App() {
           <JourneyScreen
             regionProgress={regionProgress}
             lifestyle={profile.lifestyle}
+            profile={profile.profileV2}
             nickname={nickname}
             homeRegion={homeRegion}
             onOpenSettings={handleOpenSettings}
@@ -664,6 +670,7 @@ export default function App() {
             nickname={nickname}
             email={profile.email}
             lifestyle={profile.lifestyle}
+            profile={profile.profileV2}
             homeRegion={homeRegion}
             onBack={() => setTab2Route("journey")}
             onReset={() => {

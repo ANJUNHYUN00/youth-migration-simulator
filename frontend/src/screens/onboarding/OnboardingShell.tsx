@@ -13,15 +13,16 @@ import ValuesScreen from "./ValuesScreen";
 import SceneScreen from "./SceneScreen";
 import HealingScreen from "./HealingScreen";
 import RegionDescScreen from "./RegionDescScreen";
+import EnvChoiceScreen from "./EnvChoiceScreen";
 import ResultScreen from "./ResultScreen";
 import {
   initialOnboardingData,
   scoreOnboarding,
   type OnboardingData,
-  type BalanceA,
   type BalanceB,
   type BalanceC,
 } from "../../data/quiz";
+import { stanceToOld, type LifestyleProfile } from "../../data/lifestyle";
 import type { LifeStyleType } from "../../data/residences";
 
 type StepKey =
@@ -30,12 +31,12 @@ type StepKey =
   | "birth"
   | "homeRegion"
   | "interests"
-  | "balanceA"
   | "balanceB"
   | "balanceC"
   | "values"
   | "scene"
   | "healing"
+  | "envChoice"
   | "regionDesc"
   | "result";
 
@@ -45,21 +46,23 @@ const ORDER: StepKey[] = [
   "birth",
   "homeRegion",
   "interests",
-  "balanceA",
   "balanceB",
   "balanceC",
   "values",
   "scene",
   "healing",
+  "envChoice",
   "regionDesc",
   "result",
 ];
 
 const TOTAL_QUESTIONS = 11;
 
-// onComplete 시 App에 넘기는 결과 — App.tsx는 lifestyle을 SavedProfile에 저장
+// onComplete 시 App에 넘기는 결과
+// lifestyle = 옛 LifeStyleType (App.tsx 매칭 호환), profile = 새 시스템 (env + stance)
 export type OnboardingResult = {
   lifestyle: LifeStyleType;
+  profile: LifestyleProfile;
   data: OnboardingData;
 };
 
@@ -137,46 +140,22 @@ export default function OnboardingShell({ onComplete }: Props) {
             />
           )}
 
-          {step === "balanceA" && (
-            <BalanceScreen<BalanceA>
-              step={5}
-              total={TOTAL_QUESTIONS}
-              title="무엇이 더 좋나요?"
-              subtitle="자연 풍경, 어느 쪽이 더 마음에 들어요?"
-              left={{
-                value: "mountain",
-                label: "산",
-                emoji: "⛰️",
-                blurb: "고요한 산세, 아침 안개",
-              }}
-              right={{
-                value: "sea",
-                label: "바다",
-                emoji: "🌊",
-                blurb: "파도 소리, 시원한 수평선",
-              }}
-              initial={data.balanceA}
-              onBack={back}
-              onNext={(v) => update("balanceA", v)}
-            />
-          )}
-
           {step === "balanceB" && (
             <BalanceScreen<BalanceB>
-              step={6}
+              step={5}
               total={TOTAL_QUESTIONS}
-              title="비 오는 주말, 어느 쪽?"
+              title="한가한 주말 오후, 어떻게 보내고 싶어요?"
               left={{
-                value: "read",
-                label: "혼자 책 읽기",
+                value: "alone",
+                label: "혼자 사부작",
                 emoji: "📖",
-                blurb: "조용한 시간",
+                blurb: "내 시간에 집중",
               }}
               right={{
-                value: "chat",
-                label: "친구와 수다",
+                value: "together",
+                label: "친구들과 어울리기",
                 emoji: "💬",
-                blurb: "활기찬 대화",
+                blurb: "사람들과 함께",
               }}
               initial={data.balanceB}
               onBack={back}
@@ -186,20 +165,20 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "balanceC" && (
             <BalanceScreen<BalanceC>
-              step={7}
+              step={6}
               total={TOTAL_QUESTIONS}
-              title="어디에서 묵고 싶어요?"
+              title="낯선 동네에서 끌리는 시간은?"
               left={{
-                value: "hanok",
-                label: "한옥 민박",
-                emoji: "🏯",
-                blurb: "기와와 마당이 있는",
+                value: "rest",
+                label: "멍 때리기",
+                emoji: "🍵",
+                blurb: "흘려보내는 시간",
               }}
               right={{
-                value: "modern",
-                label: "모던 게스트하우스",
-                emoji: "🛋️",
-                blurb: "감각적인 인테리어",
+                value: "make",
+                label: "손으로 만들기",
+                emoji: "🪵",
+                blurb: "무언가 짓는 시간",
               }}
               initial={data.balanceC}
               onBack={back}
@@ -209,7 +188,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "values" && (
             <ValuesScreen
-              step={8}
+              step={7}
               total={TOTAL_QUESTIONS}
               initial={data.values}
               onBack={back}
@@ -219,7 +198,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "scene" && (
             <SceneScreen
-              step={9}
+              step={8}
               total={TOTAL_QUESTIONS}
               initial={data.dayScene}
               onBack={back}
@@ -229,11 +208,21 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "healing" && (
             <HealingScreen
-              step={10}
+              step={9}
               total={TOTAL_QUESTIONS}
               initial={data.healing}
               onBack={back}
               onNext={(healing) => update("healing", healing)}
+            />
+          )}
+
+          {step === "envChoice" && (
+            <EnvChoiceScreen
+              step={10}
+              total={TOTAL_QUESTIONS}
+              initial={data.envChoice}
+              onBack={back}
+              onNext={(env) => update("envChoice", env)}
             />
           )}
 
@@ -250,14 +239,18 @@ export default function OnboardingShell({ onComplete }: Props) {
             />
           )}
 
-          {step === "result" && (
-            <ResultScreen
-              type={scoreOnboarding(data)}
-              onStart={() =>
-                onComplete({ lifestyle: scoreOnboarding(data), data })
-              }
-            />
-          )}
+          {step === "result" && (() => {
+            const profile = scoreOnboarding(data);
+            const lifestyle = stanceToOld(profile.stance);
+            return (
+              <ResultScreen
+                profile={profile}
+                onStart={() =>
+                  onComplete({ lifestyle, profile, data })
+                }
+              />
+            );
+          })()}
         </motion.div>
       </AnimatePresence>
     </div>
