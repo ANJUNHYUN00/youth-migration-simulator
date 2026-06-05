@@ -234,6 +234,89 @@ export default function App() {
           `[cheongpung] ${target.region} 8/8 미션 완료 mock 적용 → 하루 끝 의식`
         );
       },
+      // 하루만 +1 (미션 진행 없이 일차만 올림) — 나의 공간 단계 전환 확인용
+      // 사용법: cheongpung.bumpDay()  → 첫 지역 Day +1
+      //        cheongpung.bumpDay("ganghwa") → 특정 지역 Day +1
+      bumpDay: (residenceId?: string) => {
+        const target = residenceId
+          ? residences.find((r) => r.id === residenceId)
+          : residences[0];
+        if (!target) {
+          console.warn(
+            `[cheongpung] 지역을 찾을 수 없어요: ${residenceId}. 사용 가능한 id:`,
+            residences.map((r) => r.id)
+          );
+          return;
+        }
+        const { dayCount } = buildDayPlan(
+          target,
+          missionsForResidence(target.id)
+        );
+        setRegionProgress((prev) => {
+          const existing = prev[target.id];
+          // visitCount 0이면 풍경에서 안 보이니 1로 올려줌. 그 외엔 그대로.
+          const base: RegionRecord = existing ?? {
+            residenceId: target.id,
+            visitCount: 1,
+            completedMissionIds: [],
+            score: 0,
+            fitScore: 0,
+            currentDay: 1,
+          };
+          const seeded = {
+            ...base,
+            visitCount: Math.max(1, base.visitCount),
+          };
+          const stepped = advanceDay({ ...prev, [target.id]: seeded }, target.id, dayCount);
+          const next = stepped[target.id].currentDay ?? 1;
+          console.log(
+            `[cheongpung] ${target.region} Day ${next} / 총 ${dayCount}`
+          );
+          return stepped;
+        });
+      },
+      // 특정 일차로 직접 점프 (앞/뒤 자유) — 미션 진행 없이 currentDay만 설정
+      // 사용법: cheongpung.setDay(1)              → 첫 지역 Day=1 (전단계로 되돌리기)
+      //        cheongpung.setDay(3, "ganghwa")   → 강화도 Day=3
+      setDay: (day: number, residenceId?: string) => {
+        const target = residenceId
+          ? residences.find((r) => r.id === residenceId)
+          : residences[0];
+        if (!target) {
+          console.warn(
+            `[cheongpung] 지역을 찾을 수 없어요: ${residenceId}. 사용 가능한 id:`,
+            residences.map((r) => r.id)
+          );
+          return;
+        }
+        const { dayCount } = buildDayPlan(
+          target,
+          missionsForResidence(target.id)
+        );
+        const clamped = Math.max(1, Math.min(dayCount, Math.floor(day)));
+        setRegionProgress((prev) => {
+          const existing = prev[target.id];
+          const base: RegionRecord = existing ?? {
+            residenceId: target.id,
+            visitCount: 1,
+            completedMissionIds: [],
+            score: 0,
+            fitScore: 0,
+            currentDay: 1,
+          };
+          console.log(
+            `[cheongpung] ${target.region} Day ${clamped} / 총 ${dayCount}`
+          );
+          return {
+            ...prev,
+            [target.id]: {
+              ...base,
+              visitCount: Math.max(1, base.visitCount),
+              currentDay: clamped,
+            },
+          };
+        });
+      },
       // 사용 가능한 지역 id 목록 출력
       regions: () => {
         const list = residences.map((r) => ({ id: r.id, region: r.region }));
@@ -243,7 +326,7 @@ export default function App() {
     };
     (window as unknown as { cheongpung?: typeof api }).cheongpung = api;
     console.log(
-      "%c[cheongpung] 데모 헬퍼 준비됨 — reset() / skipTo(id?) / regions()",
+      "%c[cheongpung] 데모 헬퍼 준비됨 — reset() / skipTo(id?) / bumpDay(id?) / setDay(day, id?) / regions()",
       "color:#FF7043;font-weight:bold"
     );
   }, []);
