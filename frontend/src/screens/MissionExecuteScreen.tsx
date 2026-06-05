@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   fitDeltaForOptionV2,
-  isOptionAligned,
+  optionAlignWeight,
   type BackgroundVariant,
   type Mission,
 } from "../data/missions";
@@ -183,15 +183,15 @@ export default function MissionExecuteScreen({
     if (!opt) return;
     setPickedIdx(optionIdx);
     const delta = fitDeltaForOptionV2(opt, residenceStance, residenceStanceAlt);
-    // v2 — 정렬도 통계 동기 누적 (finish 시점에 그대로 반영)
-    const aligned = isOptionAligned(opt, {
+    // v2 — 정렬 가중치(0 / 0.5 / 1) 동기 누적. alignedPicks는 float.
+    const alignWeight = optionAlignWeight(opt, {
       stance: residenceStance,
       stanceAlt: residenceStanceAlt,
       envType: residenceEnv,
     });
     pickStatsRef.current = {
       totalPicks: pickStatsRef.current.totalPicks + 1,
-      alignedPicks: pickStatsRef.current.alignedPicks + (aligned ? 1 : 0),
+      alignedPicks: pickStatsRef.current.alignedPicks + alignWeight,
     };
     // 200ms 강조 후 진행
     window.setTimeout(() => {

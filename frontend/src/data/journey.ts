@@ -23,7 +23,8 @@ export type RegionRecord = {
   currentDay?: number;
   // 이주 리포트 (시네마틱 엔딩 시퀀스) — 생성 시점 스냅샷 + AI 요약 캐시
   migrationReport?: MigrationReport;
-  // v2 — 답변 단위 정렬 통계. 미션정렬도(%) = aligned / total × 100.
+  // v2 — 답변 단위 정렬 통계. 미션정렬도(%) = alignedPicks / totalPicks × 100.
+  // alignedPicks는 옵션별 가중치 합(0 / 0.5 / 1)이라 float (3.5/8 같은 값 가능).
   pickStats?: {
     totalPicks: number;
     alignedPicks: number;

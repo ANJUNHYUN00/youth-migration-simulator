@@ -615,30 +615,35 @@ export function fitDeltaForOptionV2(
   return 0;
 }
 
-// 적합도 v2 — 이 옵션이 지역과 "정렬"되는지 boolean 판정 (정렬도 % 계산용).
-// 1) 명시 stanceAlign 우선 → 메인/보조 매칭
-// 2) 명시 envAlign 매칭
-// 3) 없으면 traits → oldToStance derive 후 fallback 판정
-export function isOptionAligned(
+// 적합도 v2 — 옵션 정렬 가중치 (3단계).
+//   1.0 = 완전 일치 : stanceAlign이 region.stance와 일치 (또는 traits derive 시 동일)
+//   0.5 = 부분 일치 : stanceAlign이 region.stanceAlt와 일치, envAlign 매칭, 혹은
+//                    traits derive로 stanceAlt 매칭
+//   0   = 안 맞음   : 매칭 없음 (부정 답변 버튼은 호출하지 않고 직접 0 누적)
+// 명시 stanceAlign/envAlign 이 있으면 그게 우선, 없으면 traits → oldToStance derive 폴백.
+export function optionAlignWeight(
   option: DialogueOption | undefined,
   region: { stance: Stance; stanceAlt?: Stance[]; envType: EnvType }
-): boolean {
-  if (!option) return false;
+): 0 | 0.5 | 1 {
+  if (!option) return 0;
 
-  if (option.stanceAlign?.includes(region.stance)) return true;
+  // 1) 명시 stanceAlign — 메인 일치
+  if (option.stanceAlign?.includes(region.stance)) return 1;
+  // 2) 명시 stanceAlign — 보조 일치
   if (region.stanceAlt && option.stanceAlign?.some((s) => region.stanceAlt!.includes(s))) {
-    return true;
+    return 0.5;
   }
+  // 3) 명시 envAlign — 환경 일치 (부분)
+  if (option.envAlign?.includes(region.envType)) return 0.5;
 
-  if (option.envAlign?.includes(region.envType)) return true;
-
+  // 4) traits fallback — derive 후 동일 판정
   if (option.traits?.length) {
     const ss: Stance[] = option.traits.map((t) => oldToStance[t]);
-    if (ss.includes(region.stance)) return true;
-    if (region.stanceAlt && ss.some((s) => region.stanceAlt!.includes(s))) return true;
+    if (ss.includes(region.stance)) return 1;
+    if (region.stanceAlt && ss.some((s) => region.stanceAlt!.includes(s))) return 0.5;
   }
 
-  return false;
+  return 0;
 }
 
 // 기존 호환용 alias (다른 화면에서 baseMissions 임포트하는 경우 대비)

@@ -509,7 +509,7 @@ function RegionBottomSheet({
                 미션 정렬 <span className="text-ink-soft font-bold">{match.alignment}%</span>
               </span>
               <span className="tabular-nums">
-                {match.pickStats.alignedPicks}/{match.pickStats.totalPicks} 답
+                {match.pickStats.alignedPicks.toFixed(1)}/{match.pickStats.totalPicks} 답
               </span>
             </div>
           )}
