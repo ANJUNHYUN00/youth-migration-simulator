@@ -20,7 +20,7 @@ type Props = {
 // 미션별 도착지 라벨
 function getDestinationLabel(mission: Mission): string {
   const m: Record<string, string> = {
-    market: "전통시장",
+    market: "동네 밥집",
     hospital: "동네 종합병원",
     cafe: "주민 카페",
     home: "레지던스",
@@ -38,7 +38,7 @@ function getStory(mission: Mission): string {
     hospital:
       "이 길로 쭉 가면 종합병원이 보여요. 약국도 바로 옆이라 진료 끝나면 약도 한 자리에서 받아요.",
     market:
-      "어머, 처음 보는 얼굴이네요. 시장 안쪽으로 들어가면 진짜 좋은 채소가 많아요.",
+      "어머, 처음 보는 얼굴이네요. 저 골목 안쪽 밥집, 백반이 진짜 푸짐해요.",
     cost: "이 길 끝에 이주민들이 모이는 사무실이 있어요. 한 번 들러서 들어보세요.",
     transit: "정류장은 이 길 끝이에요. 시간표는 미리 봐두는 게 좋아요.",
     routine: "이 마을에선 하루가 천천히 가요. 산책부터 시작하시면 좋아요.",
@@ -83,11 +83,18 @@ const SLIDE_LABEL: Record<"depart" | "alley" | "approach" | "arrive", string> = 
   arrive: "도착",
 };
 
+// 받침 유무에 따라 와/과 조사 선택 (예: 사장님→과, 아주머니→와)
+function waGwa(word: string): string {
+  const code = word.charCodeAt(word.length - 1);
+  if (code < 0xac00 || code > 0xd7a3) return "과";
+  return (code - 0xac00) % 28 === 0 ? "와" : "과";
+}
+
 // 도착 슬라이드의 CTA 라벨 — 미션 모드에 맞게 분기
 function getArrivalCtaLabel(mission: Mission): string {
   switch (mission.mode) {
     case "map-dialogue":
-      return `${mission.npc.name}과 대화 나누기 💬`;
+      return `${mission.npc.name}${waGwa(mission.npc.name)} 대화 나누기 💬`;
     case "map-info":
       return "장소 둘러보기 👀";
     default:

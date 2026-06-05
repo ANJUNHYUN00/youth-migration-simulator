@@ -224,10 +224,21 @@ export default function MissionExecuteScreen({
     MISSION_ID_NPC_AVATAR[mission.id] ?? pickNpcAvatar(mission.npc.name);
   const avatarSize = MISSION_ID_NPC_SIZE[mission.id] ?? DEFAULT_NPC_SIZE;
 
+  // NPC 풀씬(워터마크 제거 일러스트)이 있으면 → 풀스크린 씬 + 글래스 대화창 모드.
+  // 없으면 기존(클레이 아바타 + 베이지 배경) 그대로.
+  const npcScene = mission.npcScene;
+  const isPlayerTurn = phase === "player-turn";
+  const glassBubble = npcScene ? "bg-white/80 backdrop-blur-xl" : "bg-white";
+  const glassOption = npcScene ? "bg-white/45 backdrop-blur-md" : "bg-white";
+
   return (
     <div className="relative min-h-[calc(100dvh-6rem)] overflow-hidden bg-cream">
-      {/* 배경 — 베이지 그라데이션 + 은은한 클레이 씬 */}
-      <SceneBackground sceneBg={sceneBg} />
+      {/* 배경 — npcScene이면 선명 풀스크린, 아니면 베이지+클레이 씬 */}
+      {npcScene ? (
+        <FullSceneBackground src={npcScene.src} />
+      ) : (
+        <SceneBackground sceneBg={sceneBg} />
+      )}
 
       {/* 좌상단 — 사운드 토글 */}
       <button
@@ -256,8 +267,9 @@ export default function MissionExecuteScreen({
         </button>
       </div>
 
-      {/* 중앙 — 화자 이름 뱃지 + 캐릭터 (phase에 따라 NPC↔플레이어 전환) */}
-      {(() => {
+      {/* 중앙 — 화자 이름 뱃지 + 캐릭터 (phase에 따라 NPC↔플레이어 전환)
+          npcScene 모드에선 캐릭터가 배경에 이미 있으므로 숨김 */}
+      {!npcScene && (() => {
         const isPlayer = phase === "player-turn";
         const speakerName = isPlayer ? "나" : mission.npc.name;
         const speakerImg = isPlayer ? PLAYER_AVATAR : avatarSrc;
@@ -350,13 +362,25 @@ export default function MissionExecuteScreen({
             </span>
           </div>
 
+          {/* npcScene 모드 — 누가 말하는지 이름 태그 (캐릭터 뱃지를 숨겼으므로) */}
+          {npcScene && (
+            <div className="flex justify-center">
+              <span
+                className={`px-3 py-1 rounded-full text-white text-[12px] font-extrabold shadow-soft
+                  ${isPlayerTurn ? "bg-[#5B9BD5]" : "bg-[#FF7043]"}`}
+              >
+                {isPlayerTurn ? "나" : `${mission.npc.emoji} ${mission.npc.name}`}
+              </span>
+            </div>
+          )}
+
           {/* 말풍선 — 타이핑 중엔 즉시 완료, npc-done에선 플레이어 턴으로 전환.
               player-turn에선 NPC가 한 말을 톤 다운된 상태로 유지(맥락 보존). */}
           <button
             type="button"
             onClick={handleBubbleTap}
             disabled={phase === "player-turn"}
-            className={`w-full text-left bg-white border rounded-3xl shadow-soft
+            className={`w-full text-left ${glassBubble} border rounded-3xl shadow-soft
                        px-5 py-4 transition-opacity
                        ${
                          phase === "player-turn"
@@ -407,7 +431,7 @@ export default function MissionExecuteScreen({
                     }}
                     whileTap={{ scale: 0.97 }}
                     className={`flex items-center gap-3 w-full text-left
-                               bg-white rounded-2xl shadow-soft border px-3.5 py-3 transition
+                               ${glassOption} rounded-2xl shadow-soft border px-3.5 py-3 transition
                                ${
                                  isPicked
                                    ? "border-primary ring-2 ring-primary scale-[1.02]"
@@ -498,6 +522,25 @@ export default function MissionExecuteScreen({
 // =====================================================================
 // 배경 — 베이지 그라데이션 + (선택) 클레이 씬 + 가독성 마스크
 // =====================================================================
+
+// 풀스크린 NPC 씬 배경 — 선명한 이미지 전체화면 + 상/하 가독성 스크림
+function FullSceneBackground({ src }: { src: string }) {
+  return (
+    <div
+      className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-cream"
+      aria-hidden
+    >
+      <img
+        src={src}
+        alt=""
+        draggable={false}
+        className="absolute inset-0 w-full h-full object-cover object-center select-none"
+      />
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/20 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/12 to-transparent" />
+    </div>
+  );
+}
 
 function SceneBackground({ sceneBg }: { sceneBg: string | undefined }) {
   return (

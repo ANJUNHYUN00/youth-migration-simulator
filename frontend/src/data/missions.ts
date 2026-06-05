@@ -81,6 +81,9 @@ export type Mission = {
   npc: { name: string; emoji: string };
   dialogues: DialogueTurn[];
   description?: string;      // 카드 보조 설명
+  // NPC 풀씬 일러스트 — 정의되면 미션 수행 화면을 풀스크린 씬 + 글래스 대화창으로 표시
+  // src는 public 기준 절대 경로(예: "/mission/restaurantgrandma.webp")
+  npcScene?: { src: string; caption?: string };
   // 실제 로드뷰 사진(캡처) 배열 — 슬라이드 순서대로 [출발, 골목, 다가옴, 도착]
   // 길이가 4 미만이거나 일부 undefined여도 OK — 있는 슬라이드에만 📷 버튼이 뜸
   realRoadview?: (string | undefined)[];
@@ -184,18 +187,19 @@ export const commonMissions: Mission[] = [
   // ───────────────────────────────────────────────
   {
     id: "market",
-    title: "전통시장 물가 체험",
-    icon: "🛒",
+    title: "동네 밥집 물가 체험",
+    icon: "🍚",
     category: "생활현실형",
     mode: "map-dialogue",
     reward: 5,
     background: "market",
-    npc: { name: "반찬가게 사장님", emoji: "🧓" },
-    description: "이 동네 진짜 물가 — 도시와 얼마나 다를까",
+    npc: { name: "식당 아주머니", emoji: "👩‍🍳" },
+    npcScene: { src: "/mission/restaurantgrandma.webp" },
+    description: "이 동네 진짜 밥값 — 도시와 얼마나 다를까",
     dialogues: [
       {
         npc:
-          "어서 오세요~ 오늘 채소가 진짜 잘 나왔어요. 시금치 한 단 1,500원, 오이 한 박스 6,000원. 이 정도면 도시 절반이죠?",
+          "어서 와요~ 오늘 백반 한 상 차렸어요. 여기선 한 끼 7천원, 반찬은 매일 바뀌고. 도시 밥값 생각하면 싸죠?",
         options: [
           { label: "와, 진짜 싸네요", next: 1, traits: ["자연탐험형", "집돌이형"],
             stanceAlign: ["together_rest", "alone_rest"], envAlign: ["village"] },
@@ -205,29 +209,29 @@ export const commonMissions: Mission[] = [
       },
       {
         npc:
-          "절반은 못 돼도 30% 정도는 싸요. 대신 마트 가격이랑 비슷한 것도 있어요. 통조림이나 공산품은 별 차이 없고, 채소·해산물만 확실히 달라요.",
+          "한 끼 7~8천원이면 도시 절반이죠. 대신 배달은 잘 안 와요. 그래서 다들 여기 와서 먹거나, 집에서 해 먹어요.",
         options: [
-          { label: "그래도 매일 먹는 게 채소니까 큰 차이네요", next: 3, traits: ["집돌이형"],
+          { label: "매일 사 먹어도 부담 없겠네요", next: 3, traits: ["집돌이형"],
             stanceAlign: ["alone_rest", "together_rest"] },
-          { label: "공산품은 마트가 낫겠네요", next: 3, traits: ["디지털노마드형"],
+          { label: "배달 안 되는 건 좀 아쉽네요", next: 3, traits: ["디지털노마드형"],
             stanceAlign: ["alone_make"] },
         ],
       },
       {
         npc:
-          "맞아요. 계절 채소만 시장에서 사도 한 달 식비가 도시보다 15만원쯤은 덜 들어요. 대신 시장은 일찍 닫아요. 오후 5시면 절반은 마감.",
+          "평소에도 이 가격이에요. 장 봐서 해 먹으면 더 싸고요. 채소·생선은 시장이 확실히 싸서, 한 달 식비가 도시보다 한참 덜 들어요.",
         options: [
-          { label: "오전이나 점심에 들러야겠네요", next: 3, traits: ["자연탐험형"],
+          { label: "직접 해 먹는 재미가 있겠어요", next: 3, traits: ["자연탐험형"],
             stanceAlign: ["alone_rest", "together_rest"] },
-          { label: "퇴근하고는 못 오겠네...", next: 3, traits: ["디지털노마드형"],
+          { label: "그래도 가끔 외식은 하고 싶죠", next: 3, traits: ["디지털노마드형"],
             stanceAlign: ["alone_make"] },
         ],
       },
       {
         npc:
-          "한 달 살아보면 감이 와요. 식비 줄어드는 만큼 외식 줄어드는 게 큰 거예요. 도시는 자꾸 사 먹잖아요?",
+          "한 달 살아보면 알아요. 사 먹는 돈 줄어드는 게 제일 커요. 도시선 자꾸 시켜 먹잖아요?",
         options: [
-          { label: "맞아요, 직접 해 먹는 게 좋아져요", traits: ["자연탐험형", "집돌이형"],
+          { label: "맞아요, 집밥이 좋아져요", traits: ["자연탐험형", "집돌이형"],
             stanceAlign: ["alone_rest", "alone_make"] },
           { label: "그래도 외식은 종종 필요하죠", traits: ["레저형", "디지털노마드형"],
             stanceAlign: ["together_make", "together_rest"] },
@@ -293,6 +297,7 @@ export const commonMissions: Mission[] = [
     reward: 5,
     background: "transit",
     npc: { name: "마을 안내원", emoji: "🧑‍💼" },
+    npcScene: { src: "/mission/villagemanager.webp" },
     description: "버스 배차, 시내 진출 시간 — 이동의 현실",
     dialogues: [
       {
@@ -339,6 +344,7 @@ export const commonMissions: Mission[] = [
     reward: 8,
     background: "home",
     npc: { name: "레지던스 호스트", emoji: "🧑" },
+    npcScene: { src: "/mission/residentowner.webp" },
     description: "여기서의 하루를 머릿속에 그려보기",
     dialogues: [
       {
@@ -495,6 +501,7 @@ export const commonMissions: Mission[] = [
     reward: 15,
     background: "neighbor",
     npc: { name: "먼저 온 이주자", emoji: "👩" },
+    npcScene: { src: "/mission/yoga.webp" },
     description: "1년 차 이주민의 솔직한 경험",
     dialogues: [
       {

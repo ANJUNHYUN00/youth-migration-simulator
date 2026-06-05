@@ -17,10 +17,10 @@ export const missionInsights: Record<string, MissionInsight> = {
     detail: "약국이 병원 바로 옆 — 도시 대비 1시간 빠른 응급 대응.",
   },
   market: {
-    icon: "🛒",
-    category: "전통시장",
-    headline: "채소·해산물 30% 저렴, 오후 5시 마감",
-    detail: "계절 채소만 시장에서 사도 한 달 식비 약 15만원 절약.",
+    icon: "🍚",
+    category: "동네 밥집",
+    headline: "한 끼 7~8천원, 도시 밥값의 절반",
+    detail: "집밥·동네 식당 위주로 먹으면 한 달 식비 약 15만원 절약.",
   },
   cost: {
     icon: "💰",

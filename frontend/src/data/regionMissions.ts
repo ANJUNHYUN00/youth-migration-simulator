@@ -98,6 +98,7 @@ const ganghwaMissions: Mission[] = [
     reward: 15,
     background: "neighbor",
     npc: { name: "농사 선배", emoji: "🧑‍🌾" },
+    npcScene: { src: "/mission/youngfarmer.webp" },
     description: "텃밭 한 평 빌려보기 — 동네 사람들과 함께",
     dialogues: [
       {
