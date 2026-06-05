@@ -10,6 +10,7 @@ import { residences, type Residence, type LifeStyleType } from "../data/residenc
 import { baseMissions } from "../data/missions";
 import {
   calculateMatch,
+  calculateMatchV2,
   isAllMissionsDone,
   type RegionRecord,
 } from "../data/journey";
@@ -19,7 +20,7 @@ import {
   houseStageFromProgress,
   SPACE_STAGE_NAMES,
 } from "../data/dayPlan";
-import type { LifestyleProfile } from "../data/lifestyle";
+import { type LifestyleProfile } from "../data/lifestyle";
 import HouseStage from "../components/HouseStage";
 
 type ViewMode = "score" | "match";
@@ -159,6 +160,7 @@ export default function JourneyScreen({
             residence={selected}
             record={regionProgress[selected.id]}
             lifestyle={lifestyle}
+            profile={profile}
             onClose={() => setSelectedId(null)}
             onOpenReport={() => onOpenReport(selected)}
             onOpenCinematic={
@@ -399,6 +401,7 @@ function RegionBottomSheet({
   residence,
   record,
   lifestyle,
+  profile,
   onClose,
   onOpenReport,
   onOpenCinematic,
@@ -406,6 +409,7 @@ function RegionBottomSheet({
   residence: Residence;
   record: RegionRecord | undefined;
   lifestyle: LifeStyleType | null;
+  profile?: LifestyleProfile;
   onClose: () => void;
   onOpenReport: () => void;
   onOpenCinematic?: () => void;
@@ -413,7 +417,10 @@ function RegionBottomSheet({
   const hasCinematic = !!record?.migrationReport;
   const visited = (record?.visitCount ?? 0) > 0;
   const score = record?.score ?? 0;
-  const match = calculateMatch(lifestyle, residence, record);
+  // 적합도 v2 — profile 있으면 정확한 브레이크다운, 없으면 옛 lifestyle 기반 number
+  const match = profile
+    ? calculateMatchV2(profile, residence, record)
+    : { total: calculateMatch(lifestyle, residence, record), potential: 0, alignment: 0, pickStats: { totalPicks: 0, alignedPicks: 0 } };
   const completedIds = new Set(record?.completedMissionIds ?? []);
   const completedCount = completedIds.size;
   const allDone = isAllMissionsDone(record);
@@ -489,10 +496,23 @@ function RegionBottomSheet({
           </div>
         )}
 
-        {/* 두 막대그래프 */}
+        {/* 점수 바 — 축적 점수 / 적합도(브레이크다운 포함) */}
         <div className="mt-3 space-y-2.5">
           <Bar label="축적 점수" value={score} max={300} tone="primary" suffix="점" />
-          <Bar label="적합도" value={match} max={100} tone="nature" suffix="%" />
+          <Bar label="적합도" value={match.total} max={100} tone="nature" suffix="%" />
+          {/* 브레이크다운 — profile이 있을 때만 의미 있음 */}
+          {profile && (
+            <div className="flex items-center justify-between text-[10.5px] text-ink-mute -mt-1.5 px-0.5">
+              <span>
+                잠재 매칭 <span className="text-ink-soft font-bold">{match.potential}</span>
+                <span className="mx-1.5 text-cream-300">·</span>
+                미션 정렬 <span className="text-ink-soft font-bold">{match.alignment}%</span>
+              </span>
+              <span className="tabular-nums">
+                {match.pickStats.alignedPicks}/{match.pickStats.totalPicks} 답
+              </span>
+            </div>
+          )}
         </div>
 
         {/* 완료 미션 리스트 */}

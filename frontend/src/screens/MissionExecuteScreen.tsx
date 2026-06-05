@@ -158,6 +158,25 @@ export default function MissionExecuteScreen({
     window.setTimeout(() => onComplete(total, stats), 1800);
   };
 
+  // "솔직히 안 맞아요" 부정 답변 — 정렬 카운트 0, totalPicks +1, 첫 옵션의 next 경로로 진행
+  // (next가 없으면 미션 종료). 사용자에게 명시적인 negative judgment를 주는 채널.
+  const handleNegativePick = () => {
+    if (pickedIdx !== null) return;
+    setPickedIdx(-1); // -1 = 부정 답변 표시
+    pickStatsRef.current = {
+      totalPicks: pickStatsRef.current.totalPicks + 1,
+      alignedPicks: pickStatsRef.current.alignedPicks, // +0
+    };
+    const firstNext = turn.options?.[0]?.next;
+    window.setTimeout(() => {
+      if (firstNext === undefined) {
+        finish(0);
+        return;
+      }
+      setTurnIdx(firstNext);
+    }, 200);
+  };
+
   const handlePick = (optionIdx: number) => {
     if (pickedIdx !== null) return;
     const opt = turn.options?.[optionIdx];
@@ -407,6 +426,26 @@ export default function MissionExecuteScreen({
                   </motion.button>
                 );
               })}
+              {/* 부정 답변 — 정렬 0 카운트. 솔직히 안 맞는다고 표현할 수 있는 채널.
+                  적합도 = 답한 옵션 중 정렬된 비율 이므로 이 답이 누적되면 적합도가 내려감. */}
+              <motion.button
+                type="button"
+                onClick={handleNegativePick}
+                disabled={pickedIdx !== null}
+                initial={{ y: 14, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{
+                  delay: 0.1 * (turn.options.length),
+                  duration: 0.22,
+                  ease: "easeOut",
+                }}
+                whileTap={{ scale: 0.97 }}
+                className={`mt-1 self-center text-ink-mute text-[12.5px] font-bold
+                           underline-offset-2 underline px-3 py-1.5 rounded-full
+                           ${pickedIdx === -1 ? "text-primary no-underline ring-2 ring-primary bg-white" : ""}`}
+              >
+                음… 솔직히 나랑은 안 맞는 것 같아요
+              </motion.button>
             </div>
           )}
 

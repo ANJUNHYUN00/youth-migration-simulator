@@ -254,3 +254,50 @@ export function calculateMatch(
 
 위 Phase 1 + Phase 2 까지 한 PR로 묶고, Phase 3 UI는 후속. Phase 4(옵션 다듬기)는 미션을
 디자인하는 흐름 안에서 점진적으로.
+
+---
+
+# 후속 — Phase 3 UI + 부정 답변 채널 (같은 날)
+
+## Phase 3 — 여정 탭 적합도 브레이크다운
+
+`JourneyScreen.tsx`의 `RegionBottomSheet`가 profile을 받아 `calculateMatchV2()` 사용.
+적합도 막대 바로 아래에 작은 글씨 한 줄로:
+
+```
+잠재 매칭 78  ·  미션 정렬 75%       6/8 답
+```
+
+- profile이 있으면 v2 브레이크다운 노출, 없으면 옛 lifestyle 기반 number만.
+- TopRegionCard·JourneyMarker는 단순 number만 필요해서 기존 `calculateMatch()` 그대로 사용
+  (v2 공식 위임이라 결과 자동 업데이트됨).
+
+## 부정 답변 채널
+
+`MissionExecuteScreen` 옵션 카드 아래에 작은 underline 텍스트 버튼:
+
+```
+음… 솔직히 나랑은 안 맞는 것 같아요
+```
+
+- 노출: 매 턴 옵션이 떴을 때 항상 함께 노출 (player-turn phase)
+- 동작:
+  - `totalPicks +1`, `alignedPicks +0` (= unaligned)
+  - 첫 옵션의 `next` 경로로 진행 (`next === undefined` 이면 미션 종료)
+  - 200ms 강조 후 진행 — 일반 옵션과 같은 흐름
+
+### 왜 별도 채널인가
+
+기존 옵션들은 모두 어느 정도 "이 지역과 어울리는" 톤이라, 사용자가 명시적으로 "이건 나랑 안 맞아"
+라고 말할 수 없었음. 적합도가 누적되는 시스템에서 이 표현 채널이 없으면:
+- 사용자는 가장 덜 끌리는 옵션을 골라야 하는데, 그것도 어쨌든 정렬 답으로 카운트될 수 있음
+- 결과적으로 적합도가 항상 높게 나옴 → 비교 가치 낮아짐
+
+별도 부정 답변이 있으면:
+- 사용자가 "이 지역 분위기 자체가 나랑 안 맞다" 를 표현 가능
+- pickStats의 정렬도 분모는 늘지만 분자는 안 늘어남 → 미션 정렬도 % 직접 낮춤
+- 8지역 가로 비교 시 진짜 안 맞는 곳은 점수가 낮게 나옴
+
+### 데이터 모델 영향
+
+별도 필드 없음. 그냥 옵션 픽처럼 pickStats만 누적. `pickedIdx === -1` 로 UI 강조 상태만 구분.
