@@ -6,14 +6,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import type { Mission } from "../data/missions";
 import type { Residence } from "../data/residences";
 import type { MigrationReport } from "../data/journey";
 
 type Props = {
   residence: Residence;
   report: MigrationReport;
-  missions: Mission[];
   // 처음 시청 = 자동 재생, 재시청 = 자유 탐색
   isFirstView: boolean;
   onClose: () => void;
@@ -26,7 +24,6 @@ const AUTO_ADVANCE_MS = 4200; // 슬라이드별 자동 전환 간격
 export default function MigrationReportCinematic({
   residence,
   report,
-  missions,
   isFirstView,
   onClose,
   onApplyResidence,
@@ -84,7 +81,7 @@ export default function MigrationReportCinematic({
             {idx === 0 && <SlideOne residence={residence} report={report} />}
             {idx === 1 && <SlideTwo report={report} />}
             {idx === 2 && (
-              <SlideThree report={report} missions={missions} />
+              <SlideThree report={report} />
             )}
             {idx === 3 && (
               <SlideFour
@@ -296,27 +293,16 @@ function SlideTwo({ report }: { report: MigrationReport }) {
 }
 
 // =====================================================================
-// Slide 3 — 미션 타임라인 (일차별 그룹 + staggered)
+// Slide 3 — AI 본문 요약. NPC가 알려준 정보 + 거친 미션을 엮은 글 한 편.
+// (옛 타임라인 리스트는 폐기. 사용자 피드백: "정보를 글과 메시지로 요약")
 // =====================================================================
 
-function SlideThree({
-  report,
-  missions,
-}: {
-  report: MigrationReport;
-  missions: Mission[];
-}) {
-  const byDay = useMemo(() => {
-    const map = new Map<number, { mission: Mission; idx: number }[]>();
-    report.timeline.forEach((t, i) => {
-      const m = missions.find((mm) => mm.id === t.missionId);
-      if (!m) return;
-      const list = map.get(t.day) ?? [];
-      list.push({ mission: m, idx: i });
-      map.set(t.day, list);
-    });
-    return Array.from(map.entries()).sort((a, b) => a[0] - b[0]);
-  }, [report.timeline, missions]);
+function SlideThree({ report }: { report: MigrationReport }) {
+  // narrativeBody는 generateMigrationReport에서 채워짐. 옛 리포트 호환을 위해 fallback.
+  const body =
+    report.narrativeBody ??
+    "이곳에서의 시간이 천천히 떠올라요. 보고 들은 것들이 마음에 남았기를.";
+  const paragraphs = body.split(/\n\n+/).filter((p) => p.trim().length > 0);
 
   return (
     <div className="flex-1 flex flex-col px-6 pt-24 pb-20 overflow-hidden">
@@ -325,47 +311,35 @@ function SlideThree({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        <p className="text-white/60 text-[12px] font-bold">함께한 순간들</p>
+        <p className="text-white/60 text-[12px] font-bold">함께한 시간의 이야기</p>
         <h2 className="mt-2 text-white text-[22px] font-extrabold leading-tight">
-          {report.timeline.length}개의 미션, 하루씩
+          당신이 보낸 시간
         </h2>
       </motion.div>
 
-      <div className="flex-1 mt-6 overflow-y-auto space-y-5 pr-1">
-        {byDay.map(([day, items]) => (
-          <div key={day}>
-            <p className="text-white/50 text-[11px] font-bold tracking-widest uppercase mb-2">
-              Day {day}
-            </p>
-            <ul className="space-y-2">
-              {items.map(({ mission, idx }) => (
-                <motion.li
-                  key={mission.id}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + idx * 0.12, duration: 0.4 }}
-                  className="flex items-center gap-3 bg-white/5 border border-white/10
-                             rounded-2xl px-3.5 py-2.5"
-                >
-                  <span className="text-xl" aria-hidden>
-                    {mission.icon}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-white text-[13px] font-bold leading-tight">
-                      {mission.title}
-                    </p>
-                    <p className="mt-0.5 text-white/50 text-[11px]">
-                      {mission.category}
-                    </p>
-                  </div>
-                  <span className="text-white/60 text-[12px] font-extrabold">
-                    +{mission.reward}
-                  </span>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
+      <div className="flex-1 mt-6 overflow-y-auto pr-1 space-y-4">
+        {paragraphs.map((p, i) => (
+          <motion.p
+            key={i}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 + i * 0.18, duration: 0.5 }}
+            className="text-white/85 text-[14.5px] leading-[1.75] whitespace-pre-line"
+          >
+            {p}
+          </motion.p>
         ))}
+
+        {report.narrativeBodySource === "claude" && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35 + paragraphs.length * 0.18 + 0.2 }}
+            className="text-white/35 text-[10px] tracking-wider"
+          >
+            ✦ Claude가 미션 기록을 읽고 엮은 글이에요
+          </motion.p>
+        )}
       </div>
     </div>
   );

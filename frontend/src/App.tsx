@@ -851,7 +851,6 @@ export default function App() {
           <MigrationReportCinematic
             residence={residence}
             report={report}
-            missions={missionsForResidence(residence.id)}
             isFirstView={!report.hasBeenViewed}
             onClose={handleCloseCinematic}
             onApplyResidence={() => {

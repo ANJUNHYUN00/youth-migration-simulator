@@ -37,11 +37,14 @@ export type MigrationReport = {
   infoScore: number;           // 완료 미션 수
   accumulationScore: number;   // 축적 점수
   relationshipScore: number;   // 적합도 % (0-100)
-  // Slide 2 — AI 요약 (Claude or 정적 폴백, 캐싱됨)
+  // Slide 2 — AI 짧은 요약 (Claude or 정적 폴백, 캐싱됨)
   aiSummary: string;
   aiSummarySource: "claude" | "template";
-  // Slide 3 — 미션 타임라인 (일차별 그룹)
-  // missionId 순서는 완료 순. day는 dayPlan 기반.
+  // Slide 3 — AI 본문 요약. NPC가 알려준 '정보' + 완료 미션을 엮은 4~6문장 글.
+  // 옛 timeline 리스트를 대체.
+  narrativeBody?: string;
+  narrativeBodySource?: "claude" | "template";
+  // (옛) 미션 타임라인 — 새 narrativeBody 가 생성된 리포트엔 사용 안 함. 호환용 보존.
   timeline: { missionId: string; day: number }[];
   // 시청 여부 — 처음엔 자동재생, 다음부터는 자유 탐색 모드
   hasBeenViewed: boolean;
