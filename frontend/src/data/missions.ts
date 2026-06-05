@@ -61,6 +61,9 @@ export type DialogueTurn = {
   options?: DialogueOption[];
   // 수치 입력 단계
   numeric?: NumericInputSpec;
+  // 대화 중 보여줄 이미지 카드 (말풍선 위에 표시) — 선택
+  // src는 public 기준 절대 경로(예: "/mission/cost-receipt.png")
+  image?: { src: string; alt?: string; caption?: string };
 };
 
 // ── 미션 ─────────────────────────────────────────

@@ -231,6 +231,24 @@ export default function MissionExecuteScreen({
             </span>
           </div>
 
+          {/* 대화 이미지 카드 — 말풍선 위에 (turn.image 있을 때만) */}
+          {turn.image && (
+            <figure className="mb-3 overflow-hidden rounded-3xl border border-cream-200 shadow-soft bg-cream-100">
+              <img
+                src={turn.image.src}
+                alt={turn.image.alt ?? ""}
+                loading="lazy"
+                draggable={false}
+                className="w-full h-auto max-h-56 object-cover select-none"
+              />
+              {turn.image.caption && (
+                <figcaption className="px-4 py-2 text-[12px] text-ink-soft font-medium bg-white">
+                  {turn.image.caption}
+                </figcaption>
+              )}
+            </figure>
+          )}
+
           {/* 말풍선 */}
           <div className="relative">
             <div
