@@ -126,46 +126,56 @@ export const commonMissions: Mission[] = [
         npc:
           "어, 처음 보는 얼굴이네요. 어디 찾고 있어요? 이 동네 지리 잘 모르시죠.",
         options: [
-          { label: "병원이 어디 있는지 좀 알아두려고요", next: 1, traits: ["집돌이형"] },
-          { label: "그냥 동네 한 바퀴 돌고 있어요", next: 4, traits: ["자연탐험형"] },
+          { label: "병원이 어디 있는지 좀 알아두려고요", next: 1, traits: ["집돌이형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
+          { label: "그냥 동네 한 바퀴 돌고 있어요", next: 4, traits: ["자연탐험형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
       {
         npc:
           "병원이요? 종합병원은 이 길로 쭉 가서 12분 정도 걸어요. 약 850m? 응급실은 24시간 열고요. 어떻게 가실 생각이에요?",
         options: [
-          { label: "걸어가볼게요. 운동 삼아 좋잖아요", next: 2, traits: ["자연탐험형", "레저형"] },
-          { label: "버스 타고 가는 게 낫지 않을까요?", next: 3, traits: ["디지털노마드형", "집돌이형"] },
+          { label: "걸어가볼게요. 운동 삼아 좋잖아요", next: 2, traits: ["자연탐험형", "레저형"],
+            stanceAlign: ["alone_make", "together_make"] },
+          { label: "버스 타고 가는 게 낫지 않을까요?", next: 3, traits: ["디지털노마드형", "집돌이형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
       {
         npc:
           "잘 생각하셨어요. 약국이 병원 바로 옆이라 진료 끝나면 약도 한 자리에서. 도시면 한 시간 잡았을 일이 여긴 30분이면 다 돼요.",
         options: [
-          { label: "그 점이 진짜 좋네요", next: 5, traits: ["자연탐험형", "집돌이형"] },
-          { label: "다행이에요, 응급 때 가까운 게 제일이죠", next: 5, traits: ["집돌이형"] },
+          { label: "그 점이 진짜 좋네요", next: 5, traits: ["자연탐험형", "집돌이형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
+          { label: "다행이에요, 응급 때 가까운 게 제일이죠", next: 5, traits: ["집돌이형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
         ],
       },
       {
         npc:
           "버스는 한 정류장이에요. 다만 배차가 35분쯤이라 기다리는 시간이 더 걸릴 때가 많아요. 35분 기다리느니 12분 걷는 게 낫더라구요.",
         options: [
-          { label: "그럼 걷는 게 답이네요", next: 5, traits: ["자연탐험형"] },
-          { label: "차가 있으면 마음이 더 편하겠어요", next: 5, traits: ["레저형", "디지털노마드형"] },
+          { label: "그럼 걷는 게 답이네요", next: 5, traits: ["자연탐험형"],
+            stanceAlign: ["alone_rest"] },
+          { label: "차가 있으면 마음이 더 편하겠어요", next: 5, traits: ["레저형", "디지털노마드형"],
+            stanceAlign: ["alone_make", "together_make"] },
         ],
       },
       {
         npc:
           "그러세요. 천천히 둘러봐요. 이 길로 가시면 시장이 나오고, 그 너머가 병원이에요. 한 시간이면 동네가 그려져요.",
         options: [
-          { label: "안내 감사드려요", traits: ["자연탐험형", "집돌이형"] },
+          { label: "안내 감사드려요", traits: ["자연탐험형", "집돌이형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
         ],
       },
       {
         npc:
           "여기 사는 게 도시랑 다른 게 그거예요. 시간이 천천히 가요. 아플 때 걱정이 좀 덜한 동네예요.",
         options: [
-          { label: "잘 알아두고 갈게요", traits: ["집돌이형", "자연탐험형"] },
+          { label: "잘 알아두고 갈게요", traits: ["집돌이형", "자연탐험형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
         ],
       },
     ],
@@ -187,32 +197,40 @@ export const commonMissions: Mission[] = [
         npc:
           "어서 오세요~ 오늘 채소가 진짜 잘 나왔어요. 시금치 한 단 1,500원, 오이 한 박스 6,000원. 이 정도면 도시 절반이죠?",
         options: [
-          { label: "와, 진짜 싸네요", next: 1, traits: ["자연탐험형", "집돌이형"] },
-          { label: "이게 평소 가격이에요?", next: 2, traits: ["디지털노마드형"] },
+          { label: "와, 진짜 싸네요", next: 1, traits: ["자연탐험형", "집돌이형"],
+            stanceAlign: ["together_rest", "alone_rest"], envAlign: ["village"] },
+          { label: "이게 평소 가격이에요?", next: 2, traits: ["디지털노마드형"],
+            stanceAlign: ["alone_make"] },
         ],
       },
       {
         npc:
           "절반은 못 돼도 30% 정도는 싸요. 대신 마트 가격이랑 비슷한 것도 있어요. 통조림이나 공산품은 별 차이 없고, 채소·해산물만 확실히 달라요.",
         options: [
-          { label: "그래도 매일 먹는 게 채소니까 큰 차이네요", next: 3, traits: ["집돌이형"] },
-          { label: "공산품은 마트가 낫겠네요", next: 3, traits: ["디지털노마드형"] },
+          { label: "그래도 매일 먹는 게 채소니까 큰 차이네요", next: 3, traits: ["집돌이형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
+          { label: "공산품은 마트가 낫겠네요", next: 3, traits: ["디지털노마드형"],
+            stanceAlign: ["alone_make"] },
         ],
       },
       {
         npc:
           "맞아요. 계절 채소만 시장에서 사도 한 달 식비가 도시보다 15만원쯤은 덜 들어요. 대신 시장은 일찍 닫아요. 오후 5시면 절반은 마감.",
         options: [
-          { label: "오전이나 점심에 들러야겠네요", next: 3, traits: ["자연탐험형"] },
-          { label: "퇴근하고는 못 오겠네...", next: 3, traits: ["디지털노마드형"] },
+          { label: "오전이나 점심에 들러야겠네요", next: 3, traits: ["자연탐험형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
+          { label: "퇴근하고는 못 오겠네...", next: 3, traits: ["디지털노마드형"],
+            stanceAlign: ["alone_make"] },
         ],
       },
       {
         npc:
           "한 달 살아보면 감이 와요. 식비 줄어드는 만큼 외식 줄어드는 게 큰 거예요. 도시는 자꾸 사 먹잖아요?",
         options: [
-          { label: "맞아요, 직접 해 먹는 게 좋아져요", traits: ["자연탐험형", "집돌이형"] },
-          { label: "그래도 외식은 종종 필요하죠", traits: ["레저형", "디지털노마드형"] },
+          { label: "맞아요, 직접 해 먹는 게 좋아져요", traits: ["자연탐험형", "집돌이형"],
+            stanceAlign: ["alone_rest", "alone_make"] },
+          { label: "그래도 외식은 종종 필요하죠", traits: ["레저형", "디지털노마드형"],
+            stanceAlign: ["together_make", "together_rest"] },
         ],
       },
     ],
@@ -327,34 +345,44 @@ export const commonMissions: Mission[] = [
         npc:
           "여기서 하루를 보낸다고 상상해볼게요. 7시쯤 일어나면 동네는 이미 분주해요. 새벽 시장도 열고요. 아침은 어떻게 시작하실래요?",
         options: [
-          { label: "아침 산책으로 시작할래요", next: 1, traits: ["자연탐험형"] },
-          { label: "조용히 차 한 잔 마시면서", next: 1, traits: ["집돌이형"] },
-          { label: "바로 일 시작해도 좋아요", next: 1, traits: ["디지털노마드형"] },
+          { label: "아침 산책으로 시작할래요", next: 1, traits: ["자연탐험형"],
+            stanceAlign: ["alone_rest"] },
+          { label: "조용히 차 한 잔 마시면서", next: 1, traits: ["집돌이형"],
+            stanceAlign: ["alone_rest"] },
+          { label: "바로 일 시작해도 좋아요", next: 1, traits: ["디지털노마드형"],
+            stanceAlign: ["alone_make"] },
         ],
       },
       {
         npc:
           "좋네요. 오전엔 집중이 잘 되는 시간이고, 점심엔 가벼운 외출을 많이 해요. 마트나 카페 가는 거죠. 점심은 어떻게요?",
         options: [
-          { label: "직접 해 먹는 게 좋아요", next: 2, traits: ["집돌이형", "자연탐험형"] },
-          { label: "동네 식당 한 곳에서", next: 2, traits: ["레저형", "디지털노마드형"] },
-          { label: "샌드위치 하나로 간단히", next: 2, traits: ["디지털노마드형"] },
+          { label: "직접 해 먹는 게 좋아요", next: 2, traits: ["집돌이형", "자연탐험형"],
+            stanceAlign: ["alone_rest", "alone_make"] },
+          { label: "동네 식당 한 곳에서", next: 2, traits: ["레저형", "디지털노마드형"],
+            stanceAlign: ["together_rest"] },
+          { label: "샌드위치 하나로 간단히", next: 2, traits: ["디지털노마드형"],
+            stanceAlign: ["alone_make"] },
         ],
       },
       {
         npc:
           "오후엔 사람들이 자기 일하다가 5시쯤 마실 나와요. 약속이 자연스럽게 생겨요. 저녁은요?",
         options: [
-          { label: "주민들과 어울려보고 싶어요", next: 3, traits: ["레저형"] },
-          { label: "집에서 조용히 보내는 게 좋아요", next: 3, traits: ["집돌이형"] },
-          { label: "산책하고 일찍 자고 싶어요", next: 3, traits: ["자연탐험형"] },
+          { label: "주민들과 어울려보고 싶어요", next: 3, traits: ["레저형"],
+            stanceAlign: ["together_rest", "together_make"] },
+          { label: "집에서 조용히 보내는 게 좋아요", next: 3, traits: ["집돌이형"],
+            stanceAlign: ["alone_rest"] },
+          { label: "산책하고 일찍 자고 싶어요", next: 3, traits: ["자연탐험형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
       {
         npc:
           "그 리듬, 여기 분들이랑 비슷해요. 밤 10시면 동네가 다 잠들어요. 도시에선 못 누리는 깊은 잠을 자게 되더라구요.",
         options: [
-          { label: "그런 일상이 진짜 필요했어요", traits: ["자연탐험형", "집돌이형"] },
+          { label: "그런 일상이 진짜 필요했어요", traits: ["자연탐험형", "집돌이형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
     ],
@@ -418,32 +446,40 @@ export const commonMissions: Mission[] = [
         npc:
           "어머, 새 얼굴이네요? 이 동네 처음이세요? 뭐 드시러 오셨어요?",
         options: [
-          { label: "뭐가 맛있어요? 추천해주세요", next: 1, traits: ["레저형", "자연탐험형"] },
-          { label: "그냥 둘러보러 왔어요", next: 2, traits: ["집돌이형", "디지털노마드형"] },
+          { label: "뭐가 맛있어요? 추천해주세요", next: 1, traits: ["레저형", "자연탐험형"],
+            stanceAlign: ["together_rest", "together_make"] },
+          { label: "그냥 둘러보러 왔어요", next: 2, traits: ["집돌이형", "디지털노마드형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
       {
         npc:
           "오늘 떡볶이가 잘 나왔어요. 우리 집은 30년째 이 자리예요. 동네 어르신들 다 우리 집에서 떡볶이 드시고 자라셨어요.",
         options: [
-          { label: "와, 동네의 역사네요", next: 3, traits: ["자연탐험형"] },
-          { label: "단골이 되면 좋겠네요", next: 3, traits: ["레저형"] },
+          { label: "와, 동네의 역사네요", next: 3, traits: ["자연탐험형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
+          { label: "단골이 되면 좋겠네요", next: 3, traits: ["레저형"],
+            stanceAlign: ["together_rest"] },
         ],
       },
       {
         npc:
           "천천히 봐요~ 안 사도 괜찮아요. 매번 들러서 인사만 해도 동네 사람 돼요. 이 동네는 그렇게 친해져요.",
         options: [
-          { label: "그런 동네 분위기 좋아요", next: 3, traits: ["레저형", "자연탐험형"] },
-          { label: "조용히 다닐 수 있어 마음 편해요", next: 3, traits: ["집돌이형"] },
+          { label: "그런 동네 분위기 좋아요", next: 3, traits: ["레저형", "자연탐험형"],
+            stanceAlign: ["together_rest"] },
+          { label: "조용히 다닐 수 있어 마음 편해요", next: 3, traits: ["집돌이형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
       {
         npc:
           "세 번만 와도 얼굴 기억해요. 다섯 번 오면 이름 묻고요. 도시에선 그런 거 어렵잖아요?",
         options: [
-          { label: "그런 친밀함이 그리웠어요", traits: ["레저형", "자연탐험형"] },
-          { label: "부담스럽지 않을 정도면 좋아요", traits: ["집돌이형", "디지털노마드형"] },
+          { label: "그런 친밀함이 그리웠어요", traits: ["레저형", "자연탐험형"],
+            stanceAlign: ["together_rest", "together_make"] },
+          { label: "부담스럽지 않을 정도면 좋아요", traits: ["집돌이형", "디지털노마드형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
     ],
@@ -465,39 +501,48 @@ export const commonMissions: Mission[] = [
         npc:
           "저도 작년에 서울에서 왔어요. 마케팅 일했었는데. 지금은 여기서 작업하면서 동네 일도 조금씩 도와요. 뭐 궁금한 거 있어요?",
         options: [
-          { label: "처음 6개월 어떠셨어요?", next: 1, traits: ["집돌이형", "디지털노마드형"] },
-          { label: "지금은 만족하세요?", next: 2, traits: ["레저형", "자연탐험형"] },
-          { label: "후회한 적 없으세요?", next: 3, traits: ["집돌이형"] },
+          { label: "처음 6개월 어떠셨어요?", next: 1, traits: ["집돌이형", "디지털노마드형"],
+            stanceAlign: ["alone_rest"] },
+          { label: "지금은 만족하세요?", next: 2, traits: ["레저형", "자연탐험형"],
+            stanceAlign: ["together_rest", "together_make"] },
+          { label: "후회한 적 없으세요?", next: 3, traits: ["집돌이형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
       {
         npc:
           "솔직히 처음 3개월은 너무 조용해서 답답했어요. 도시 친구들이랑도 멀어지는 느낌이었고. 4개월쯤부터 동네 사람들이랑 친해지면서 마음이 잡혔어요.",
         options: [
-          { label: "그 적응 기간이 진짜 필요하겠어요", next: 4, traits: ["자연탐험형", "집돌이형"] },
-          { label: "사람들이 도와주셨군요", next: 4, traits: ["레저형"] },
+          { label: "그 적응 기간이 진짜 필요하겠어요", next: 4, traits: ["자연탐험형", "집돌이형"],
+            stanceAlign: ["alone_rest"] },
+          { label: "사람들이 도와주셨군요", next: 4, traits: ["레저형"],
+            stanceAlign: ["together_rest"] },
         ],
       },
       {
         npc:
           "지금이 1년 차인데, 일하는 시간 빼면 거의 다 동네 사람들이랑 보내요. 농사 한번 도와봐요? 같이 잡곡 키우는 모임이 있어요.",
         options: [
-          { label: "꼭 한번 참여해보고 싶어요", next: 4, traits: ["자연탐험형", "레저형"] },
-          { label: "조용히 지내는 게 더 좋을 것 같아요", next: 4, traits: ["집돌이형"] },
+          { label: "꼭 한번 참여해보고 싶어요", next: 4, traits: ["자연탐험형", "레저형"],
+            stanceAlign: ["together_make"], envAlign: ["field"] },
+          { label: "조용히 지내는 게 더 좋을 것 같아요", next: 4, traits: ["집돌이형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
       {
         npc:
           "후회는 안 해요. 다만 첫 겨울은 진짜 우울했어요. 도시처럼 자극이 없고. 그걸 견디면 봄부터는 다시 좋아져요.",
         options: [
-          { label: "마음의 준비를 단단히 해야겠네요", next: 4, traits: ["집돌이형", "자연탐험형"] },
+          { label: "마음의 준비를 단단히 해야겠네요", next: 4, traits: ["집돌이형", "자연탐험형"],
+            stanceAlign: ["alone_rest"] },
         ],
       },
       {
         npc:
           "준비 잘 하고 오세요. 너무 빨리 어울리려 하지 말고, 너무 동떨어지지도 말고. 천천히 한 사람씩 알게 되는 게 좋아요.",
         options: [
-          { label: "꼭 그렇게 해볼게요", traits: ["자연탐험형", "집돌이형"] },
+          { label: "꼭 그렇게 해볼게요", traits: ["자연탐험형", "집돌이형"],
+            stanceAlign: ["alone_rest", "together_rest"] },
         ],
       },
     ],
