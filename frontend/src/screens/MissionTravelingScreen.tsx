@@ -83,11 +83,18 @@ const SLIDE_LABEL: Record<"depart" | "alley" | "approach" | "arrive", string> = 
   arrive: "도착",
 };
 
+// 받침 유무에 따라 와/과 조사 선택 (예: 사장님→과, 아주머니→와)
+function waGwa(word: string): string {
+  const code = word.charCodeAt(word.length - 1);
+  if (code < 0xac00 || code > 0xd7a3) return "과";
+  return (code - 0xac00) % 28 === 0 ? "와" : "과";
+}
+
 // 도착 슬라이드의 CTA 라벨 — 미션 모드에 맞게 분기
 function getArrivalCtaLabel(mission: Mission): string {
   switch (mission.mode) {
     case "map-dialogue":
-      return `${mission.npc.name}과 대화 나누기 💬`;
+      return `${mission.npc.name}${waGwa(mission.npc.name)} 대화 나누기 💬`;
     case "map-info":
       return "장소 둘러보기 👀";
     default:

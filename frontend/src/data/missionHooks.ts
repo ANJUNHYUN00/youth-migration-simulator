@@ -17,9 +17,9 @@ export const missionHooks: Record<string, MissionHook> = {
     learn: ["걸어서 가는 시간", "응급실 운영 시간", "약국과의 거리"],
   },
   market: {
-    question: "동네 시장 물가, 진짜 더 쌀까?",
-    tease: "도시 마트와 직접 비교해보기.",
-    learn: ["채소·해산물 가격대", "한 달 식비 차이", "시장이 닫는 시간"],
+    question: "동네 밥값, 진짜 더 쌀까?",
+    tease: "도시 외식비와 직접 비교해보기.",
+    learn: ["한 끼 밥값", "한 달 식비 차이", "배달 가능 여부"],
   },
   cost: {
     question: "여기서 한 달, 얼마면 살 수 있을까?",
