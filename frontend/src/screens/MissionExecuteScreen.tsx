@@ -125,9 +125,12 @@ export default function MissionExecuteScreen({
   const sceneBg = heroImage
     ? heroImage.src
     : MISSION_ID_BG[mission.id] ?? SCENE_BG[mission.background];
-  // 풀스크린 모드에선 하단 대화 UI를 반투명 글래스로 → 뒤 이미지가 비침
-  const glassPanel = heroImage ? "bg-white/65 backdrop-blur-2xl" : "bg-white";
-  const glassCard = heroImage ? "bg-white/80 backdrop-blur-md" : "bg-white";
+  // 풀스크린 모드: 하단 시트 배경을 없애 캐릭터가 맨 아래까지 보이게,
+  // 말풍선·옵션만 가벼운 글래스로 떠 있게(가독성은 backdrop-blur로 확보)
+  const glassPanel = heroImage
+    ? "bg-transparent"
+    : "bg-white shadow-[0_-12px_30px_-12px_rgba(80,70,40,0.18)]";
+  const glassCard = heroImage ? "bg-white/55 backdrop-blur-xl" : "bg-white";
 
   return (
     <div className="relative min-h-[calc(100dvh-6rem)] flex flex-col overflow-hidden bg-cream">
@@ -224,7 +227,6 @@ export default function MissionExecuteScreen({
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.28, ease: "easeOut" }}
           className={`relative z-20 ${glassPanel} rounded-t-3xl
-                     shadow-[0_-12px_30px_-12px_rgba(80,70,40,0.18)]
                      px-5 pt-4 pb-[max(env(safe-area-inset-bottom),20px)]`}
         >
           {/* 진행 점 인디케이터 */}
