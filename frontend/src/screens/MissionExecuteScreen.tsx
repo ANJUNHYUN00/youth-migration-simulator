@@ -128,8 +128,12 @@ export default function MissionExecuteScreen({
 
   return (
     <div className="relative min-h-[calc(100dvh-6rem)] flex flex-col overflow-hidden bg-cream">
-      {/* === 배경 — 베이지 그라데이션 + (선택) 클레이 씬 이미지 === */}
-      <SceneBackground sceneBg={sceneBg} />
+      {/* === 배경 — NPC 풀씬은 선명한 풀스크린, 아니면 베이지+클레이 씬 === */}
+      {heroImage ? (
+        <FullSceneBackground src={heroImage.src} />
+      ) : (
+        <SceneBackground sceneBg={sceneBg} />
+      )}
 
       {/* === 상단 헤더 === */}
       <header className="relative z-30 px-4 pt-4 pb-2 flex items-center gap-2 shrink-0">
@@ -155,42 +159,12 @@ export default function MissionExecuteScreen({
         </span>
       </header>
 
-      {/* === NPC 영역 — turn.image 있으면 풀씬 이미지, 없으면 클레이 캐릭터 === */}
-      <section className="relative z-10 flex-1 flex items-end justify-center pb-4 min-h-0">
-        {heroImage ? (
-          // 대화 중 이미지 — 캐릭터 자리에 풀씬 일러스트 카드 (세로형)
-          <motion.figure
-            key={heroImage.src}
-            initial={{ y: 12, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            className="flex flex-col items-center max-h-full m-0"
-          >
-            <div className="relative overflow-hidden rounded-[28px] border-2 border-white shadow-[0_10px_24px_-8px_rgba(80,70,40,0.35)]">
-              <img
-                src={heroImage.src}
-                alt={mission.npc.name}
-                loading="lazy"
-                draggable={false}
-                className="max-h-[42vh] w-auto object-contain select-none pointer-events-none bg-cream-100"
-              />
-              {/* 이모지 배지 */}
-              <div
-                className="absolute top-2 right-2 w-11 h-11 rounded-full
-                           bg-white/95 shadow-soft ring-2 ring-cream-200
-                           flex items-center justify-center text-[24px]"
-              >
-                <span aria-hidden>{mission.npc.emoji}</span>
-              </div>
-            </div>
-            <figcaption
-              className="mt-2 px-3 py-1 rounded-full bg-white/95 backdrop-blur
-                         text-ink text-[12px] font-bold shadow-soft"
-            >
-              {heroImage.caption ?? mission.npc.name}
-            </figcaption>
-          </motion.figure>
-        ) : (
+      {/* === NPC 영역 === */}
+      {heroImage ? (
+        // 풀스크린 모드 — 캐릭터는 배경 이미지에 포함, 여긴 빈 공간으로 비워 둠
+        <section className="relative z-10 flex-1 min-h-0" aria-hidden />
+      ) : (
+        <section className="relative z-10 flex-1 flex items-end justify-center pb-4 min-h-0">
           <motion.div
             initial={{ y: 12, opacity: 0 }}
             animate={{ y: [0, -3, 0], opacity: 1 }}
@@ -235,8 +209,8 @@ export default function MissionExecuteScreen({
               {mission.npc.name}
             </span>
           </motion.div>
-        )}
-      </section>
+        </section>
+      )}
 
       {/* === 하단 대화 패널 === */}
       <AnimatePresence mode="wait">
@@ -269,6 +243,15 @@ export default function MissionExecuteScreen({
               대화 {turnIdx + 1} / {mission.dialogues.length}
             </span>
           </div>
+
+          {/* 이름 태그 — 풀스크린 모드에서 누가 말하는지 표시 */}
+          {heroImage && (
+            <div className="flex justify-start mb-2">
+              <span className="px-3 py-1 rounded-full bg-primary text-white text-[12px] font-extrabold shadow-soft">
+                {mission.npc.emoji} {mission.npc.name}
+              </span>
+            </div>
+          )}
 
           {/* 말풍선 */}
           <div className="relative">
@@ -389,6 +372,30 @@ function SceneBackground({ sceneBg }: { sceneBg: string | undefined }) {
       {/* 하단으로 갈수록 단단해지는 마스크 — 말풍선/옵션 가독성 우선
           (상단은 얇게 해서 씬이 더 잘 보이게) */}
       <div className="absolute inset-0 bg-gradient-to-b from-cream/15 via-cream/35 to-cream" />
+    </div>
+  );
+}
+
+// =====================================================================
+// 풀스크린 NPC 씬 배경 — 선명한 이미지 전체화면 + 가독성 스크림
+// =====================================================================
+
+function FullSceneBackground({ src }: { src: string }) {
+  return (
+    <div
+      className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-cream"
+      aria-hidden
+    >
+      <img
+        src={src}
+        alt=""
+        draggable={false}
+        className="absolute inset-0 w-full h-full object-cover object-center select-none"
+      />
+      {/* 상단 — 헤더 버튼 가독성용 살짝 어둡게 */}
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/20 to-transparent" />
+      {/* 하단 — 대화 패널 위쪽 자연스럽게 연결 */}
+      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-black/25 to-transparent" />
     </div>
   );
 }
