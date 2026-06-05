@@ -78,6 +78,10 @@ export type Mission = {
   npc: { name: string; emoji: string };
   dialogues: DialogueTurn[];
   description?: string;      // 카드 보조 설명
+  // NPC 풀씬 일러스트 — 정의되면 미션 수행 화면에서 클레이 아바타 대신
+  // 캐릭터 영역에 이 이미지를 미션 내내 표시 (대화 중 이미지)
+  // src는 public 기준 절대 경로(예: "/mission/restaurantgrandma.webp")
+  npcScene?: { src: string; caption?: string };
   // 실제 로드뷰 사진(캡처) 배열 — 슬라이드 순서대로 [출발, 골목, 다가옴, 도착]
   // 길이가 4 미만이거나 일부 undefined여도 OK — 있는 슬라이드에만 📷 버튼이 뜸
   realRoadview?: (string | undefined)[];
@@ -178,6 +182,7 @@ export const commonMissions: Mission[] = [
     reward: 5,
     background: "market",
     npc: { name: "반찬가게 사장님", emoji: "🧓" },
+    npcScene: { src: "/mission/restaurantgrandma.webp" },
     description: "이 동네 진짜 물가 — 도시와 얼마나 다를까",
     dialogues: [
       {
@@ -272,6 +277,7 @@ export const commonMissions: Mission[] = [
     reward: 5,
     background: "transit",
     npc: { name: "마을 안내원", emoji: "🧑‍💼" },
+    npcScene: { src: "/mission/villagemanager.webp" },
     description: "버스 배차, 시내 진출 시간 — 이동의 현실",
     dialogues: [
       {
@@ -318,6 +324,7 @@ export const commonMissions: Mission[] = [
     reward: 8,
     background: "home",
     npc: { name: "레지던스 호스트", emoji: "🧑" },
+    npcScene: { src: "/mission/residentowner.webp" },
     description: "여기서의 하루를 머릿속에 그려보기",
     dialogues: [
       {
@@ -456,6 +463,7 @@ export const commonMissions: Mission[] = [
     reward: 15,
     background: "neighbor",
     npc: { name: "먼저 온 이주자", emoji: "👩" },
+    npcScene: { src: "/mission/yoga.webp" },
     description: "1년 차 이주민의 솔직한 경험",
     dialogues: [
       {

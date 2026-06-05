@@ -121,6 +121,8 @@ export default function MissionExecuteScreen({
   // 미션별 override가 있으면 우선, 없으면 variant 매핑
   const sceneBg = MISSION_ID_BG[mission.id] ?? SCENE_BG[mission.background];
   const avatarSrc = pickNpcAvatar(mission.npc.name);
+  // 캐릭터 영역에 띄울 이미지 — 턴별 이미지 우선, 없으면 미션 NPC 풀씬
+  const heroImage = turn.image ?? mission.npcScene;
 
   return (
     <div className="relative min-h-[calc(100dvh-6rem)] flex flex-col overflow-hidden bg-cream">
@@ -151,52 +153,87 @@ export default function MissionExecuteScreen({
         </span>
       </header>
 
-      {/* === NPC 영역 — 클레이 캐릭터 + 이모지 배지 + 이름 칩 === */}
+      {/* === NPC 영역 — turn.image 있으면 풀씬 이미지, 없으면 클레이 캐릭터 === */}
       <section className="relative z-10 flex-1 flex items-end justify-center pb-4 min-h-0">
-        <motion.div
-          initial={{ y: 12, opacity: 0 }}
-          animate={{ y: [0, -3, 0], opacity: 1 }}
-          transition={{
-            y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
-            opacity: { duration: 0.4 },
-          }}
-          className="flex flex-col items-center"
-        >
-          <div className="relative">
-            {/* 발밑 바닥 그림자 — 캐릭터가 서 있는 느낌 */}
-            <div
-              aria-hidden
-              className="absolute left-1/2 -translate-x-1/2 -bottom-1
-                         w-28 h-3 rounded-[50%] bg-[#3E2C20]/22 blur-md
-                         pointer-events-none"
-            />
-            {/* 투명 PNG — 컨테이너 프레임 없이 배경 위에 그대로 */}
-            <img
-              src={avatarSrc}
-              alt=""
-              aria-hidden
-              loading="lazy"
-              draggable={false}
-              className="relative w-44 h-auto object-contain select-none pointer-events-none
-                         drop-shadow-[0_8px_12px_rgba(80,70,40,0.25)]"
-            />
-            {/* 이모지 배지 — 머리 옆(우상단) */}
-            <div
-              className="absolute -top-1 -right-1 w-12 h-12 rounded-full
-                         bg-white shadow-soft ring-2 ring-cream-200
-                         flex items-center justify-center text-[26px]"
-            >
-              <span aria-hidden>{mission.npc.emoji}</span>
-            </div>
-          </div>
-          {/* 이름 칩 */}
-          <span
-            className="mt-2 px-3 py-1 rounded-full bg-white/95 backdrop-blur
-                       text-ink text-[12px] font-bold shadow-soft"
+        {heroImage ? (
+          // 대화 중 이미지 — 캐릭터 자리에 풀씬 일러스트 카드 (세로형)
+          <motion.figure
+            key={heroImage.src}
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.4 }}
+            className="flex flex-col items-center max-h-full m-0"
           >
-            {mission.npc.name}
-          </span>
-        </motion.div>
+            <div className="relative overflow-hidden rounded-[28px] border-2 border-white shadow-[0_10px_24px_-8px_rgba(80,70,40,0.35)]">
+              <img
+                src={heroImage.src}
+                alt={mission.npc.name}
+                loading="lazy"
+                draggable={false}
+                className="max-h-[42vh] w-auto object-contain select-none pointer-events-none bg-cream-100"
+              />
+              {/* 이모지 배지 */}
+              <div
+                className="absolute top-2 right-2 w-11 h-11 rounded-full
+                           bg-white/95 shadow-soft ring-2 ring-cream-200
+                           flex items-center justify-center text-[24px]"
+              >
+                <span aria-hidden>{mission.npc.emoji}</span>
+              </div>
+            </div>
+            <figcaption
+              className="mt-2 px-3 py-1 rounded-full bg-white/95 backdrop-blur
+                         text-ink text-[12px] font-bold shadow-soft"
+            >
+              {heroImage.caption ?? mission.npc.name}
+            </figcaption>
+          </motion.figure>
+        ) : (
+          <motion.div
+            initial={{ y: 12, opacity: 0 }}
+            animate={{ y: [0, -3, 0], opacity: 1 }}
+            transition={{
+              y: { duration: 2.4, repeat: Infinity, ease: "easeInOut" },
+              opacity: { duration: 0.4 },
+            }}
+            className="flex flex-col items-center"
+          >
+            <div className="relative">
+              {/* 발밑 바닥 그림자 — 캐릭터가 서 있는 느낌 */}
+              <div
+                aria-hidden
+                className="absolute left-1/2 -translate-x-1/2 -bottom-1
+                           w-28 h-3 rounded-[50%] bg-[#3E2C20]/22 blur-md
+                           pointer-events-none"
+              />
+              {/* 투명 PNG — 컨테이너 프레임 없이 배경 위에 그대로 */}
+              <img
+                src={avatarSrc}
+                alt=""
+                aria-hidden
+                loading="lazy"
+                draggable={false}
+                className="relative w-44 h-auto object-contain select-none pointer-events-none
+                           drop-shadow-[0_8px_12px_rgba(80,70,40,0.25)]"
+              />
+              {/* 이모지 배지 — 머리 옆(우상단) */}
+              <div
+                className="absolute -top-1 -right-1 w-12 h-12 rounded-full
+                           bg-white shadow-soft ring-2 ring-cream-200
+                           flex items-center justify-center text-[26px]"
+              >
+                <span aria-hidden>{mission.npc.emoji}</span>
+              </div>
+            </div>
+            {/* 이름 칩 */}
+            <span
+              className="mt-2 px-3 py-1 rounded-full bg-white/95 backdrop-blur
+                         text-ink text-[12px] font-bold shadow-soft"
+            >
+              {mission.npc.name}
+            </span>
+          </motion.div>
+        )}
       </section>
 
       {/* === 하단 대화 패널 === */}
@@ -230,24 +267,6 @@ export default function MissionExecuteScreen({
               대화 {turnIdx + 1} / {mission.dialogues.length}
             </span>
           </div>
-
-          {/* 대화 이미지 카드 — 말풍선 위에 (turn.image 있을 때만) */}
-          {turn.image && (
-            <figure className="mb-3 overflow-hidden rounded-3xl border border-cream-200 shadow-soft bg-cream-100">
-              <img
-                src={turn.image.src}
-                alt={turn.image.alt ?? ""}
-                loading="lazy"
-                draggable={false}
-                className="w-full h-auto max-h-56 object-cover select-none"
-              />
-              {turn.image.caption && (
-                <figcaption className="px-4 py-2 text-[12px] text-ink-soft font-medium bg-white">
-                  {turn.image.caption}
-                </figcaption>
-              )}
-            </figure>
-          )}
 
           {/* 말풍선 */}
           <div className="relative">
