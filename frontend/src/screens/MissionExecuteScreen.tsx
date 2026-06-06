@@ -118,7 +118,7 @@ export default function MissionExecuteScreen({
     )
     .replace("{compare}", lastCompare);
 
-  // 타이핑 효과 — 65ms/글자(읽기 호흡 확보). turn 바뀔 때마다 리셋.
+  // 타이핑 효과 — 45ms/글자. 읽기 호흡 + 약간의 활기. turn 바뀔 때마다 리셋.
   const [displayed, setDisplayed] = useState("");
   const [typing, setTyping] = useState(true);
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function MissionExecuteScreen({
       } else {
         setDisplayed(npcText.slice(0, i));
       }
-    }, 65);
+    }, 45);
     return () => window.clearInterval(id);
   }, [npcText]);
 
