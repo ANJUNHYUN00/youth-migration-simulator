@@ -30,6 +30,7 @@ export default function ArrivalScreen({
   // 지역별 풀배경 이미지 — 매핑된 경우 이미지로, 없으면 그라데이션 폴백
   const HOME_BG_IMAGE: Record<string, string> = {
     ganghwa: "/home_ganghwa.png",
+    yeongwol: "/home_yeongwol.png",
   };
   const bgImage = HOME_BG_IMAGE[residence.id];
 
@@ -84,7 +85,7 @@ export default function ArrivalScreen({
                      shadow-[0_10px_24px_-8px_rgba(255,112,67,0.5)]
                      border-2 border-white transition"
         >
-          {residence.region} 알아보기 →
+          레지던스 들어가기 →
         </motion.button>
       </div>
 

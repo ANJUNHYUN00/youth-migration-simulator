@@ -31,13 +31,17 @@ function getApiKey(): string | undefined {
   return e.VITE_GEMINI_API_KEY ?? e.VITE_ANTHROPIC_API_KEY;
 }
 
-// Gemini API 호출 — 무료 tier 기본 (gemini-2.0-flash)
+// Gemini API 호출 — 무료 tier 기본 (gemini-1.5-flash가 가장 호환성 좋음)
+// 모델 바꾸려면 VITE_GEMINI_MODEL 환경변수로 override 가능 (예: "gemini-2.0-flash").
 async function callGemini(prompt: string, maxTokens: number): Promise<string | null> {
   const key = aiEnv().VITE_GEMINI_API_KEY;
   if (!key) return null;
+  const model =
+    (import.meta as unknown as { env?: { VITE_GEMINI_MODEL?: string } }).env
+      ?.VITE_GEMINI_MODEL || "gemini-2.0-flash";
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,13 +54,26 @@ async function callGemini(prompt: string, maxTokens: number): Promise<string | n
         }),
       }
     );
-    if (!res.ok) return null;
+    if (!res.ok) {
+      // 디버깅 — 정확한 에러 메시지 콘솔에 노출
+      try {
+        const errBody = await res.text();
+        console.warn(
+          `[Gemini] ${res.status} ${res.statusText} (model: ${model}):`,
+          errBody
+        );
+      } catch {
+        console.warn(`[Gemini] ${res.status} ${res.statusText} (model: ${model})`);
+      }
+      return null;
+    }
     const data = (await res.json()) as {
       candidates?: { content?: { parts?: { text?: string }[] } }[];
     };
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
     return text || null;
-  } catch {
+  } catch (e) {
+    console.warn("[Gemini] 호출 실패:", e);
     return null;
   }
 }

@@ -1,6 +1,7 @@
 // 청풍 앱 shell — 온보딩 게이트 + 탭/서브 라우트 관리
 import { useEffect, useState } from "react";
 import HomeScreen from "./screens/HomeScreen";
+import ResidenceHomeScreen from "./screens/ResidenceHomeScreen";
 import DepartureScreen from "./screens/DepartureScreen";
 import TravelingScreen from "./screens/TravelingScreen";
 import ArrivalScreen from "./screens/ArrivalScreen";
@@ -15,7 +16,8 @@ import MoveInScreen from "./screens/MoveInScreen";
 import ResidenceListScreen from "./screens/ResidenceListScreen";
 import ResidenceDetailScreen from "./screens/ResidenceDetailScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import CommunityScreen from "./screens/CommunityScreen";
+import DiscoverScreen, { type DiscoverSubTab } from "./screens/DiscoverScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import BookingScreen from "./screens/BookingScreen";
 import BookingDetailScreen from "./screens/BookingDetailScreen";
 import BookingFormScreen from "./screens/BookingFormScreen";
@@ -73,6 +75,7 @@ type Tab1Route =
   | "departure"
   | "traveling"
   | "arrival"
+  | "residence-home"
   | "mission-list"
   | "mission-traveling"
   | "mission-execute"
@@ -89,7 +92,7 @@ type Tab2Route =
   | "residence-detail";
 
 // 탭3(커뮤니티) 화면 흐름 — 골격 단계, 추후 detail/write 등 확장
-type Tab3Route = "community";
+type Tab3Route = "discover";
 
 // 탭4(레지던스 예약) 화면 흐름
 type Tab4Route = "booking" | "booking-detail" | "booking-form" | "booking-done";
@@ -97,6 +100,7 @@ type Tab4Route = "booking" | "booking-detail" | "booking-form" | "booking-done";
 // localStorage 키
 const PROFILE_KEY = "cheongpung.onboarding.v1";
 const PROGRESS_KEY = "cheongpung.progress.v1";
+const LIKED_KEY = "cheongpung.bookingLiked.v1";
 
 type SavedProfile = {
   homeRegionName: string;
@@ -105,6 +109,8 @@ type SavedProfile = {
   profileV2?: import("./data/lifestyle").LifestyleProfile;
   email?: string;
   nickname?: string;
+  // v3: 온보딩 답변 raw 데이터 — 내 정보 탭에서 가치 칩·풍경·힐링 표시용
+  onboarding?: import("./data/quiz").OnboardingData;
 };
 
 function loadProfile(): SavedProfile | null {
@@ -135,14 +141,35 @@ function saveProgress(p: Record<string, RegionRecord>) {
   }
 }
 
+// 좋아요한 청년마을 — 내 정보 탭 컬렉션에서 다시 보기 위해 영속화
+function loadLiked(): Set<string> {
+  try {
+    const raw = localStorage.getItem(LIKED_KEY);
+    if (!raw) return new Set();
+    return new Set(JSON.parse(raw) as string[]);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveLiked(s: Set<string>) {
+  try {
+    localStorage.setItem(LIKED_KEY, JSON.stringify([...s]));
+  } catch {
+    /* ignore */
+  }
+}
+
 export default function App() {
   // 훅은 모두 조건부 리턴보다 먼저
   const hash = useHashRoute();
   const [profile, setProfile] = useState<SavedProfile | null>(() => loadProfile());
-  const [tab, setTab] = useState<TabKey>("home");
+  const [tab, setTab] = useState<TabKey>("simulation");
   const [tab1Route, setTab1Route] = useState<Tab1Route>("home");
   const [tab2Route, setTab2Route] = useState<Tab2Route>("journey");
-  const [tab3Route, setTab3Route] = useState<Tab3Route>("community");
+  const [tab3Route, setTab3Route] = useState<Tab3Route>("discover");
+  // 발견 탭 내부 서브 토글 — 이야기 / 청년마을
+  const [discoverSubTab, setDiscoverSubTab] = useState<DiscoverSubTab>("stories");
   const [tab4Route, setTab4Route] = useState<Tab4Route>("booking");
   const [selected, setSelected] = useState<Residence | null>(null);
   const [activeMission, setActiveMission] = useState<Mission | null>(null);
@@ -166,10 +193,15 @@ export default function App() {
     durationMonths: number;
   } | null>(null);
   // 예약 찜(하트) — 화면 상태만, 영속 X
-  const [bookingLiked, setBookingLiked] = useState<Set<string>>(new Set());
+  const [bookingLiked, setBookingLiked] = useState<Set<string>>(() => loadLiked());
   // 이주 리포트 시네마틱 — 풀스크린 모달 (열려있는 청년마을 id)
   const [cinematicResidenceId, setCinematicResidenceId] = useState<string | null>(null);
   const [cinematicLoading, setCinematicLoading] = useState(false);
+
+  // 좋아요한 청년마을 localStorage 영속
+  useEffect(() => {
+    saveLiked(bookingLiked);
+  }, [bookingLiked]);
 
   // 진행 상태 localStorage 영속
   useEffect(() => {
@@ -183,16 +215,17 @@ export default function App() {
       reset: () => {
         localStorage.removeItem(PROFILE_KEY);
         localStorage.removeItem(PROGRESS_KEY);
+        localStorage.removeItem(LIKED_KEY);
         setProfile(null);
         setSelected(null);
         setTab1Route("home");
         setTab2Route("journey");
-        setTab3Route("community");
+        setTab3Route("discover");
         setTab4Route("booking");
         setBookingResidenceId(null);
         setBookingDraft(null);
         setBookingLiked(new Set());
-        setTab("home");
+        setTab("simulation");
         setActiveMission(null);
         setRegionProgress({});
         setReportResidenceId(null);
@@ -228,7 +261,7 @@ export default function App() {
         setRegionProgress((p) => ({ ...p, [target.id]: filled }));
         setSelected(target);
         setActiveMission(null);
-        setTab("home");
+        setTab("simulation");
         setTab1Route("day-end-ceremony");
         console.log(
           `[cheongpung] ${target.region} 8/8 미션 완료 mock 적용 → 하루 끝 의식`
@@ -342,6 +375,7 @@ export default function App() {
       profileV2: r.profile,
       email,
       nickname,
+      onboarding: r.data, // 내 정보 탭에서 가치 칩·풍경·힐링 답 노출용
     };
     try {
       localStorage.setItem(PROFILE_KEY, JSON.stringify(next));
@@ -379,13 +413,13 @@ export default function App() {
   const handleTabChange = (next: TabKey) => {
     // 이동 애니메이션 중에는 무시
     const inTransit = tab1Route === "traveling" || tab1Route === "traveling-back";
-    if (next === "home" && !inTransit) {
+    if (next === "simulation" && !inTransit) {
       // 강화도 등 마을에 체류 중이면 '홈'은 마을 홈(ArrivalScreen)
       if (selected) setTab1Route("arrival");
       else setTab1Route("home");
     }
     if (next === "journey") setTab2Route("journey");
-    if (next === "community") setTab3Route("community");
+    if (next === "discover") setTab3Route("discover");
     if (next === "booking") setTab4Route("booking");
     setTab(next);
   };
@@ -469,8 +503,8 @@ export default function App() {
 
   const handleCeremonyGoCommunity = () =>
     finishDayAnd(() => {
-      setTab("community");
-      setTab3Route("community");
+      setTab("discover");
+      setTab3Route("discover");
     });
 
   // 이주 리포트 시네마틱 열기 — 캐시 없으면 생성
@@ -562,7 +596,7 @@ export default function App() {
     setReportResidenceId(null);
     setSelected(null);
     setTab1Route("home");
-    setTab("home");
+    setTab("simulation");
     setTab2Route("journey");
   };
 
@@ -599,16 +633,41 @@ export default function App() {
 
   return (
     <div className="relative w-full max-w-[420px] min-h-screen bg-cream shadow-soft overflow-hidden">
-      <main className="min-h-screen pb-24">
+      <main className="min-h-screen">
         {/* ===== 탭1 ===== */}
-        {tab === "home" && tab1Route === "home" && (
+        {tab === "simulation" && tab1Route === "home" && (
           <HomeScreen
             homeRegion={homeRegion}
             onDepart={() => setTab1Route("departure")}
           />
         )}
 
-        {tab === "home" && tab1Route === "departure" && (
+        {/* 찐 홈 — 레지던스 진입 후 일상 화면 */}
+        {tab === "simulation" &&
+          tab1Route === "residence-home" &&
+          selected &&
+          currentDayPlan && (() => {
+            const todayMissions =
+              currentDayPlan.missionsByDay[currentDay - 1] ?? [];
+            const todayDone = todayMissions.filter((id) =>
+              currentCompletedIds.has(id)
+            ).length;
+            return (
+              <ResidenceHomeScreen
+                residence={selected}
+                nickname={nickname}
+                homeRegion={homeRegion}
+                currentDay={currentDay}
+                dayCount={currentDayPlan.dayCount}
+                todayMissionCount={todayMissions.length}
+                todayMissionDoneCount={todayDone}
+                onGoMissionList={() => setTab1Route("mission-list")}
+                onReturnHome={() => setTab1Route("traveling-back")}
+              />
+            );
+          })()}
+
+        {tab === "simulation" && tab1Route === "departure" && (
           <DepartureScreen
             homeRegion={homeRegion}
             lifestyle={profile.lifestyle}
@@ -621,7 +680,7 @@ export default function App() {
           />
         )}
 
-        {tab === "home" && tab1Route === "traveling" && selected && (
+        {tab === "simulation" && tab1Route === "traveling" && selected && (
           <TravelingScreen
             origin={{ ...homePos, region: homeRegion }}
             destination={selected}
@@ -629,16 +688,16 @@ export default function App() {
           />
         )}
 
-        {tab === "home" && tab1Route === "arrival" && selected && (
+        {tab === "simulation" && tab1Route === "arrival" && selected && (
           <ArrivalScreen
             residence={selected}
             homeRegion={homeRegion}
             onReturnHome={() => setTab1Route("traveling-back")}
-            onStartMissions={() => setTab1Route("mission-list")}
+            onStartMissions={() => setTab1Route("residence-home")}
           />
         )}
 
-        {tab === "home" && tab1Route === "traveling-back" && selected && (
+        {tab === "simulation" && tab1Route === "traveling-back" && selected && (
           <TravelingScreen
             origin={{
               xPct: selected.xPct,
@@ -651,7 +710,7 @@ export default function App() {
           />
         )}
 
-        {tab === "home" && tab1Route === "mission-list" && selected && (
+        {tab === "simulation" && tab1Route === "mission-list" && selected && (
           <MissionListScreen
             region={selected.region}
             residence={selected}
@@ -664,7 +723,7 @@ export default function App() {
           />
         )}
 
-        {tab === "home" && tab1Route === "day-end-ceremony" && selected && currentDayPlan && (
+        {tab === "simulation" && tab1Route === "day-end-ceremony" && selected && currentDayPlan && (
           <DayEndCeremonyScreen
             region={selected.region}
             finishedDay={currentDay}
@@ -714,7 +773,7 @@ export default function App() {
           />
         )}
 
-        {tab === "home" && tab1Route === "mission-traveling" && activeMission && (
+        {tab === "simulation" && tab1Route === "mission-traveling" && activeMission && (
           <MissionTravelingScreen
             mission={activeMission}
             onBack={() => {
@@ -733,7 +792,7 @@ export default function App() {
           />
         )}
 
-        {tab === "home" && tab1Route === "mission-execute" && activeMission && selected && (
+        {tab === "simulation" && tab1Route === "mission-execute" && activeMission && selected && (
           <MissionExecuteScreen
             mission={activeMission}
             residenceStance={selected.stance}
@@ -753,9 +812,6 @@ export default function App() {
             regionProgress={regionProgress}
             lifestyle={profile.lifestyle}
             profile={profile.profileV2}
-            nickname={nickname}
-            homeRegion={homeRegion}
-            onOpenSettings={handleOpenSettings}
             onOpenReport={handleOpenReport}
             onOpenCinematic={(r) => void handleOpenCinematic(r)}
           />
@@ -826,7 +882,54 @@ export default function App() {
         )}
 
         {/* ===== 탭3: 커뮤니티(이야기) — 골격 ===== */}
-        {tab === "community" && tab3Route === "community" && <CommunityScreen />}
+        {tab === "discover" && tab3Route === "discover" && (
+          <DiscoverScreen
+            subTab={discoverSubTab}
+            onSubTabChange={setDiscoverSubTab}
+            onSelectResidence={(r) => {
+              setBookingResidenceId(r.id);
+              setTab4Route("booking-detail");
+              setTab("booking");
+            }}
+          />
+        )}
+
+        {/* === 편지 탭 (placeholder) === */}
+        {tab === "letter" && (
+          <div className="min-h-[calc(100dvh-6rem)] flex flex-col items-center justify-center px-6 text-center">
+            <p className="text-5xl" aria-hidden>📮</p>
+            <h2 className="mt-4 text-ink text-[18px] font-extrabold">편지함</h2>
+            <p className="mt-1 text-ink-soft text-[13px] leading-relaxed">
+              마을 주민들의 편지가 모이는 곳이에요.<br />곧 만나요.
+            </p>
+          </div>
+        )}
+
+        {/* === 내 정보 탭 — 정체성 + 좋아요 청년마을 + 설정 === */}
+        {tab === "profile" && (
+          <ProfileScreen
+            nickname={nickname}
+            homeRegion={homeRegion}
+            lifestyle={profile.lifestyle}
+            profile={profile.profileV2}
+            onboarding={profile.onboarding}
+            likedResidences={recommendedResidences.filter((r) =>
+              bookingLiked.has(r.id)
+            )}
+            onOpenSettings={handleOpenSettings}
+            onResetOnboarding={() => {
+              (
+                window as unknown as { cheongpung?: { reset: () => void } }
+              ).cheongpung?.reset();
+            }}
+            onSelectResidence={(r) => {
+              setBookingResidenceId(r.id);
+              setDiscoverSubTab("residences");
+              setTab4Route("booking-detail");
+              setTab("booking");
+            }}
+          />
+        )}
 
         {/* ===== 탭4: 레지던스 예약 ===== */}
         {tab === "booking" && tab4Route === "booking" && (
@@ -860,8 +963,11 @@ export default function App() {
                   })
                 }
                 onBack={() => {
+                  // 발견 탭의 청년마을 리스트로 복귀
                   setBookingResidenceId(null);
                   setTab4Route("booking");
+                  setDiscoverSubTab("residences");
+                  setTab("discover");
                 }}
                 onBook={() => setTab4Route("booking-form")}
               />
@@ -902,15 +1008,18 @@ export default function App() {
                 residence={r}
                 draft={bookingDraft}
                 onBackToList={() => {
+                  // 발견 탭 청년마을 리스트로 복귀
                   setBookingResidenceId(null);
                   setBookingDraft(null);
                   setTab4Route("booking");
+                  setDiscoverSubTab("residences");
+                  setTab("discover");
                 }}
                 onGoHome={() => {
                   setBookingResidenceId(null);
                   setBookingDraft(null);
                   setTab4Route("booking");
-                  setTab("home");
+                  setTab("simulation");
                 }}
               />
             );

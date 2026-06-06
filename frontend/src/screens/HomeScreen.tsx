@@ -17,15 +17,15 @@ export default function HomeScreen({ homeRegion, onDepart }: Props) {
     <div className="relative min-h-[calc(100dvh-6rem)] flex flex-col overflow-hidden">
       {/* 배경 색 — 이미지 주변을 채우는 톤 */}
       <div
-        className="absolute inset-0 bg-gradient-to-b from-cream via-cream to-nature-50"
+        className="absolute inset-0 bg-cream"
         aria-hidden
       />
-      {/* 배경 이미지 — 원본 비율 유지, 아래쪽에 정렬 */}
+      {/* 배경 이미지 — 본 지역 홈 풍경 */}
       <img
-        src="/baram_jieum.jpg"
+        src="/home.png"
         alt=""
         aria-hidden
-        className="absolute inset-0 w-full h-full object-contain object-bottom"
+        className="absolute inset-0 w-full h-full object-cover"
       />
 
       <header className="relative pt-12 px-6">

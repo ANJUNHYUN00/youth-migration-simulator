@@ -5,7 +5,6 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import KoreaMap from "../components/KoreaMap";
-import ProfileCard from "../components/journey/ProfileCard";
 import { residences, type Residence, type LifeStyleType } from "../data/residences";
 import { baseMissions } from "../data/missions";
 import {
@@ -29,10 +28,6 @@ type Props = {
   regionProgress: Record<string, RegionRecord>;
   lifestyle: LifeStyleType | null;
   profile?: LifestyleProfile;
-  // 옵션 A — 프로필 카드 노출용
-  nickname: string;
-  homeRegion: string;
-  onOpenSettings: () => void;
   onOpenReport: (residence: Residence) => void;
   // 이주 리포트 시네마틱 — 캐싱된 리포트가 있을 때만 노출
   onOpenCinematic?: (residence: Residence) => void;
@@ -42,9 +37,6 @@ export default function JourneyScreen({
   regionProgress,
   lifestyle,
   profile,
-  nickname,
-  homeRegion,
-  onOpenSettings,
   onOpenReport,
   onOpenCinematic,
 }: Props) {
@@ -91,7 +83,7 @@ export default function JourneyScreen({
 
   return (
     <div className="relative h-[calc(100dvh-6rem)] flex flex-col
-                    bg-gradient-to-b from-cream via-cream to-nature-50">
+                    bg-cream">
       {/* 스크롤 영역 — 바텀시트가 root에 absolute로 붙도록 스크롤은 내부 div에만 */}
       <div className="flex-1 min-h-0 overflow-y-auto pb-8">
       {/* 페이지 제목 — 작게. 프로필과 시각적으로 구분 */}
@@ -101,16 +93,7 @@ export default function JourneyScreen({
         </p>
       </header>
 
-      {/* ① 프로필 — 인스타 헤더 톤. 하단 hairline으로 본문과 구분 */}
-      <ProfileCard
-        nickname={nickname}
-        lifestyle={lifestyle}
-        profile={profile}
-        homeRegion={homeRegion}
-        onOpenSettings={onOpenSettings}
-      />
-
-      {/* ② 나의 공간 — full-bleed 풍경 */}
+      {/* ① 나의 공간 — full-bleed 풍경 */}
       <section className="mt-3">
         <MyVillageScene
           residence={activeSpaceResidence}

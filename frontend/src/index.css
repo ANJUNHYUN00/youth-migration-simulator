@@ -12,7 +12,8 @@ body,
 }
 
 body {
-  background: #f3ece2;
+  /* Tailwind `cream` 토큰(#FFF8F0)과 일치 — 화면 wrapper와 동일하게 보이도록 */
+  background: #fff8f0;
   color: #3e2c20;
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
