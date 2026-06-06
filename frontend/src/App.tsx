@@ -603,7 +603,9 @@ export default function App() {
         {/* ===== 탭1 ===== */}
         {tab === "home" && tab1Route === "home" && (
           <HomeScreen
+            nickname={nickname}
             homeRegion={homeRegion}
+            regionProgress={regionProgress}
             onDepart={() => setTab1Route("departure")}
           />
         )}
@@ -939,10 +941,12 @@ export default function App() {
             isFirstView={!report.hasBeenViewed}
             onClose={handleCloseCinematic}
             onApplyResidence={() => {
+              // 이주 리포트 끝나면 "진짜 가보기" CTA → 예약 탭의 해당 레지던스 상세로.
+              // (옛 흐름: MoveInScreen으로 현재 거주지를 바꿈 → 제거)
               handleCloseCinematic();
-              setMoveInResidenceId(residence.id);
-              setTab("journey");
-              setTab2Route("move-in");
+              setBookingResidenceId(residence.id);
+              setTab4Route("booking-detail");
+              setTab("booking");
             }}
           />
         );

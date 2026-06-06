@@ -619,7 +619,7 @@ function SlideFour({
             className="w-full bg-primary text-white text-[15px] font-extrabold
                        py-4 rounded-2xl shadow-soft active:scale-[0.99] transition"
           >
-            여기로 입주하기 →
+            {residence.region} 진짜로 가보는 건 어때요? →
           </button>
         )}
         <button
