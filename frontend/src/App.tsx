@@ -603,9 +603,7 @@ export default function App() {
         {/* ===== 탭1 ===== */}
         {tab === "home" && tab1Route === "home" && (
           <HomeScreen
-            nickname={nickname}
             homeRegion={homeRegion}
-            regionProgress={regionProgress}
             onDepart={() => setTab1Route("departure")}
           />
         )}
