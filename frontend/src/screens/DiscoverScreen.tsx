@@ -18,12 +18,17 @@ type Props = {
   subTab: DiscoverSubTab;
   onSubTabChange: (sub: DiscoverSubTab) => void;
   onSelectResidence: (r: Residence) => void;
+  // 청년마을 좋아요 — 내 정보 탭과 통합 관리 (App.tsx)
+  liked: Set<string>;
+  onToggleLike: (residenceId: string) => void;
 };
 
 export default function DiscoverScreen({
   subTab,
   onSubTabChange,
   onSelectResidence,
+  liked,
+  onToggleLike,
 }: Props) {
   return (
     <>
@@ -53,6 +58,8 @@ export default function DiscoverScreen({
         <BookingScreen
           residences={recommendedResidences}
           onSelectResidence={onSelectResidence}
+          liked={liked}
+          onToggleLike={onToggleLike}
         />
       )}
     </>

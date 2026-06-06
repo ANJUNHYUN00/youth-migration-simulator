@@ -8,11 +8,18 @@ import { pickResidenceImage, ratings } from "../data/bookingExtras";
 type Props = {
   residences: Residence[];
   onSelectResidence: (residence: Residence) => void;
+  // 좋아요(찜) 상태는 부모(App.tsx)에서 영속화·통합 관리. 내정보 탭과 동기화 필수.
+  liked: Set<string>;
+  onToggleLike: (residenceId: string) => void;
 };
 
-export default function BookingScreen({ residences, onSelectResidence }: Props) {
+export default function BookingScreen({
+  residences,
+  onSelectResidence,
+  liked,
+  onToggleLike,
+}: Props) {
   const [regionFilter, setRegionFilter] = useState<string | null>(null);
-  const [liked, setLiked] = useState<Set<string>>(new Set());
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // 지역 필터 변경 시 상단 스크롤
@@ -35,13 +42,8 @@ export default function BookingScreen({ residences, onSelectResidence }: Props) 
     ? visible
     : visible.filter((r) => !heroes.includes(r));
 
-  const toggleLike = (id: string) =>
-    setLiked((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+  // 좋아요 토글은 부모로 위임 (App.tsx 가 bookingLiked Set 관리 + 영속화)
+  const toggleLike = (id: string) => onToggleLike(id);
 
   return (
     <div ref={scrollRef} className="h-screen overflow-y-auto bg-cream">

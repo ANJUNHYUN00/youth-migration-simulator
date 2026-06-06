@@ -937,6 +937,15 @@ export default function App() {
               setTab4Route("booking-detail");
               setTab("booking");
             }}
+            liked={bookingLiked}
+            onToggleLike={(id) =>
+              setBookingLiked((prev) => {
+                const next = new Set(prev);
+                if (next.has(id)) next.delete(id);
+                else next.add(id);
+                return next;
+              })
+            }
           />
         )}
 
@@ -989,6 +998,15 @@ export default function App() {
               setBookingResidenceId(r.id);
               setTab4Route("booking-detail");
             }}
+            liked={bookingLiked}
+            onToggleLike={(id) =>
+              setBookingLiked((prev) => {
+                const next = new Set(prev);
+                if (next.has(id)) next.delete(id);
+                else next.add(id);
+                return next;
+              })
+            }
           />
         )}
 
