@@ -166,21 +166,48 @@ function pickedBlock(missions, completedIds, pickedLabels): string { ... }
 
 ---
 
-## 4) API 키 설정
+## 4) API 키 설정 — Gemini 우선 / Claude 폴백
 
-데모에서 실제 Claude 호출하려면:
+AI 호출은 **Gemini 우선 → Claude 폴백 → 정적 텍스트** 순서로 시도. 데모 단계에선
+**Gemini 무료 tier** 만으로도 충분.
 
-1. https://console.anthropic.com 에서 API 키 발급
-2. `frontend/.env.local` 생성:
-   ```
-   VITE_ANTHROPIC_API_KEY=sk-ant-...
-   ```
-3. dev 서버 재시작 (`npm run dev`)
+### Gemini 키 발급 (무료)
 
-키 없거나 비어있어도 동작 — 모든 슬라이드가 정적 폴백으로 채워짐. 단지 정형화된 톤만
-나오고 픽 인용은 없음.
+1. https://aistudio.google.com/apikey
+2. 구글 로그인 후 "Create API key" 누르기
+3. 발급된 키 복사
 
-> **주의**: `.env.local` 은 `.gitignore` 에 들어가 있어야 함. 키를 깃에 올리지 말 것.
+### 환경 변수 설정
+
+`frontend/.env.local` 생성:
+
+```bash
+# 무료 — 데모 권장
+VITE_GEMINI_API_KEY=AIzaSy...
+
+# 옵션 — Gemini 실패 시 폴백으로 사용
+VITE_ANTHROPIC_API_KEY=sk-ant-...
+```
+
+dev 서버 재시작 (`npm run dev`).
+
+### 동작 우선순위
+
+| 환경 | 사용되는 소스 |
+|---|---|
+| Gemini 키만 있음 | Gemini |
+| Claude 키만 있음 | Claude |
+| 둘 다 있음 | **Gemini 우선** → 실패 시 Claude 폴백 |
+| 둘 다 없음 | 정적 템플릿 (모든 슬라이드 채워짐, 픽 인용은 없음) |
+
+### 모델
+
+- Gemini: `gemini-2.0-flash` (무료 tier)
+- Claude: `claude-haiku-4-5-20251001` (유료, $0.01/리포트 수준)
+
+> **주의**: `.env.local`은 `.gitignore`에 들어가 있어야 함. 키를 깃에 올리지 말 것.
+> 데이터 모델의 `*Source: "claude" | "template"` 필드는 호환 유지를 위해 그대로 둠
+> (실제로 Gemini가 만들었어도 "claude"로 표기됨 — 향후 정리 가능).
 
 ---
 

@@ -289,7 +289,7 @@ function SlideTwo({ report }: { report: MigrationReport }) {
 
       {report.aiSummarySource === "claude" && (
         <p className="text-ink-mute text-[10px] tracking-widest">
-          ✨ Claude가 정리한 요약
+          ✨ AI가 정리한 요약
         </p>
       )}
     </div>
@@ -343,7 +343,7 @@ function SlideThree({ report }: { report: MigrationReport }) {
             transition={{ delay: 0.35 + paragraphs.length * 0.18 + 0.2 }}
             className="text-ink-mute text-[10px] tracking-wider"
           >
-            ✦ Claude가 미션 기록을 읽고 엮은 글이에요
+            ✦ AI가 미션 기록을 읽고 엮은 글이에요
           </motion.p>
         )}
       </div>
@@ -465,7 +465,7 @@ function SlidePractical({ report }: { report: MigrationReport }) {
 
         {report.practicalNotesSource === "claude" && (
           <p className="text-ink-mute/60 text-[10px] tracking-wider">
-            ✦ Claude가 당신의 답변을 읽고 정리한 항목이에요
+            ✦ AI가 당신의 답변을 읽고 정리한 항목이에요
           </p>
         )}
       </div>

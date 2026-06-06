@@ -11,17 +11,59 @@ import { calculateMatch } from "./journey";
 import { buildDayPlan } from "./dayPlan";
 
 // =====================================================================
-// 공통 — Claude API 호출
+// 공통 — AI 호출 (Gemini 우선 → Claude 폴백 → null)
 // =====================================================================
-// 실제 운영에서는 백엔드 프록시 권장. 데모이므로 ENV에 키 있으면 직접 호출.
+// 실제 운영에선 백엔드 프록시 권장. 데모이므로 ENV에 키 있으면 직접 호출.
+// Gemini = 무료 tier 있음 → 데모 기본. Claude = 유료지만 인용 디테일 좀 더 좋음.
 
-function getApiKey(): string | undefined {
-  return (import.meta as unknown as { env?: { VITE_ANTHROPIC_API_KEY?: string } }).env
-    ?.VITE_ANTHROPIC_API_KEY;
+type AIEnv = {
+  VITE_GEMINI_API_KEY?: string;
+  VITE_ANTHROPIC_API_KEY?: string;
+};
+
+function aiEnv(): AIEnv {
+  return (import.meta as unknown as { env?: AIEnv }).env ?? {};
 }
 
+// 키 하나라도 있으면 true — 호출 시도 가치 있음
+function getApiKey(): string | undefined {
+  const e = aiEnv();
+  return e.VITE_GEMINI_API_KEY ?? e.VITE_ANTHROPIC_API_KEY;
+}
+
+// Gemini API 호출 — 무료 tier 기본 (gemini-2.0-flash)
+async function callGemini(prompt: string, maxTokens: number): Promise<string | null> {
+  const key = aiEnv().VITE_GEMINI_API_KEY;
+  if (!key) return null;
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: {
+            maxOutputTokens: maxTokens,
+            temperature: 0.7,
+          },
+        }),
+      }
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as {
+      candidates?: { content?: { parts?: { text?: string }[] } }[];
+    };
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+    return text || null;
+  } catch {
+    return null;
+  }
+}
+
+// Claude API 호출 — Gemini 실패 또는 키 없을 때 폴백
 async function callClaude(prompt: string, maxTokens: number): Promise<string | null> {
-  const apiKey = getApiKey();
+  const apiKey = aiEnv().VITE_ANTHROPIC_API_KEY;
   if (!apiKey) return null;
   try {
     const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -47,6 +89,13 @@ async function callClaude(prompt: string, maxTokens: number): Promise<string | n
   } catch {
     return null;
   }
+}
+
+// AI 호출 통합 — Gemini 우선 → Claude 폴백 → null
+async function callAI(prompt: string, maxTokens: number): Promise<string | null> {
+  const fromGemini = await callGemini(prompt, maxTokens);
+  if (fromGemini) return fromGemini;
+  return callClaude(prompt, maxTokens);
 }
 
 // 미션 + 사용자 픽 라벨 정렬해서 프롬프트 블록으로 만듦
@@ -125,7 +174,7 @@ ${pickedBlock(missions, completedIds, pickedLabels)}
 - 청풍 톤: "쌓이다·머무르다·자리잡다" 어휘 우선. 점수·등수 평가 어휘 금지
 - 1인칭("당신은…"), 마크다운/제목 금지, 일반 텍스트만`;
 
-  return callClaude(prompt, 350);
+  return callAI(prompt, 350);
 }
 
 // =====================================================================
@@ -231,7 +280,7 @@ ${factsBlock}${picksBlock}
 - 1인칭 사용자 시점("당신은…")
 - 마크다운/제목/리스트 금지. 단락 구분만 빈 줄로.`;
 
-  return callClaude(prompt, 600);
+  return callAI(prompt, 600);
 }
 
 // =====================================================================
@@ -322,7 +371,7 @@ ${metPeople.map((n) => `- ${n}`).join("\n")}
 - 청풍 톤("쌓이다·머무르다·자리잡다" 어휘 우선)
 - 평가가 아니라 "이런 게 도움될 거예요" 톤. 점수 어휘 금지`;
 
-  const text = await callClaude(prompt, 800);
+  const text = await callAI(prompt, 800);
   if (!text) return null;
   try {
     // JSON 추출 (코드블록 감싸져 와도 매칭)
