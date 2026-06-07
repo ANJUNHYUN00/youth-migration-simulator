@@ -25,6 +25,8 @@ export type OnboardingData = {
   regionDesc: string;
   // v2: 환경 직접 선택
   envChoice?: EnvType;
+  // 마지막 단계 — 청풍에서 사용자를 부르는 이름
+  nickname: string;
 };
 
 export const initialOnboardingData: OnboardingData = {
@@ -34,6 +36,7 @@ export const initialOnboardingData: OnboardingData = {
   interests: [],
   values: [],
   regionDesc: "",
+  nickname: "",
 };
 
 // =====================================================================

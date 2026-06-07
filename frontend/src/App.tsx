@@ -417,7 +417,7 @@ export default function App() {
 
   const handleOnboardingComplete = (r: OnboardingResult) => {
     const email = r.data.email || "";
-    const nickname = email.split("@")[0] || "여행자";
+    const nickname = r.data.nickname.trim() || "여행자";
     const next: SavedProfile = {
       homeRegionName: r.data.homeRegion || "서울",
       lifestyle: r.lifestyle,

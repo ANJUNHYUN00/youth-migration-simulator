@@ -62,6 +62,8 @@ const ganghwaMissions: Mission[] = [
     background: "library",
     npc: { name: "역사 해설사", emoji: "🧓" },
     description: "유네스코 세계유산 — 4천 년의 흔적 곁에서",
+    // 카카오 로드뷰 임베드 좌표 — 강화 부근리 고인돌 (강화역사박물관 부지)
+    kakaoPosition: { lat: 37.7472, lng: 126.4310 },
     dialogues: [
       {
         npc:
@@ -194,6 +196,8 @@ const ganghwaMissions: Mission[] = [
     background: "neighbor",
     npc: { name: "동네 산책자", emoji: "🚶" },
     description: "동막해변·석모도 일몰 명소 — 매일의 마무리",
+    // 카카오 로드뷰 임베드 좌표 — 동막해수욕장 진입로 (mudflat 좌표와 살짝 다른 지점)
+    kakaoPosition: { lat: 37.5904, lng: 126.4600 },
     dialogues: [
       {
         npc:
@@ -1501,6 +1505,8 @@ const yeongdeokMissions: Mission[] = [
     background: "neighbor",
     npc: { name: "뚜벅이마을 호스트", emoji: "🥾" },
     description: "동해안 트레킹 명소 — 천천히 걷기 시작",
+    // 카카오 로드뷰 임베드 좌표 — 강구항 (블루로드 1코스 시점)
+    kakaoPosition: { lat: 36.3625, lng: 129.3938 },
     dialogues: [
       {
         npc: "영덕 블루로드는 64km 동해안 도보 코스예요. 강구에서 시작해 고래불해변까지 이어져요. 한 번에 다 못 걸어요. 천천히, 조금씩 걷는 게 뚜벅이 라이프예요.",
@@ -1555,6 +1561,8 @@ const yeongdeokMissions: Mission[] = [
     background: "market",
     npc: { name: "강구항 어부", emoji: "🧓" },
     description: "강구항 대게 — 영덕의 대표 음식",
+    // 카카오 로드뷰 임베드 좌표 — 강구항 대게거리
+    kakaoPosition: { lat: 36.3680, lng: 129.3936 },
     dialogues: [
       {
         npc: "강구항은 새벽 4시부터 어선이 들어와요. 대게철이 11월부터 5월까지예요. 그때는 전국에서 사람 와요. 비철엔 한가하고 좋아요.",
@@ -1582,6 +1590,8 @@ const yeongdeokMissions: Mission[] = [
     background: "neighbor",
     npc: { name: "동네 산책자", emoji: "👵" },
     description: "동해 일출 + 풍력단지 풍경",
+    // 카카오 로드뷰 임베드 좌표 — 영덕 해맞이공원 (창포말등대 인근)
+    kakaoPosition: { lat: 36.4172, lng: 129.4222 },
     dialogues: [
       {
         npc: "해맞이공원은 영덕에서 일출 가장 잘 보이는 곳이에요. 풍력발전기들도 함께 보여요. 거대한 날개가 천천히 돌아가는 풍경, 한 번 보면 잊을 수 없어요.",
@@ -1614,6 +1624,8 @@ const yeongwolMissions: Mission[] = [
     background: "neighbor",
     npc: { name: "밭멍 호스트", emoji: "🌱" },
     description: "옛 공장 자리에 그려진 나뭇잎 모양 밭",
+    // 카카오 로드뷰 임베드 좌표 — 영월읍 외곽 도로변 (밭멍 정확 위치 미상, 영월 풍경으로 대체)
+    kakaoPosition: { lat: 37.1850, lng: 128.4640 },
     dialogues: [
       {
         npc: "여기 보이는 게 밭멍의 '나뭇잎밭'이에요. 옛 절임배추공장이랑 메주공장 자리예요. 위에서 보면 진짜 나뭇잎 모양이에요. 땅에서는 잘 안 보여요.",
@@ -1727,6 +1739,8 @@ const mujuMissions: Mission[] = [
     background: "library",
     npc: { name: "산타지 호스트", emoji: "🌳" },
     description: "무풍면 폐교 — 비워진 건물에 청년 상상력 채우기",
+    // 카카오 로드뷰 임베드 좌표 — 무풍면사무소 인근 (산타지 폐교 정확 위치 미상, 무풍면 풍경으로 대체)
+    kakaoPosition: { lat: 35.9606, lng: 127.8175 },
     dialogues: [
       {
         npc: "여기가 산타지 폐교예요. 무풍면 외진 산골에 있어요. 학교는 닫혔지만 건물은 살아 있어요. 청년들이 들어와서 채워가는 중이에요.",
@@ -1781,6 +1795,8 @@ const mujuMissions: Mission[] = [
     background: "neighbor",
     npc: { name: "동네 어르신", emoji: "🧓" },
     description: "덕유산 자락 산골 풍경",
+    // 카카오 로드뷰 임베드 좌표 — 무풍면 다른 도로변 (덕유산 자락 산골 풍경 의도)
+    kakaoPosition: { lat: 35.9650, lng: 127.8230 },
     dialogues: [
       {
         npc: "무풍은 깊은 산골이에요. 덕유산 자락이에요. 새벽엔 안개가 산 사이로 흐르고, 저녁엔 별이 쏟아져요. 도시 사람들 처음 오면 너무 조용해서 놀라요.",
@@ -1840,6 +1856,8 @@ const sejongMissions: Mission[] = [
     background: "market",
     npc: { name: "농땡이월드 호스트", emoji: "🌾" },
     description: "직접 재배·바로 요리하는 호주식 셰프 컨셉",
+    // 카카오 로드뷰 임베드 좌표 — 세종 연동면사무소 인근 (농땡이월드 정확 위치 미상, 농촌 풍경으로 대체)
+    kakaoPosition: { lat: 36.5408, lng: 127.3128 },
     dialogues: [
       {
         npc: "농땡이월드 키친가든이에요. 호주식이에요 — 농사 짓는 셰프 컨셉. 직접 키운 채소로 바로 요리해요. 5월부터 감자 캐고, 7월에 땡초, 9월에 전부치기 해요.",
@@ -1920,6 +1938,8 @@ const sejongMissions: Mission[] = [
     background: "market",
     npc: { name: "메기집 사장님", emoji: "👩‍🍳" },
     description: "동네에서 가장 유명한 단골집",
+    // 카카오 로드뷰 임베드 좌표 — 고복저수지 식당가
+    kakaoPosition: { lat: 36.5950, lng: 127.1850 },
     dialogues: [
       {
         npc: "여기 고복저수지 메기매운탕이에요. 동네에서 가장 유명한 집이에요. 청년마을 사람들도 자주 와요. 매운탕에 청양고추 더 넣어도 돼요?",
@@ -1953,6 +1973,8 @@ const uiseongMissions: Mission[] = [
     background: "home",
     npc: { name: "현지인 페이스메이커", emoji: "🧑" },
     description: "옛 여관이 청년 주거공간으로 변신",
+    // 카카오 로드뷰 임베드 좌표 — 의성역 인근 (금강장 정확 위치 미상, 의성역 도로 풍경으로 대체)
+    kakaoPosition: { lat: 36.3465, lng: 128.6975 },
     dialogues: [
       {
         npc: "금강장이라는 옛 여관이에요. 의성역 가까이 있어요. 청년들이 들어와서 주거공간으로 바꿨어요. 화장실 한쪽 벽면이 황금으로 장식돼 있어요. 부럽죠? 😁",
@@ -2034,6 +2056,8 @@ const uiseongMissions: Mission[] = [
     background: "market",
     npc: { name: "용주밥상 사장님", emoji: "👵" },
     description: "마늘이 가득한 의성 백반",
+    // 카카오 로드뷰 임베드 좌표 — 의성읍 도로변 (용주밥상 정확 위치 미상, 의성읍 풍경으로 대체)
+    kakaoPosition: { lat: 36.3540, lng: 128.6995 },
     dialogues: [
       {
         npc: "어서와요! 의성 용주밥상이에요. 청년들이 자주 와요. 백반에 마늘이 들어가요 — 의성=마늘이에요. 정성 가득한 밑반찬이에요. 두번, 세번 드세요!",
@@ -2067,6 +2091,8 @@ const hongseongMissions: Mission[] = [
     background: "office",
     npc: { name: "집단지성 운영진", emoji: "🧑‍💻" },
     description: "골목 한가운데 로컬 워커의 베이스 캠프",
+    // 카카오 로드뷰 임베드 좌표 — 홍성읍 홍주성 인근 골목 (집단지성 정확 위치 미상, 홍주읍성 골목 풍경으로 대체)
+    kakaoPosition: { lat: 36.6020, lng: 126.6620 },
     dialogues: [
       {
         npc: "집단지성이에요. 홍성 골목 한가운데에 있는 '로컬 워커의 베이스 캠프'예요. 여기 모인 사람들은 다 자기 브랜드, 자기 공간, 자기 업을 만들어가는 사람들이에요.",
@@ -2179,6 +2205,8 @@ const daejeonMissions: Mission[] = [
     background: "market",
     npc: { name: "weave on 호스트", emoji: "🧵" },
     description: "60년대부터 이어진 맞춤복 골목",
+    // 카카오 로드뷰 임베드 좌표 — 대전 중구 중촌동 맞춤패션 특화거리
+    kakaoPosition: { lat: 36.3306, lng: 127.4216 },
     dialogues: [
       {
         npc: "대전 중구 중촌동 '맞춤패션 특화거리'예요. 양복점, 한복집, 셔츠 가게가 골목 따라 줄지어 있어요. 60년대부터 있던 거리예요. 옛 손기술이 살아 있어요.",

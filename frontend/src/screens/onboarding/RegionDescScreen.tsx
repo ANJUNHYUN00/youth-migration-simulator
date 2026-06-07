@@ -1,5 +1,5 @@
-// 온보딩 10단계 — 살고싶은 지역의 특징 (주관식)
-// 마지막 단계: 하단 CTA가 "내 귀촌 유형보기"로 바뀜
+// 온보딩 — 살고싶은 지역의 특징 (주관식)
+// 이후 닉네임 단계가 이어지므로 CTA는 기본 "다음".
 
 import { useState } from "react";
 import StepLayout from "./StepLayout";
@@ -26,7 +26,6 @@ export default function RegionDescScreen({
       step={step}
       total={total}
       onBack={onBack}
-      ctaLabel="내 귀촌 유형보기 🍃"
       ctaDisabled={text.trim().length === 0}
       onCta={() => onNext(text.trim())}
     >

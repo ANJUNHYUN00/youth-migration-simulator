@@ -14,6 +14,7 @@ import SceneScreen from "./SceneScreen";
 import HealingScreen from "./HealingScreen";
 import RegionDescScreen from "./RegionDescScreen";
 import EnvChoiceScreen from "./EnvChoiceScreen";
+import NicknameScreen from "./NicknameScreen";
 import ResultScreen from "./ResultScreen";
 import {
   initialOnboardingData,
@@ -38,6 +39,7 @@ type StepKey =
   | "healing"
   | "envChoice"
   | "regionDesc"
+  | "nickname"
   | "result";
 
 const ORDER: StepKey[] = [
@@ -53,10 +55,11 @@ const ORDER: StepKey[] = [
   "healing",
   "envChoice",
   "regionDesc",
+  "nickname",
   "result",
 ];
 
-const TOTAL_QUESTIONS = 11;
+const TOTAL_QUESTIONS = 12;
 
 // onComplete 시 App에 넘기는 결과
 // lifestyle = 옛 LifeStyleType (App.tsx 매칭 호환), profile = 새 시스템 (env + stance)
@@ -236,6 +239,16 @@ export default function OnboardingShell({ onComplete }: Props) {
                 setData((d) => ({ ...d, regionDesc: desc }));
                 advance();
               }}
+            />
+          )}
+
+          {step === "nickname" && (
+            <NicknameScreen
+              step={12}
+              total={TOTAL_QUESTIONS}
+              initial={data.nickname}
+              onBack={back}
+              onNext={(name) => update("nickname", name)}
             />
           )}
 
