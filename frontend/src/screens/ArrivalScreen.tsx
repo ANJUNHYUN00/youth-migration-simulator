@@ -3,6 +3,7 @@
 
 import { motion } from "framer-motion";
 import RegionHeader from "../components/arrival/RegionHeader";
+import MailboxObject from "../components/arrival/MailboxObject";
 import {
   VILLAGE_CONFIG,
   DEFAULT_VILLAGE,
@@ -16,6 +17,10 @@ type Props = {
   // 헤더 뒤로가기/푸터 CTA에서 호출 — 서울 등 본 지역으로 역방향 애니메이션 시작
   onReturnHome: () => void;
   onStartMissions: () => void;
+  // 마을 홈의 우편함 오브젝트 탭 — 편지(주민 이야기) 모달 열기
+  onOpenMailbox: () => void;
+  // 안 읽은 편지 수 (뱃지)
+  mailUnreadCount?: number;
 };
 
 export default function ArrivalScreen({
@@ -23,6 +28,8 @@ export default function ArrivalScreen({
   homeRegion,
   onReturnHome,
   onStartMissions,
+  onOpenMailbox,
+  mailUnreadCount = 0,
 }: Props) {
   const config: VillageConfig =
     VILLAGE_CONFIG[residence.id] ?? DEFAULT_VILLAGE;
@@ -71,6 +78,17 @@ export default function ArrivalScreen({
 
       {/* 빈 영역 — 배경 이미지가 보이도록 */}
       <div className="flex-1" />
+
+      {/* 우편함 오브젝트 — 마을 홈에서 편지(주민 이야기) 진입점 */}
+      <div className="relative z-10 flex justify-start pl-6 pb-1">
+        <div className="flex flex-col items-center">
+          <MailboxObject unreadCount={mailUnreadCount} onClick={onOpenMailbox} />
+          <span className="mt-0.5 text-[11px] font-bold text-[#7A6254]
+                           bg-white/75 backdrop-blur px-2 py-0.5 rounded-full">
+            우편함
+          </span>
+        </div>
+      </div>
 
       {/* 단순 CTA — "○○ 알아보기" */}
       <div className="relative z-10 flex justify-center pb-4">

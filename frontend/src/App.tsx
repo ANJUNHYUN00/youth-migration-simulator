@@ -144,6 +144,10 @@ export default function App() {
   const [detailEntry, setDetailEntry] = useState<"list" | "report">("list");
   // 미션 리스트에서 우편함 미션을 누른 경우 (모달로 노출)
   const [mailboxFromMission, setMailboxFromMission] = useState(false);
+  // 마을 홈(ArrivalScreen)의 우편함 오브젝트로 직접 연 경우 (미션과 무관)
+  const [mailboxFromHome, setMailboxFromHome] = useState(false);
+  // 편지를 한 번 이상 연 지역 id — 우편함 뱃지(미확인) 표시용
+  const [readMailboxIds, setReadMailboxIds] = useState<Set<string>>(new Set());
   // 예약 탭 — 선택된 레지던스 id + 진행 중인 예약 폼 데이터(완료 화면에서 사용)
   const [bookingResidenceId, setBookingResidenceId] = useState<string | null>(null);
   const [bookingDraft, setBookingDraft] = useState<{
@@ -441,6 +445,16 @@ export default function App() {
             homeRegion={homeRegion}
             onReturnHome={() => setTab1Route("traveling-back")}
             onStartMissions={() => setTab1Route("mission-list")}
+            onOpenMailbox={() => {
+              setReadMailboxIds((prev) => new Set(prev).add(selected.id));
+              setMailboxFromHome(true);
+            }}
+            mailUnreadCount={
+              storiesByResidenceId[selected.id] &&
+              !readMailboxIds.has(selected.id)
+                ? 1
+                : 0
+            }
           />
         )}
 
@@ -698,11 +712,16 @@ export default function App() {
 
       <BottomNav active={tab} onChange={handleTabChange} />
 
-      {/* 우편함 미션 모달 — 미션 리스트에서 우편함 카드 누른 경우 */}
+      {/* 우편함 모달 — 미션 리스트의 우편함 카드 또는 마을 홈 우편함 오브젝트로 열림.
+          미션 경로면 닫을 때 미션 완료 처리, 홈 경로면 단순 닫기 */}
       <MailboxModal
-        open={mailboxFromMission}
+        open={mailboxFromMission || mailboxFromHome}
         story={selected ? storiesByResidenceId[selected.id] ?? null : null}
-        onClose={handleMailboxMissionClose}
+        onClose={
+          mailboxFromMission
+            ? handleMailboxMissionClose
+            : () => setMailboxFromHome(false)
+        }
       />
     </div>
   );
