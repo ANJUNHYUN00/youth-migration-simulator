@@ -153,7 +153,7 @@ export default function SettingsScreen({
         </section>
 
         <p className="text-center text-[11px] text-ink-mute pt-2">
-          청풍 데모 v0.1
+          바람을 짓다 데모 v0.1
         </p>
       </main>
     </div>

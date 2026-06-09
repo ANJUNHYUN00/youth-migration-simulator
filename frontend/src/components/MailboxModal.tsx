@@ -70,7 +70,7 @@ export default function MailboxModal({ open, story, onClose }: Props) {
             {/* 우표 디테일 */}
             <div className="mt-4 pt-3 border-t border-dashed border-cream-200
                             flex items-center justify-between text-[11px] text-ink-mute">
-              <span>· 청풍 우편함 ·</span>
+              <span>· 바람을 짓다 우편함 ·</span>
               <span>이주 후 1년차</span>
             </div>
           </motion.div>

@@ -312,7 +312,7 @@ function MapBackground() {
           textAnchor="middle"
           fontWeight="bold"
         >
-          청풍 레지던스
+          바람을 짓다 레지던스
         </text>
       </g>
 
