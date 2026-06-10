@@ -19,7 +19,6 @@ import MoveInScreen from "./screens/MoveInScreen";
 import ResidenceListScreen from "./screens/ResidenceListScreen";
 import ResidenceDetailScreen from "./screens/ResidenceDetailScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import DiscoverScreen, { type DiscoverSubTab } from "./screens/DiscoverScreen";
 import CommunityScreen from "./screens/CommunityScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import LetterScreen from "./screens/LetterScreen";
@@ -101,7 +100,7 @@ function useHashRoute() {
   return hash;
 }
 
-// 탭1 화면 흐름
+// 탭1 화면 흐름 — 시뮬레이션 탭. "letter" 는 ResidenceHomeScreen 의 편지 버튼에서 진입.
 type Tab1Route =
   | "home"
   | "departure"
@@ -113,9 +112,10 @@ type Tab1Route =
   | "mission-execute"
   | "mission-complete"
   | "traveling-back"
-  | "day-end-ceremony";
+  | "day-end-ceremony"
+  | "letter";
 
-// 탭2 화면 흐름
+// 탭2 화면 흐름 (여정)
 type Tab2Route =
   | "journey"
   | "report"
@@ -124,10 +124,7 @@ type Tab2Route =
   | "residence-list"
   | "residence-detail";
 
-// 탭3(커뮤니티) 화면 흐름 — 골격 단계, 추후 detail/write 등 확장
-type Tab3Route = "discover" | "community-list";
-
-// 탭4(레지던스 예약) 화면 흐름
+// 레지던스 예약 탭 화면 흐름
 type Tab4Route = "booking" | "booking-detail" | "booking-form" | "booking-done";
 
 // localStorage 키
@@ -201,9 +198,6 @@ export default function App() {
   const [tab, setTab] = useState<TabKey>("simulation");
   const [tab1Route, setTab1Route] = useState<Tab1Route>("home");
   const [tab2Route, setTab2Route] = useState<Tab2Route>("journey");
-  const [tab3Route, setTab3Route] = useState<Tab3Route>("discover");
-  // 발견 탭 내부 서브 토글 — 이야기 / 청년마을
-  const [discoverSubTab, setDiscoverSubTab] = useState<DiscoverSubTab>("stories");
   // 편지함 — localStorage 영속. 첫 진입자는 환영 편지 시드.
   const [letters, setLetters] = useState<Letter[]>(() => {
     const saved = loadLetters();
@@ -306,7 +300,6 @@ export default function App() {
         setSelected(null);
         setTab1Route("home");
         setTab2Route("journey");
-        setTab3Route("discover");
         setTab4Route("booking");
         setBookingResidenceId(null);
         setBookingDraft(null);
@@ -525,7 +518,6 @@ export default function App() {
       }
     }
     if (next === "journey") setTab2Route("journey");
-    if (next === "discover") setTab3Route("discover");
     if (next === "booking") setTab4Route("booking");
     setTab(next);
   };
@@ -653,8 +645,7 @@ export default function App() {
 
   const handleCeremonyGoCommunity = () =>
     finishDayAnd(() => {
-      setTab("discover");
-      setTab3Route("discover");
+      setTab("community");
     });
 
   // 이주 리포트 시네마틱 열기 — 캐시 없으면 생성
@@ -819,6 +810,8 @@ export default function App() {
                 todayMissionDoneCount={todayDone}
                 onGoMissionList={() => setTab1Route("mission-list")}
                 onReturnHome={() => setTab1Route("traveling-back")}
+                onOpenLetters={() => setTab1Route("letter")}
+                letterUnread={unreadCount(letters)}
               />
             );
           })()}
@@ -1093,40 +1086,11 @@ export default function App() {
           />
         )}
 
-        {/* ===== 탭3: 커뮤니티(이야기) — 골격 ===== */}
-        {tab === "discover" && tab3Route === "discover" && (
-          <DiscoverScreen
-            subTab={discoverSubTab}
-            onSubTabChange={setDiscoverSubTab}
-            onSelectResidence={(r) => {
-              setBookingResidenceId(r.id);
-              setTab4Route("booking-detail");
-              setTab("booking");
-            }}
-            liked={bookingLiked}
-            onToggleLike={(id) =>
-              setBookingLiked((prev) => {
-                const next = new Set(prev);
-                if (next.has(id)) next.delete(id);
-                else next.add(id);
-                return next;
-              })
-            }
-            onSeeAllStories={() => setTab3Route("community-list")}
-            onSeeAllResidences={() => {
-              setTab4Route("booking");
-              setTab("booking");
-            }}
-          />
-        )}
+        {/* ===== 커뮤니티 탭 — 이주민 이야기 모음 ===== */}
+        {tab === "community" && <CommunityScreen />}
 
-        {/* === 발견 → 전체 이야기 (옛 CommunityScreen) === */}
-        {tab === "discover" && tab3Route === "community-list" && (
-          <CommunityScreen onBack={() => setTab3Route("discover")} />
-        )}
-
-        {/* === 편지 탭 === */}
-        {tab === "letter" && (
+        {/* ===== 편지 — 시뮬레이션 탭의 sub-route. ResidenceHomeScreen 의 편지 버튼에서 진입 ===== */}
+        {tab === "simulation" && tab1Route === "letter" && (
           <LetterScreen
             letters={letters}
             onMarkRead={(id) =>
@@ -1137,6 +1101,7 @@ export default function App() {
             onMarkAllRead={() =>
               setLetters((prev) => prev.map((l) => ({ ...l, read: true })))
             }
+            onBack={() => setTab1Route("residence-home")}
           />
         )}
 
@@ -1156,7 +1121,6 @@ export default function App() {
             onOpenSettings={handleOpenSettings}
             onSelectResidence={(r) => {
               setBookingResidenceId(r.id);
-              setDiscoverSubTab("residences");
               setTab4Route("booking-detail");
               setTab("booking");
             }}
@@ -1180,7 +1144,7 @@ export default function App() {
                 return next;
               })
             }
-            onBack={() => setTab("discover")}
+            onBack={() => setTab("community")}
           />
         )}
 
@@ -1205,11 +1169,10 @@ export default function App() {
                   })
                 }
                 onBack={() => {
-                  // 발견 탭의 청년마을 리스트로 복귀
+                  // 레지던스 예약 리스트로 복귀
                   setBookingResidenceId(null);
                   setTab4Route("booking");
-                  setDiscoverSubTab("residences");
-                  setTab("discover");
+                  setTab("booking");
                 }}
                 onBook={() => setTab4Route("booking-form")}
               />
@@ -1258,12 +1221,11 @@ export default function App() {
                 residence={r}
                 draft={bookingDraft}
                 onBackToList={() => {
-                  // 발견 탭 청년마을 리스트로 복귀
+                  // 레지던스 예약 리스트로 복귀
                   setBookingResidenceId(null);
                   setBookingDraft(null);
                   setTab4Route("booking");
-                  setDiscoverSubTab("residences");
-                  setTab("discover");
+                  setTab("booking");
                 }}
                 onGoHome={() => {
                   setBookingResidenceId(null);
@@ -1279,7 +1241,6 @@ export default function App() {
       <BottomNav
         active={tab}
         onChange={handleTabChange}
-        letterUnread={unreadCount(letters)}
       />
 
       {/* 우편함 미션 모달 — 미션 리스트에서 우편함 카드 누른 경우 */}

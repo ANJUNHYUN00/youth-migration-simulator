@@ -181,7 +181,7 @@ export default function DepartureScreen({
             onClick={() => setView("recommended")}
           />
           <ToggleBtn
-            label="전체"
+            label="근처"
             active={view === "all"}
             onClick={() => setView("all")}
           />

@@ -32,18 +32,58 @@ export function chunkByDay<T>(items: T[], dayCount: number): T[][] {
 }
 
 // 레지던스 + 미션 → 일차별 미션 ID 배열
+//
+// Phase A 동작:
+//   1) tier === "bonus" 는 일차 plan 에서 제외 → bonusMissionIds 로 분리
+//   2) main 미션 중 day 필드가 있으면 그 일차로 배치 (강화)
+//   3) day 필드 없는 main 미션은 chunkByDay 로 균등 분배 (영월 등 기존)
+//   4) 같은 일차 안에서 timeOfDay 가 있으면 아침 → 낮 → 저녁 순으로 정렬
 export function buildDayPlan(
   residence: Residence,
   missions: Mission[]
 ): {
   dayCount: number;
-  missionsByDay: string[][]; // [day1 ids, day2 ids, ...]
+  missionsByDay: string[][];   // [day1 ids, day2 ids, ...]
+  bonusMissionIds: string[];   // 보너스 미션 (일차에 안 들어감)
 } {
   const dayCount = parseDayCount(residence.duration);
-  const missionsByDay = chunkByDay(missions, dayCount).map((day) =>
-    day.map((m) => m.id)
-  );
-  return { dayCount, missionsByDay };
+  const mainMissions = missions.filter((m) => m.tier !== "bonus");
+  const bonusMissionIds = missions
+    .filter((m) => m.tier === "bonus")
+    .map((m) => m.id);
+
+  // 명시적 day 필드가 있는 main 미션이 하나라도 있으면 plan-driven 모드
+  const hasExplicitDays = mainMissions.some((m) => m.day !== undefined);
+
+  let missionsByDay: string[][];
+
+  if (hasExplicitDays) {
+    // plan-driven: day 필드로 그룹핑 + timeOfDay 순서 정렬
+    missionsByDay = Array.from({ length: dayCount }, (_, i) => {
+      const dayNum = i + 1;
+      return mainMissions
+        .filter((m) => m.day === dayNum)
+        .sort(
+          (a, b) => timeOfDayOrder(a.timeOfDay) - timeOfDayOrder(b.timeOfDay)
+        )
+        .map((m) => m.id);
+    });
+  } else {
+    // legacy: 균등 분배
+    missionsByDay = chunkByDay(mainMissions, dayCount).map((day) =>
+      day.map((m) => m.id)
+    );
+  }
+
+  return { dayCount, missionsByDay, bonusMissionIds };
+}
+
+// 시간대 정렬 가중치 — 아침 < 낮 < 저녁. 미정의는 가장 뒤로.
+function timeOfDayOrder(t: Mission["timeOfDay"]): number {
+  if (t === "아침") return 0;
+  if (t === "낮") return 1;
+  if (t === "저녁") return 2;
+  return 3;
 }
 
 // 특정 일차에 속한 미션 ID 집합 (1-based day)

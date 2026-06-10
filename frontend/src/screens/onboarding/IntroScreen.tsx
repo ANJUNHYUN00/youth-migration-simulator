@@ -6,8 +6,10 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PrimaryButton from "../../components/PrimaryButton";
-import baramiImg from "../../assets/char-barami-front.webp";
-import jieumiImg from "../../assets/char-jieumi-front.webp";
+
+// 캐릭터 누끼 (투명 배경 PNG) — public/character1/ 에서 직접 경로 참조
+const baramiImg = "/character1/clay-baram-solo.png";
+const jieumiImg = "/character1/clay-jieum-solo.png";
 
 // ─────────────────────────────────────────────────────────────
 // 컷별 전용 일러스트 끼우는 곳 (선택)
@@ -173,7 +175,7 @@ export default function IntroScreen({ onDone }: Props) {
       </section>
 
       {/* 캐릭터 영역 (하단) */}
-      <section className="relative flex-1 flex items-end justify-center">
+      <section className="relative flex-1 flex items-end justify-center min-h-[280px]">
         {/* 뒤쪽 언덕 장식 */}
         <svg
           className="absolute bottom-0 w-full h-40"
@@ -185,7 +187,7 @@ export default function IntroScreen({ onDone }: Props) {
           <ellipse cx="300" cy="180" rx="170" ry="78" fill="#B7DEB8" opacity="0.7" />
         </svg>
 
-        <div className="relative flex items-end justify-center gap-1 pb-2 w-full px-6">
+        <div className="relative flex items-end justify-center gap-2 pb-4 w-full px-4">
           {SLIDE_ART[slide.key] ? (
             // 컷 전용 일러스트가 있으면 그걸 크게 노출
             <AnimatePresence mode="wait">
@@ -276,8 +278,8 @@ function CharacterFigure({
       <motion.img
         src={img}
         alt={name}
-        className={`w-[128px] object-contain drop-shadow-md
-          ${align === "right" ? "-ml-2" : "-mr-2"}`}
+        className={`w-[150px] object-contain drop-shadow-md
+          ${align === "right" ? "-ml-3" : "-mr-3"}`}
         animate={
           speaking
             ? { y: [-5, 2, -5] } // 말하는 캐릭터는 좀 더 크게 통통

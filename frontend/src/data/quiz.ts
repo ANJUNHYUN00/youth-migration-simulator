@@ -81,7 +81,7 @@ export const dayScenes: DaySceneOption[] = [
     weight: { alone_rest: 3 },
   },
   {
-    label: "조용한 작업실에서 손에 흙·실 묻히기",
+    label: "조용한 작업실에서 일하기",
     weight: { alone_make: 3 },
   },
   {
@@ -92,10 +92,6 @@ export const dayScenes: DaySceneOption[] = [
     label: "동네 사람들과 모여 함께 일하기",
     weight: { together_make: 3 },
   },
-  {
-    label: "산책하다 카페 들르고, 잠깐 끄적이기",
-    weight: { alone_rest: 1, alone_make: 1, together_rest: 1 },
-  },
 ];
 
 // 힐링 (single) — 자세 4축 명확
@@ -103,7 +99,7 @@ export type HealingOption = { label: string; weight: StanceWeight };
 export const healings: HealingOption[] = [
   { label: "완전한 고요 속에서 푹 자기", weight: { alone_rest: 3 } },
   {
-    label: "작업실에서 무언가 손으로 만들기",
+    label: "작업실에서 뭔가 만들기",
     weight: { alone_make: 3 },
   },
   {

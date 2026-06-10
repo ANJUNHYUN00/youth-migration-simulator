@@ -26,6 +26,7 @@ export default function RegionDescScreen({
       step={step}
       total={total}
       onBack={onBack}
+      ctaLabel="내 귀촌 유형 보기 🍃"
       ctaDisabled={text.trim().length === 0}
       onCta={() => onNext(text.trim())}
     >

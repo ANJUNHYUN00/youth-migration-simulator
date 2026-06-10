@@ -2392,6 +2392,54 @@ export const regionMissions: Record<string, Mission[]> = {
 
 // 특정 지역(residence.id)에서 풀어볼 미션 = 공통 + 지역 미션
 import { commonMissions } from "./missions";
+import type { TimeOfDay, MissionTier } from "./missions";
+
+// ────────────────────────────────────────────────────────────
+// Phase A — 강화도 미션 plan
+// 9 main (3일 × 3시간대) + 5 bonus.
+// 미션 id 를 key 로 timeOfDay/tier/day 만 정의.
+// missionsForResidence("ganghwa") 가 이걸로 미션 메타를 enrichment.
+// ────────────────────────────────────────────────────────────
+type MissionPlanEntry = {
+  timeOfDay?: TimeOfDay;
+  tier: MissionTier;
+  day?: number; // 1~3 (main 만)
+};
+
+const GANGHWA_PLAN: Record<string, MissionPlanEntry> = {
+  // ─── Day 1 — 동네 첫인상 ─────────────────
+  shop:              { timeOfDay: "아침", tier: "main", day: 1 },
+  "ganghwa-mudflat": { timeOfDay: "낮",   tier: "main", day: 1 },
+  market:            { timeOfDay: "저녁", tier: "main", day: 1 },
+
+  // ─── Day 2 — 이웃과 연결 ─────────────────
+  "ganghwa-market":  { timeOfDay: "아침", tier: "main", day: 2 },
+  "ganghwa-farm":    { timeOfDay: "낮",   tier: "main", day: 2 },
+  neighbor:          { timeOfDay: "저녁", tier: "main", day: 2 },
+
+  // ─── Day 3 — 인프라 + 마무리 ────────────
+  hospital:          { timeOfDay: "아침", tier: "main", day: 3 },
+  transit:           { timeOfDay: "낮",   tier: "main", day: 3 },
+  "ganghwa-sunset":  { timeOfDay: "저녁", tier: "main", day: 3 },
+
+  // ─── 보너스 — 추가 미션 (시간대 X, 일차 X) ───
+  "ganghwa-dolmen":  { tier: "bonus" },
+  food:              { tier: "bonus" },
+  cost:              { tier: "bonus" },
+  routine:           { tier: "bonus" },
+  mailbox:           { tier: "bonus" },
+};
+
+// plan 적용 헬퍼 — 미션 객체에 timeOfDay/tier/day 메타 enrichment
+function applyPlan(
+  missions: Mission[],
+  plan: Record<string, MissionPlanEntry>
+): Mission[] {
+  return missions
+    .filter((m) => plan[m.id])  // plan 에 없는 미션은 제외
+    .map((m) => ({ ...m, ...plan[m.id] }));
+}
+
 export function missionsForResidence(residenceId: string): Mission[] {
   const region = regionMissions[residenceId] ?? [];
 
@@ -2402,6 +2450,12 @@ export function missionsForResidence(residenceId: string): Mission[] {
     if (elder) {
       return [elder, ...commonMissions, ...region];
     }
+  }
+
+  // 강화 — Phase A plan 적용 (9 main + 5 bonus). 시간대·일차·tier 자동 부여.
+  if (residenceId === "ganghwa") {
+    const all = [...commonMissions, ...region];
+    return applyPlan(all, GANGHWA_PLAN);
   }
 
   return [...commonMissions, ...region];

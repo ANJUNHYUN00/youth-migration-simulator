@@ -32,8 +32,7 @@ export default function EmailScreen({
       ctaDisabled={!valid}
       onCta={() => onNext(email)}
     >
-      <p className="text-ink-soft text-[12px] font-medium">바람을 짓다 시작하기</p>
-      <h1 className="mt-1 text-ink text-[22px] font-extrabold leading-snug">
+      <h1 className="text-ink text-[22px] font-extrabold leading-snug">
         이메일로 가입할게요
       </h1>
       <p className="mt-2 text-ink-soft text-[13px] leading-relaxed">

@@ -47,6 +47,7 @@ type StepKey =
 const ORDER: StepKey[] = [
   "splash",
   "intro",
+  "nickname",     // 닉네임을 첫 질문으로 이동
   "email",
   "birth",
   "homeRegion",
@@ -58,7 +59,6 @@ const ORDER: StepKey[] = [
   "healing",
   "envChoice",
   "regionDesc",
-  "nickname",
   "result",
 ];
 
@@ -108,9 +108,19 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "intro" && <IntroScreen onDone={advance} />}
 
+          {step === "nickname" && (
+            <NicknameScreen
+              step={1}
+              total={TOTAL_QUESTIONS}
+              initial={data.nickname}
+              onBack={back}
+              onNext={(name) => update("nickname", name)}
+            />
+          )}
+
           {step === "email" && (
             <EmailScreen
-              step={1}
+              step={2}
               total={TOTAL_QUESTIONS}
               initial={data.email}
               onBack={back}
@@ -120,7 +130,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "birth" && (
             <BirthScreen
-              step={2}
+              step={3}
               total={TOTAL_QUESTIONS}
               initial={data.birth}
               onBack={back}
@@ -130,7 +140,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "homeRegion" && (
             <HomeRegionScreen
-              step={3}
+              step={4}
               total={TOTAL_QUESTIONS}
               initial={data.homeRegion}
               onBack={back}
@@ -140,7 +150,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "interests" && (
             <InterestsScreen
-              step={4}
+              step={5}
               total={TOTAL_QUESTIONS}
               initial={data.interests}
               onBack={back}
@@ -150,7 +160,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "balanceB" && (
             <BalanceScreen<BalanceB>
-              step={5}
+              step={6}
               total={TOTAL_QUESTIONS}
               title="한가한 주말 오후, 어떻게 보내고 싶어요?"
               left={{
@@ -173,7 +183,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "balanceC" && (
             <BalanceScreen<BalanceC>
-              step={6}
+              step={7}
               total={TOTAL_QUESTIONS}
               title="낯선 동네에서 끌리는 시간은?"
               left={{
@@ -184,7 +194,7 @@ export default function OnboardingShell({ onComplete }: Props) {
               }}
               right={{
                 value: "make",
-                label: "손으로 만들기",
+                label: "뭔가 만들기",
                 emoji: "🪵",
                 blurb: "무언가 짓는 시간",
               }}
@@ -196,7 +206,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "values" && (
             <ValuesScreen
-              step={7}
+              step={8}
               total={TOTAL_QUESTIONS}
               initial={data.values}
               onBack={back}
@@ -206,7 +216,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "scene" && (
             <SceneScreen
-              step={8}
+              step={9}
               total={TOTAL_QUESTIONS}
               initial={data.dayScene}
               onBack={back}
@@ -216,7 +226,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "healing" && (
             <HealingScreen
-              step={9}
+              step={10}
               total={TOTAL_QUESTIONS}
               initial={data.healing}
               onBack={back}
@@ -226,7 +236,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "envChoice" && (
             <EnvChoiceScreen
-              step={10}
+              step={11}
               total={TOTAL_QUESTIONS}
               initial={data.envChoice}
               onBack={back}
@@ -236,7 +246,7 @@ export default function OnboardingShell({ onComplete }: Props) {
 
           {step === "regionDesc" && (
             <RegionDescScreen
-              step={11}
+              step={12}
               total={TOTAL_QUESTIONS}
               initial={data.regionDesc}
               onBack={back}
@@ -244,16 +254,6 @@ export default function OnboardingShell({ onComplete }: Props) {
                 setData((d) => ({ ...d, regionDesc: desc }));
                 advance();
               }}
-            />
-          )}
-
-          {step === "nickname" && (
-            <NicknameScreen
-              step={12}
-              total={TOTAL_QUESTIONS}
-              initial={data.nickname}
-              onBack={back}
-              onNext={(name) => update("nickname", name)}
             />
           )}
 

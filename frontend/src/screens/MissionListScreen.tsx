@@ -43,9 +43,15 @@ export default function MissionListScreen({
   );
 
   // 일차 분배 — 같은 결정 로직을 부모와 공유 가능하게 export 된 buildDayPlan 사용
-  const { dayCount, missionsByDay } = useMemo(
+  const { missionsByDay, bonusMissionIds } = useMemo(
     () => buildDayPlan(residence, allMissions),
     [residence, allMissions]
+  );
+
+  // 보너스 미션 (일차 plan 바깥, 별도 섹션)
+  const bonusMissions = useMemo(
+    () => allMissions.filter((m) => bonusMissionIds.includes(m.id)),
+    [allMissions, bonusMissionIds]
   );
 
   // 오늘의 미션 집합
@@ -148,12 +154,12 @@ export default function MissionListScreen({
         </button>
         <div className="flex-1 min-w-0">
           <h1 className="text-ink text-[24px] font-extrabold leading-[1.25]">
-            오늘 뭐가
+            오늘은
             <br />
-            제일 궁금해요?
+            {region}의 {currentDay}일차
           </h1>
           <p className="mt-1.5 text-ink-soft text-[12.5px] leading-relaxed">
-            끌리는 카드 한 장, 톡 골라봐요
+            어디부터 들러볼까요?
           </p>
         </div>
       </header>
@@ -235,6 +241,45 @@ export default function MissionListScreen({
           </section>
         );
       })}
+
+      {/* ===== 보너스 미션 섹션 (Phase A — 강화부터) =====
+          tier === "bonus" 인 미션만. 일자 제약 없이 언제든 풀 수 있는 추가 미션. */}
+      {bonusMissions.length > 0 && (
+        <section className="pt-8 pb-2">
+          <div className="px-5 flex items-end justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-[10px] font-extrabold text-primary uppercase tracking-[0.18em]">
+                ✨ Bonus
+              </p>
+              <h2 className="mt-0.5 text-ink text-[17px] font-extrabold leading-tight">
+                추가 미션
+              </h2>
+              <p className="text-ink-soft text-[12px] mt-1 leading-relaxed">
+                여유 있을 때 풀어보는 보너스 한 장
+              </p>
+            </div>
+            <span className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full
+                             bg-primary text-white text-[11px] font-extrabold tabular-nums shadow-soft">
+              ✨ {bonusMissions.length}장
+            </span>
+          </div>
+          <MissionCarousel
+            items={bonusMissions.map((m, i) => {
+              const group = missionGroupMeta.rest; // 보너스 카드 톤 통일 (감성·휴식 톤)
+              return (
+                <MissionImageCard
+                  key={m.id}
+                  mission={m}
+                  bgImage={group.bg}
+                  done={completedIds.has(m.id)}
+                  eager={i === 0}
+                  onClick={() => onSelectMission(m)}
+                />
+              );
+            })}
+          />
+        </section>
+      )}
 
       <div className="h-10" />
     </div>

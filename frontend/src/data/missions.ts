@@ -73,6 +73,12 @@ export type DialogueTurn = {
   numeric?: NumericInputSpec;
 };
 
+// ── 시간대 / tier (Phase A — 하루 흐름 설계용) ─────
+// timeOfDay: 미션 카드에 칩으로 표시. "아침 / 낮 / 저녁"
+// tier: "main" = 일자별 메인 9개, "bonus" = 추가/선택 미션
+export type TimeOfDay = "아침" | "낮" | "저녁";
+export type MissionTier = "main" | "bonus";
+
 // ── 미션 ─────────────────────────────────────────
 export type Mission = {
   id: string;
@@ -82,6 +88,10 @@ export type Mission = {
   mode: MissionMode;
   reward: number;            // 축적 점수
   background: BackgroundVariant;
+  // Phase A — 하루 흐름 톤
+  timeOfDay?: TimeOfDay;
+  tier?: MissionTier;        // 미정의 시 main 으로 간주 (백워드 호환)
+  day?: number;              // 명시적 일차 할당 (1~3). 미정의 시 chunkByDay 가 균등 분배
   npc: { name: string; emoji: string };
   dialogues: DialogueTurn[];
   description?: string;      // 카드 보조 설명

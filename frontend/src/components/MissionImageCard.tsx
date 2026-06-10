@@ -88,6 +88,22 @@ export default function MissionImageCard({
         />
       )}
 
+      {/* 좌상단 — 시간대 칩 (Phase A) */}
+      {mission.timeOfDay && (
+        <span
+          className="absolute top-3 left-3 inline-flex items-center gap-1
+                     px-2 py-1 rounded-full bg-white/95 backdrop-blur
+                     text-[10.5px] font-extrabold text-ink shadow-soft"
+        >
+          {mission.timeOfDay === "아침"
+            ? "🌅"
+            : mission.timeOfDay === "낮"
+              ? "☀️"
+              : "🌙"}{" "}
+          {mission.timeOfDay}
+        </span>
+      )}
+
       {/* 우상단 — 완료 마크만 (작게) */}
       {done && (
         <span

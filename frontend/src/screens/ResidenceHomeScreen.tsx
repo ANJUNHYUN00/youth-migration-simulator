@@ -1,16 +1,13 @@
-// 레지던스 진입 직후 "찐 홈" — 시뮬레이션의 중심지.
+// 레지던스 진입 직후 "찐 홈" — 시뮬레이션의 중심지 (카카오 다육이 톤)
 //
-// 디자인 톤 (v2 — 감성 여행 몰입):
-//   · 풀블리드 풍경 + 상하 그라데이션 마스크 → "지금 여기" 분위기 우선
-//   · 작은 메타("DAY 4 / 6") 제거 → 일차는 상단 도트 인디케이터로만 표현
-//   · 메인 타이틀은 중앙 상단의 큰 감성 헤드라인: "영월에서의 / 4일째 밤"
-//   · 환영문구 한 문장 — "{닉}님, 지금 {지역}의 {시간대}을 여행 중이에요"
-//   · 하단은 단 하나의 글래스 카드 — '오늘의 주요 일정' (진행률 텍스트 노출 X)
-//   · 본가로 돌아가기는 헤더 좌측 back 버튼으로 흡수 → 본문 정보 다이어트
+// 디자인 (refe.png 레퍼런스):
+//   · 상단 좌: "내 집이 자라고 있어요" 헤드라인
+//   · 상단 우: 본가로 돌아가기 버튼
+//   · 우측 floating 버튼 2개 (알아보기 → 미션리스트, 편지)
+//   · 중앙: 둥근 흙무더기 위 클레이 집 + 떠다니는 나비/꽃잎
+//   · 하단 카드: Day N · 페르소나 + 진행률 + 액션 2개 (알아보기, 마당 가꾸기)
 //
-// 레이아웃:
-//   · min-h-[100dvh] + paddingBottom: var(--content-bottom)
-//     → 하단 floating 시뮬레이션 버튼/탭바와 절대 겹치지 않음
+// 본가로 돌아가지 않는 한 시뮬레이션 흐름의 중심지로 남음.
 
 import { motion } from "framer-motion";
 import type { Residence } from "../data/residences";
@@ -25,30 +22,10 @@ type Props = {
   todayMissionDoneCount: number;
   onGoMissionList: () => void;
   onReturnHome: () => void;
+  // 편지함 진입 — 편지 탭 제거 후 ResidenceHomeScreen 의 floating 버튼이 유일 진입점
+  onOpenLetters?: () => void;
+  letterUnread?: number;
 };
-
-// 지역별 풀스크린 배경 — 자산 있는 곳만 매핑, 없으면 그라데이션 폴백
-const HOME_BG_IMAGE: Record<string, string> = {
-  ganghwa: "/home_ganghwa.png",
-  yeongwol: "/home_yeongwol.png",
-};
-
-type TimeOfDay = "아침" | "오후" | "저녁" | "밤";
-function pickTimeOfDay(): TimeOfDay {
-  const h = new Date().getHours();
-  if (h >= 5 && h < 11) return "아침";
-  if (h >= 11 && h < 17) return "오후";
-  if (h >= 17 && h < 21) return "저녁";
-  return "밤";
-}
-
-// "을/를" 자동 — 마지막 음절 받침 유무로 결정
-function objParticle(word: string): "을" | "를" {
-  const last = word.charCodeAt(word.length - 1);
-  if (last < 0xac00 || last > 0xd7a3) return "를";
-  const jong = (last - 0xac00) % 28;
-  return jong === 0 ? "를" : "을";
-}
 
 export default function ResidenceHomeScreen({
   residence,
@@ -60,165 +37,416 @@ export default function ResidenceHomeScreen({
   todayMissionDoneCount,
   onGoMissionList,
   onReturnHome,
+  onOpenLetters,
+  letterUnread = 0,
 }: Props) {
-  const bgImage = HOME_BG_IMAGE[residence.id];
-  const tod = pickTimeOfDay();
-  const remaining = Math.max(0, todayMissionCount - todayMissionDoneCount);
-  const allDone = todayMissionCount > 0 && remaining === 0;
-  const todPart = objParticle(tod);
+  const todayPercent =
+    todayMissionCount === 0
+      ? 0
+      : Math.round((todayMissionDoneCount / todayMissionCount) * 100);
 
   return (
-    <div className="relative min-h-[100dvh] overflow-hidden">
-      {/* ===== 풀블리드 배경 — 100dvh 전체 (floating 버튼 뒤까지 이어짐) ===== */}
-      <div
-        aria-hidden
-        className="absolute inset-0
-                   bg-[linear-gradient(to_bottom,#1B2545_0%,#3B4566_45%,#574438_100%)]"
-      />
-      {bgImage && (
-        <img
-          src={bgImage}
-          alt=""
-          aria-hidden
-          className="absolute inset-0 w-full h-full object-cover"
+    <div
+      className="relative min-h-[calc(100dvh-6rem)] overflow-hidden"
+      style={{
+        background:
+          "linear-gradient(to bottom, #E8F1FB 0%, #F4F9FB 60%, #FCFAF4 100%)",
+      }}
+    >
+      {/* ===== 상단 헤더 ===== */}
+      <header className="relative z-10 pt-12 px-5">
+        <h1 className="text-ink text-[22px] font-extrabold leading-tight">
+          {nickname}님의 집이
+          <br />
+          자라고 있어요
+        </h1>
+        <p className="mt-2 text-ink-soft text-[12.5px]">
+          {residence.region}에서 잠시 머무는 중
+        </p>
+      </header>
+
+      {/* ===== 우측 floating 편지 버튼 (알아보기는 하단 카드에 있어 제거) ===== */}
+      <div className="absolute top-32 right-4 z-10">
+        <FloatingActionButton
+          emoji="✉️"
+          label="편지"
+          onClick={onOpenLetters}
+          badge={letterUnread}
         />
-      )}
-      {/* 상하 가독성 마스크 — 텍스트 영역 안정적으로 어둡게 */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none
-                   bg-gradient-to-b from-black/40 via-black/10 to-black/50"
-      />
+      </div>
 
-      {/* ===== 콘텐츠 — paddingBottom 으로 nav/floating 버튼 클리어런스 보장 ===== */}
-      <div
-        className="relative z-10 flex flex-col min-h-[100dvh] px-7"
-        style={{ paddingBottom: "var(--content-bottom)" }}
-      >
-        {/* ── 헤더 — 작은 인디케이터 두 개 (왼: 본가 / 오: 일차 도트) ────── */}
-        <header className="pt-12 flex items-center justify-between">
-          <motion.button
-            type="button"
-            onClick={onReturnHome}
-            aria-label={`${homeRegion}로 돌아가기`}
-            initial={{ opacity: 0, x: -4 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.4 }}
-            whileTap={{ scale: 0.94 }}
-            className="w-10 h-10 rounded-full
-                       bg-white/15 backdrop-blur-md border border-white/25
-                       flex items-center justify-center
-                       text-white text-[16px] font-bold
-                       shadow-[0_4px_12px_-2px_rgba(0,0,0,0.25)]"
-          >
-            ←
-          </motion.button>
+      {/* ===== 중앙 씬 — 흙무더기 + 집 + 떠다니는 장식
+              (정중앙 배치 — items-center justify-center, 위·아래 패딩만 nav 클리어) ===== */}
+      <section className="absolute inset-0 z-0 flex items-center justify-center pt-28 pb-44">
+        <SceneStage />
+      </section>
 
-          {/* 일차 도트 — 활성 일차만 길쭉. dayCount 만큼만 표시 */}
-          <motion.div
-            initial={{ opacity: 0, y: -4 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, duration: 0.4 }}
-            className="flex items-center gap-1.5"
-            role="status"
-            aria-label={`총 ${dayCount}일 중 ${currentDay}일째`}
-          >
-            {Array.from({ length: dayCount }).map((_, i) => {
-              const day = i + 1;
-              const past = day < currentDay;
-              const now = day === currentDay;
-              return (
-                <span
-                  key={day}
-                  aria-hidden
-                  className={`h-1 rounded-full transition-all duration-300
-                    ${
-                      now
-                        ? "w-6 bg-white"
-                        : past
-                        ? "w-1.5 bg-white/70"
-                        : "w-1.5 bg-white/25"
-                    }`}
-                />
-              );
-            })}
-          </motion.div>
-        </header>
-
-        {/* ── 메인 — 중앙 상단 감성 헤드라인 ───────────────────────── */}
-        <motion.section
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
-          className="mt-16 text-center"
-        >
-          <h1
-            className="text-white font-extrabold leading-[1.05] tracking-[-0.02em]
-                       drop-shadow-[0_4px_14px_rgba(0,0,0,0.4)]"
-          >
-            <span className="block text-[22px] font-bold opacity-80">
-              {residence.region}에서의
-            </span>
-            <span className="block mt-2.5 text-[54px]">
-              {currentDay}일째 {tod}
-            </span>
-          </h1>
-
-          {/* 환영 문구 — 두 줄 부제 */}
-          <p
-            className="mt-8 text-white/90 text-[14.5px] leading-[1.75]
-                       drop-shadow-[0_2px_6px_rgba(0,0,0,0.35)]"
-          >
-            <span className="font-extrabold">{nickname}</span>님, 지금
-            <br />
-            {residence.region}의 {tod}
-            {todPart} 여행 중이에요
-          </p>
-        </motion.section>
-
-        {/* 본문은 비워둠 — 풍경이 호흡하는 공간 */}
-        <div className="flex-1" />
-
-        {/* ── 오늘의 주요 일정 — 글래스모피즘 카드 한 장 ──────────────── */}
-        <motion.button
-          type="button"
-          onClick={onGoMissionList}
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.35 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full rounded-[28px] text-left
-                     bg-white/[0.14] backdrop-blur-2xl
-                     border border-white/25
-                     px-5 py-4 flex items-center gap-4
-                     shadow-[0_12px_30px_-8px_rgba(0,0,0,0.35)]
-                     transition active:bg-white/20"
-        >
-          <div className="flex-1 min-w-0">
-            <p className="text-white/70 text-[10px] font-extrabold tracking-[0.24em] uppercase">
-              Today's plan
+      {/* ===== 하단 카드 — 진행률 + 액션 ===== */}
+      <footer className="absolute bottom-4 left-3 right-3 z-10">
+        <div className="bg-white rounded-3xl shadow-[0_8px_24px_-4px_rgba(80,60,40,0.12)] border border-cream-200 p-4">
+          {/* 헤더 — 페르소나 + 진행률 */}
+          <div className="flex items-baseline justify-between">
+            <p className="text-ink text-[15px] font-extrabold">
+              Day {currentDay} / {dayCount} · {residence.region}
             </p>
-            <p className="mt-1.5 text-white text-[16px] font-extrabold leading-tight">
-              오늘의 주요 일정
-            </p>
-            <p className="mt-1 text-white/75 text-[11.5px] leading-relaxed">
-              {todayMissionCount === 0
-                ? "오늘은 비워둔 하루예요"
-                : allDone
-                ? "오늘의 일정 모두 마쳤어요 ✓"
-                : `${todayMissionCount}개의 만남이 기다려요`}
+            <p className="text-primary text-[15px] font-extrabold tabular-nums">
+              {todayPercent}%
             </p>
           </div>
-          <span
-            aria-hidden
-            className="w-10 h-10 rounded-full bg-white/20 backdrop-blur
-                       border border-white/30
-                       flex items-center justify-center text-white text-[16px]"
-          >
-            →
-          </span>
-        </motion.button>
-      </div>
+          {/* 진행 바 */}
+          <div className="mt-2 h-1.5 rounded-full bg-cream-200 overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-nature-300 to-primary"
+              initial={{ width: 0 }}
+              animate={{ width: `${todayPercent}%` }}
+              transition={{ duration: 0.6 }}
+            />
+          </div>
+          {/* 오늘 미션 카운트 */}
+          <p className="mt-1 text-ink-mute text-[11px]">
+            오늘 미션 {todayMissionDoneCount} / {todayMissionCount}
+          </p>
+          {/* 액션 2개 — grid */}
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <ActionCard
+              emoji="🎯"
+              label="알아보기"
+              sub={`${todayMissionCount - todayMissionDoneCount}개 미션 남음`}
+              onClick={onGoMissionList}
+              accent="primary"
+            />
+            <ActionCard
+              emoji="🌿"
+              label="마당 가꾸기"
+              sub="내일 만나요"
+              locked
+            />
+          </div>
+        </div>
+      </footer>
     </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 우측 floating action button — 동그란 흰색 버튼 + 이모지 + 작은 라벨
+// ─────────────────────────────────────────────────────────────
+function FloatingActionButton({
+  emoji,
+  label,
+  onClick,
+  badge = 0,
+}: {
+  emoji: string;
+  label: string;
+  onClick?: () => void;
+  badge?: number;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex flex-col items-center active:scale-95 transition"
+    >
+      <span className="relative">
+        <span
+          className="block w-14 h-14 rounded-full bg-white shadow-[0_4px_12px_-2px_rgba(80,60,40,0.18)]
+                     border border-cream-200 flex items-center justify-center text-[24px]"
+        >
+          {emoji}
+        </span>
+        {badge > 0 && (
+          <span
+            aria-label={`안 읽음 ${badge}개`}
+            className="absolute -top-1 -right-1 min-w-[20px] h-[20px] px-1.5 rounded-full
+                       bg-primary text-white text-[10.5px] font-extrabold
+                       flex items-center justify-center
+                       border-2 border-white shadow-soft"
+          >
+            {badge > 9 ? "9+" : badge}
+          </span>
+        )}
+      </span>
+      <span className="mt-1 text-ink-soft text-[10.5px] font-extrabold bg-white/80 backdrop-blur px-1.5 rounded-full">
+        {label}
+      </span>
+    </button>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 하단 액션 카드 (알아보기 / 마당 가꾸기)
+// ─────────────────────────────────────────────────────────────
+function ActionCard({
+  emoji,
+  label,
+  sub,
+  onClick,
+  accent,
+  locked,
+}: {
+  emoji: string;
+  label: string;
+  sub: string;
+  onClick?: () => void;
+  accent?: "primary";
+  locked?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={locked ? undefined : onClick}
+      disabled={locked}
+      className={`relative flex items-center gap-2.5 px-3 py-2.5 rounded-2xl text-left transition
+        ${
+          accent === "primary"
+            ? "bg-primary text-white shadow-[0_4px_12px_-2px_rgba(255,112,67,0.4)]"
+            : "bg-cream-50 border border-cream-200 text-ink"
+        }
+        ${locked ? "opacity-60" : "active:scale-[0.98]"}`}
+    >
+      <span className="text-[26px] leading-none" aria-hidden>
+        {emoji}
+      </span>
+      <div className="flex-1 min-w-0">
+        <p
+          className={`text-[12.5px] font-extrabold leading-tight
+            ${accent === "primary" ? "text-white" : "text-ink"}`}
+        >
+          {label}
+        </p>
+        <p
+          className={`text-[10.5px] mt-0.5 leading-tight
+            ${accent === "primary" ? "text-white/80" : "text-ink-mute"}`}
+        >
+          {sub}
+        </p>
+      </div>
+      {locked && (
+        <span aria-hidden className="text-[12px] text-ink-mute">
+          🔒
+        </span>
+      )}
+    </button>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 중앙 씬 — 둥근 흙무더기 + 집 SVG + 떠다니는 나비/꽃잎
+// ─────────────────────────────────────────────────────────────
+function SceneStage() {
+  return (
+    <div className="relative">
+      {/* 둥근 흙무더기 platform */}
+      <div className="relative">
+        {/* 흙 그림자 */}
+        <div
+          aria-hidden
+          className="absolute -inset-2 rounded-[50%] blur-md opacity-30"
+          style={{ background: "rgba(120, 90, 60, 0.4)" }}
+        />
+        {/* 흙 본체 — 위에서 본 타원 */}
+        <svg
+          viewBox="0 0 280 110"
+          className="relative w-[280px] h-auto drop-shadow-[0_8px_12px_rgba(80,60,40,0.18)]"
+          aria-hidden
+        >
+          <defs>
+            <radialGradient id="dirtTop" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stopColor="#B7DEB8" />
+              <stop offset="70%" stopColor="#8FBC9C" />
+              <stop offset="100%" stopColor="#6B9A7A" />
+            </radialGradient>
+            <linearGradient id="dirtSide" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#C29470" />
+              <stop offset="100%" stopColor="#9A6E4F" />
+            </linearGradient>
+          </defs>
+          {/* 흙 옆면 (땅 단면) */}
+          <ellipse cx="140" cy="80" rx="125" ry="25" fill="url(#dirtSide)" />
+          <rect x="15" y="55" width="250" height="25" fill="url(#dirtSide)" />
+          {/* 흙 윗면 (잔디 위) */}
+          <ellipse cx="140" cy="55" rx="125" ry="30" fill="url(#dirtTop)" />
+          {/* 작은 풀잎 데코 */}
+          <g fill="#5C9B6B" opacity="0.85">
+            <ellipse cx="35" cy="58" rx="3" ry="6" />
+            <ellipse cx="58" cy="48" rx="2.5" ry="5" />
+            <ellipse cx="240" cy="60" rx="3" ry="6" />
+            <ellipse cx="220" cy="50" rx="2.5" ry="5" />
+            <ellipse cx="100" cy="68" rx="2" ry="4" />
+            <ellipse cx="180" cy="70" rx="2" ry="4" />
+          </g>
+          {/* 작은 자갈 */}
+          <g fill="#6B5446" opacity="0.5">
+            <circle cx="50" cy="68" r="2" />
+            <circle cx="230" cy="65" r="1.5" />
+            <circle cx="160" cy="72" r="1.5" />
+          </g>
+        </svg>
+      </div>
+
+      {/* 클레이 집 — 흙 위에 얹힘 */}
+      <motion.div
+        animate={{ y: [-3, 1, -3] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-1/2 -translate-x-1/2"
+        style={{ bottom: "38px" }}
+      >
+        <ClayHouse />
+      </motion.div>
+
+      {/* 떠다니는 나비 + 꽃잎 */}
+      <FloatingDecorations />
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 클레이 집 SVG — 한옥 + 마당 톤
+// ─────────────────────────────────────────────────────────────
+function ClayHouse() {
+  return (
+    <svg
+      viewBox="0 0 140 130"
+      className="w-[140px] h-auto drop-shadow-[0_6px_8px_rgba(62,44,32,0.25)]"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id="roof" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#E08F6E" />
+          <stop offset="100%" stopColor="#B96748" />
+        </linearGradient>
+        <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#FBF0DA" />
+          <stop offset="100%" stopColor="#E8D1A8" />
+        </linearGradient>
+        <linearGradient id="door" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#A06B45" />
+          <stop offset="100%" stopColor="#7A4F30" />
+        </linearGradient>
+      </defs>
+
+      {/* 굴뚝 (오른쪽 위) */}
+      <rect x="92" y="22" width="14" height="22" fill="#C97D5C" rx="2" />
+      <rect x="90" y="22" width="18" height="4" fill="#A35F45" rx="1" />
+      {/* 굴뚝 연기 */}
+      <g fill="#FFFFFF" opacity="0.75">
+        <circle cx="100" cy="15" r="5" />
+        <circle cx="95" cy="8" r="4" />
+        <circle cx="103" cy="3" r="3" />
+      </g>
+
+      {/* 지붕 — 기와 곡선 */}
+      <path
+        d="M 20 50 Q 22 32 35 28 L 105 28 Q 118 32 120 50 Z"
+        fill="url(#roof)"
+      />
+      <path d="M 18 50 L 122 50 L 122 55 L 18 55 Z" fill="#9A4F32" />
+      <g stroke="#A35F45" strokeWidth="0.8" fill="none" opacity="0.55">
+        <path d="M 28 38 Q 50 36 70 36 Q 90 36 112 38" />
+        <path d="M 25 44 Q 50 42 70 42 Q 90 42 115 44" />
+      </g>
+
+      {/* 본채 */}
+      <rect x="22" y="55" width="96" height="62" rx="2" fill="url(#wall)" />
+      <rect x="20" y="112" width="100" height="8" fill="#C8A877" rx="1" />
+
+      {/* 창문 */}
+      <rect
+        x="32"
+        y="68"
+        width="22"
+        height="26"
+        rx="2"
+        fill="#C9E1EF"
+        stroke="#8B5E42"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M 43 68 L 43 94 M 32 81 L 54 81"
+        stroke="#8B5E42"
+        strokeWidth="1"
+      />
+      <rect
+        x="86"
+        y="68"
+        width="22"
+        height="26"
+        rx="2"
+        fill="#C9E1EF"
+        stroke="#8B5E42"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M 97 68 L 97 94 M 86 81 L 108 81"
+        stroke="#8B5E42"
+        strokeWidth="1"
+      />
+
+      {/* 창문 따뜻한 빛 */}
+      <rect x="33" y="69" width="20" height="10" fill="#FFE9A8" opacity="0.6" />
+      <rect x="87" y="69" width="20" height="10" fill="#FFE9A8" opacity="0.6" />
+
+      {/* 문 */}
+      <rect x="62" y="84" width="16" height="28" rx="1" fill="url(#door)" />
+      <circle cx="74" cy="98" r="1.4" fill="#FFE9A8" />
+
+      {/* 입구 계단 */}
+      <rect x="58" y="112" width="24" height="3" fill="#C8A877" rx="0.5" />
+    </svg>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// 떠다니는 나비 + 꽃잎 (clay tone)
+// ─────────────────────────────────────────────────────────────
+function FloatingDecorations() {
+  return (
+    <>
+      <motion.span
+        aria-hidden
+        className="absolute text-[22px] select-none"
+        style={{ left: "-10%", top: "10%" }}
+        animate={{
+          x: [0, 12, 0],
+          y: [0, -8, 0],
+          rotate: [-8, 8, -8],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+      >
+        🦋
+      </motion.span>
+      <motion.span
+        aria-hidden
+        className="absolute text-[18px] select-none"
+        style={{ right: "-5%", top: "0%" }}
+        animate={{
+          x: [0, -10, 0],
+          y: [0, 6, 0],
+          rotate: [10, -10, 10],
+        }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+      >
+        🦋
+      </motion.span>
+      <motion.span
+        aria-hidden
+        className="absolute text-[14px] select-none"
+        style={{ right: "5%", top: "55%" }}
+        animate={{ y: [0, -6, 0], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+      >
+        🌸
+      </motion.span>
+      <motion.span
+        aria-hidden
+        className="absolute text-[14px] select-none"
+        style={{ left: "-2%", top: "60%" }}
+        animate={{ y: [0, -5, 0], opacity: [0.5, 1, 0.5] }}
+        transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+      >
+        🌼
+      </motion.span>
+    </>
   );
 }

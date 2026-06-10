@@ -29,11 +29,12 @@ export default function NicknameScreen({
       step={step}
       total={total}
       onBack={onBack}
-      ctaLabel="내 귀촌 유형보기 🍃"
+      ctaLabel="다음"
       ctaDisabled={!valid}
       onCta={() => onNext(trimmed)}
     >
-      <h1 className="text-ink text-[22px] font-extrabold leading-snug">
+      <p className="text-ink-soft text-[12px] font-medium">바람을 짓다 시작하기</p>
+      <h1 className="mt-1 text-ink text-[22px] font-extrabold leading-snug">
         어떤 이름으로
         <br />
         바람을 지어볼까요?

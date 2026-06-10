@@ -20,6 +20,8 @@ type Props = {
   letters: Letter[];
   onMarkRead: (id: string) => void;
   onMarkAllRead: () => void;
+  // ResidenceHomeScreen 에서 진입했을 때 닫고 돌아갈 경로
+  onBack?: () => void;
 };
 
 type FilterKey = "all" | LetterCategory;
@@ -68,6 +70,7 @@ export default function LetterScreen({
   letters,
   onMarkRead,
   onMarkAllRead,
+  onBack,
 }: Props) {
   const [filter, setFilter] = useState<FilterKey>("all");
   const [openId, setOpenId] = useState<string | null>(null);
@@ -98,15 +101,28 @@ export default function LetterScreen({
           : "모두 확인했어요"
       }
       rightActions={
-        unread > 0 ? (
-          <button
-            type="button"
-            onClick={onMarkAllRead}
-            className="text-[11px] font-bold text-ink-mute underline underline-offset-2"
-          >
-            모두 읽음
-          </button>
-        ) : null
+        <div className="flex items-center gap-2">
+          {unread > 0 && (
+            <button
+              type="button"
+              onClick={onMarkAllRead}
+              className="text-[11px] font-bold text-ink-mute underline underline-offset-2"
+            >
+              모두 읽음
+            </button>
+          )}
+          {onBack && (
+            <button
+              type="button"
+              onClick={onBack}
+              aria-label="닫기"
+              className="w-9 h-9 rounded-full bg-white border border-cream-200 shadow-soft
+                         flex items-center justify-center text-ink active:scale-95 transition"
+            >
+              ✕
+            </button>
+          )}
+        </div>
       }
     >
       {/* === 필터 칩 — 활성 상태 강조 (ring + scale + shadow) === */}

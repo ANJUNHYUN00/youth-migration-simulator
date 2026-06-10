@@ -111,14 +111,14 @@ export default function CommunityScreen({ onBack }: Props = {}) {
     <div ref={scrollRef} className="h-screen overflow-y-auto bg-cream">
       {/* 상단 sticky 헤더 + 필터 */}
       <header className="sticky top-0 z-20 bg-cream/95 backdrop-blur">
-        <div className="px-6 pt-7 pb-4 relative">
+        <div className="px-5 pt-6 pb-3 relative">
           {/* 백 버튼 — 발견에서 진입했을 때만 */}
           {onBack && (
             <button
               type="button"
               onClick={onBack}
               aria-label="뒤로가기"
-              className="absolute top-7 left-5 w-9 h-9 rounded-full bg-white shadow-soft
+              className="absolute top-6 left-5 w-9 h-9 rounded-full bg-white shadow-soft
                          flex items-center justify-center text-ink z-10"
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -136,7 +136,7 @@ export default function CommunityScreen({ onBack }: Props = {}) {
             <p className="text-[10px] font-bold text-ink-mute tracking-[0.18em] uppercase">
               Community
             </p>
-            <h1 className="mt-1 text-[28px] font-extrabold text-ink leading-tight">
+            <h1 className="mt-1 text-[24px] font-extrabold text-ink leading-tight">
               이야기
             </h1>
             <p className="mt-1 text-[12px] text-ink-soft">
@@ -147,7 +147,7 @@ export default function CommunityScreen({ onBack }: Props = {}) {
             src="/character1/clay-jieum-solo.png"
             alt=""
             aria-hidden
-            className="absolute top-3 right-5 w-[52px] h-auto drop-shadow-[0_6px_10px_rgba(62,44,32,0.22)] pointer-events-none"
+            className="absolute top-2 right-5 w-[48px] h-auto drop-shadow-[0_6px_10px_rgba(62,44,32,0.22)] pointer-events-none"
           />
         </div>
         <CategoryFilter value={filter} onChange={setFilter} />
