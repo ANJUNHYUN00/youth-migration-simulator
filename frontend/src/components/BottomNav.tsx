@@ -50,9 +50,21 @@ export default function BottomNav({ active, onChange }: Props) {
             icon={<CommunityIcon active={active === "community"} />}
           />
 
-          {/* notch — 시뮬레이션 버튼이 시각적으로 차지할 자리.
-              flex-1 로 84px 슬롯 예약. 실제 버튼은 이 nav 바깥의 sibling. */}
-          <div className="flex-1" aria-hidden />
+          {/* notch — 위쪽엔 floating 원형 버튼이 덮고, 아래쪽엔 다른 탭과 같은 baseline 의 라벨만.
+              아이콘 자리(26x26)는 빈 placeholder 로 두어 label Y 좌표를 다른 탭과 정확히 맞춤. */}
+          <div
+            className="flex-1 flex flex-col items-center justify-center gap-1 pointer-events-none"
+            aria-hidden
+          >
+            <div className="w-[26px] h-[26px]" />
+            <span
+              className={`text-[11px] font-semibold leading-none ${
+                active === "simulation" ? "text-primary" : "text-ink-soft"
+              }`}
+            >
+              시뮬레이션
+            </span>
+          </div>
 
           <TabButton
             label="여정"
@@ -143,8 +155,7 @@ function CenterSimulationButton({
       }}
       className={`absolute left-1/2 -translate-x-1/2 pointer-events-auto
                   rounded-full flex items-center justify-center
-                  text-white text-[11.5px] font-extrabold leading-tight tracking-tight
-                  text-center transition active:scale-95
+                  text-white transition active:scale-95
                   border-[3px] border-white
                   shadow-[0_10px_22px_-6px_rgba(255,112,67,0.65),0_2px_4px_rgba(0,0,0,0.08)]
                   ${
@@ -153,9 +164,28 @@ function CenterSimulationButton({
                       : "bg-primary"
                   }`}
     >
-      시뮬
-      <br />
-      레이션
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden>
+        {/* 지붕 + 본체 — 흰색 stroke */}
+        <path
+          d="M5 14 L15 6 L25 14 L25 24 L5 24 Z"
+          stroke="#ffffff"
+          strokeWidth="2.2"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          fill="none"
+        />
+        {/* 문 */}
+        <rect
+          x="12"
+          y="17"
+          width="6"
+          height="7"
+          rx="0.5"
+          stroke="#ffffff"
+          strokeWidth="2"
+          fill="none"
+        />
+      </svg>
     </button>
   );
 }
@@ -164,31 +194,40 @@ function CenterSimulationButton({
 // 아이콘들
 // =====================================================================
 
-// 레지던스 예약(집) 아이콘
+// 레지던스 예약(달력) 아이콘
 function BookingIcon({ active }: { active: boolean }) {
   const color = active ? "#FF7043" : "#9A8778";
   const bg = active ? "#FFE0D3" : "none";
   return (
     <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden>
-      {/* 지붕 */}
-      <path
-        d="M4 12 L13 5 L22 12 L22 21 L4 21 Z"
+      {/* 달력 본체 */}
+      <rect
+        x="4"
+        y="6"
+        width="18"
+        height="16"
+        rx="2"
         stroke={color}
         strokeWidth="1.8"
-        strokeLinejoin="round"
         fill={bg}
       />
-      {/* 문 */}
-      <rect
-        x="10.5"
-        y="14"
-        width="5"
-        height="7"
-        rx="0.5"
+      {/* 헤더 구분선 */}
+      <path d="M4 11 L22 11" stroke={color} strokeWidth="1.6" />
+      {/* 상단 고리 두 개 */}
+      <path
+        d="M9 4 V8"
         stroke={color}
-        strokeWidth="1.6"
-        fill="none"
+        strokeWidth="1.8"
+        strokeLinecap="round"
       />
+      <path
+        d="M17 4 V8"
+        stroke={color}
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      {/* 오늘 표시 점 */}
+      <circle cx="13" cy="16.5" r="1.6" fill={color} />
     </svg>
   );
 }
