@@ -1,9 +1,9 @@
-// 미션 카드 v3 — 호기심 질문 하나만. 미니멀.
+// 미션 카드 v4 — 이미지 위 흰 박스로 텍스트 가독성 확보 (여행 앱 톤).
 //
 // 디자인 원칙:
-//   · 배경 이미지 + 어두운 마스크 → 분위기
-//   · 가운데 큰 호기심 질문 한 줄 (제일 중요)
-//   · 메타(보상/NPC/카테고리 태그/제목) 모두 제거 — 노이즈 줄이기
+//   · 배경 이미지는 또렷하게 (어두운 마스크 X)
+//   · 카드 하단에 반투명 흰 박스 — 제목(메인) + 호기심 질문(부제)
+//   · 제목은 모든 카드 2줄 고정(min-h)으로 박스 크기 통일
 //   · 완료 상태는 카드 전체 톤다운 + 우상단 작은 ✓
 //   · 모션 없음 — 정적 카드. tap 시 CSS active:scale 만 살짝 피드백.
 
@@ -53,6 +53,13 @@ export default function MissionImageCard({
   eager,
 }: Props) {
   const curiosity = curiosityFor(mission);
+  // 호기심 부제 — "—" 가 있으면 그 자리에서 줄바꿈 (— 가 아래줄 시작).
+  // 없으면 한 줄 그대로. 박스 높이는 min-h 로 2줄 공간 통일.
+  const emDashIdx = curiosity.indexOf("—");
+  const curiosityHead =
+    emDashIdx >= 0 ? curiosity.slice(0, emDashIdx).trim() : curiosity;
+  const curiosityTail =
+    emDashIdx >= 0 ? curiosity.slice(emDashIdx).trim() : null;
 
   return (
     <button
@@ -71,13 +78,6 @@ export default function MissionImageCard({
         loading={eager ? "eager" : "lazy"}
         draggable={false}
         className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
-      />
-
-      {/* 어두운 마스크 — 텍스트 가독성 */}
-      <div
-        aria-hidden
-        className="absolute inset-0 pointer-events-none
-                   bg-gradient-to-b from-black/40 via-black/35 to-black/60"
       />
 
       {/* 완료 톤다운 */}
@@ -116,19 +116,28 @@ export default function MissionImageCard({
         </span>
       )}
 
-      {/* === 호기심 질문 — 카드의 유일한 텍스트 === */}
-      <div className="absolute inset-x-5 bottom-6">
-        <span
-          aria-hidden
-          className="block text-white/85 text-[40px] leading-none font-serif select-none"
-        >
-          "
-        </span>
+      {/* === 흰 박스 — 제목(메인) + 호기심 질문(부제) === */}
+      <div
+        className="absolute inset-x-3 bottom-3 rounded-2xl bg-white/95 backdrop-blur
+                   shadow-soft p-3"
+      >
+        {/* 제목 — 콘텐츠만큼만, 긴 제목은 line-clamp-2 로 cap. */}
         <p
-          className="mt-1 text-white text-[19px] font-extrabold leading-[1.35]
-                     [text-shadow:0_2px_8px_rgba(0,0,0,0.55)]"
+          className="text-ink text-[17px] font-extrabold leading-tight line-clamp-2"
         >
-          {curiosity}
+          {mission.title}
+        </p>
+        {/* 호기심 질문 — 부제. "—" 자리에서 줄바꿈. 콘텐츠만큼만 차지. */}
+        <p
+          className="mt-[7px] text-ink-soft text-[11px] leading-tight"
+        >
+          {curiosityHead}
+          {curiosityTail && (
+            <>
+              <br />
+              {curiosityTail}
+            </>
+          )}
         </p>
       </div>
     </button>
