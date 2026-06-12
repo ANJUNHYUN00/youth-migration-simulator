@@ -38,35 +38,35 @@ const CATEGORY_CHIP_STYLE: Record<PostCategory, { bg: string; text: string }> = 
   place: { bg: "bg-[#E8F0F4]", text: "text-[#5E8FA8]" },
 };
 
-// 본문/지역 키워드 → 클레이 씬 이미지 자동 매칭
+// 본문/지역 키워드 → 커뮤니티 이미지 자동 매칭 (/community/community_NN.png)
 const IMAGE_RULES: Array<{ keywords: string[]; image: string }> = [
   {
     keywords: ["갯벌", "해변", "바다", "만리포", "인구해변", "서핑", "청산도"],
-    image: "/character1/clay-beach.png",
+    image: "/community/community_01.png",
   },
   {
     keywords: ["시장", "5일장", "오일장", "매대", "장 구경"],
-    image: "/character1/clay-market.png",
+    image: "/community/community_02.png",
   },
   {
     keywords: ["한옥", "차밭", "운림산방", "한국화", "다도"],
-    image: "/character1/clay-hanok-nap.png",
+    image: "/community/community_03.png",
   },
   {
     keywords: ["카페", "이발소", "가게", "사장", "코워킹", "작업실"],
-    image: "/character1/clay-barbershop.png",
+    image: "/community/community_04.png",
   },
   {
     keywords: ["정류장", "버스"],
-    image: "/character1/clay-bus-stop.png",
+    image: "/community/community_05.png",
   },
   {
     keywords: ["시내", "계곡", "매화", "섬진강"],
-    image: "/character1/clay-stream-watermelon.png",
+    image: "/community/community_06.png",
   },
   {
     keywords: ["천문대", "별이", "별마로", "지도", "안내소", "산속"],
-    image: "/character1/clay-village-map.png",
+    image: "/community/community_07.png",
   },
 ];
 
@@ -75,7 +75,7 @@ function pickImage(post: CommunityPost): string {
   for (const rule of IMAGE_RULES) {
     if (rule.keywords.some((k) => haystack.includes(k))) return rule.image;
   }
-  return "/character1/clay-village-map.png";
+  return "/community/community_07.png";
 }
 
 type Props = {
