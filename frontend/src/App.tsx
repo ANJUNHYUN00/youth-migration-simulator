@@ -1179,6 +1179,7 @@ export default function App() {
             profile={profile.profileV2}
             onOpenReport={handleOpenReport}
             onOpenCinematic={(r) => void handleOpenCinematic(r)}
+            acquiredItems={acquiredItems}
           />
         )}
 
