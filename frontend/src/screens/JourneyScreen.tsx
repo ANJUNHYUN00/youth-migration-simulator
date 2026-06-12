@@ -26,7 +26,7 @@ type Props = {
   onOpenReport: (residence: Residence) => void;
   // 이주 리포트 시네마틱 — 캐싱된 리포트가 있을 때만 노출
   onOpenCinematic?: (residence: Residence) => void;
-  // 수집한 전리품 — App.tsx에서 영속 state로 관리, 표시만 함
+  // 수집한 기념품 — App.tsx에서 영속 state로 관리, 표시만 함
   acquiredItems?: Item[];
 };
 
@@ -81,7 +81,7 @@ export default function JourneyScreen({
 
         {/* === Section rhythm — 모든 메이저 섹션 24px 간격 (mt-6) === */}
         <div className="pb-8">
-          {/* ① 수집한 전리품 — 포켓몬 카드 톤 가로 스크롤 갤러리 */}
+          {/* ① 수집한 기념품 — 포켓몬 카드 톤 가로 스크롤 갤러리 */}
           <section className="mt-6 px-4">
             <TrophyCardScroll acquiredItems={acquiredItems} />
           </section>
@@ -339,7 +339,7 @@ function LockedReportCard() {
 }
 
 // =====================================================================
-// 수집한 전리품 — 포켓몬 카드 톤 가로 스크롤 갤러리
+// 수집한 기념품 — 포켓몬 카드 톤 가로 스크롤 갤러리
 //   · 전체 카드 = ITEMS 카탈로그 (10장 고정: 영월 5 + 강화 5)
 //   · 획득: 살구 그라디언트 + 광채 + 이모지 + 이름·지역. 스프링 등장.
 //   · 미획득: 어둠 그라디언트 + "?" — 몇 장 남았는지 궁금증 유발.
@@ -388,7 +388,7 @@ function TrophyCardScroll({ acquiredItems }: { acquiredItems: Item[] }) {
             Trophy
           </p>
           <h3 className="mt-0.5 text-ink text-[15px] font-extrabold">
-            수집한 전리품
+            수집한 기념품
           </h3>
         </div>
         <span className="text-[11px] font-extrabold text-primary tabular-nums">
@@ -444,7 +444,7 @@ function TrophyCard({
           background: "linear-gradient(135deg, #3E2C20 0%, #5A4838 60%, #4A3326 100%)",
           boxShadow: "0 4px 10px -2px rgba(62,44,32,0.25)",
         }}
-        aria-label="미발견 전리품"
+        aria-label="미발견 기념품"
       >
         {/* 별 장식 — 어둠 속 미세한 반짝임 */}
         <span aria-hidden className="absolute top-2 right-2 text-white/35 text-[9px]">
@@ -485,7 +485,7 @@ function TrophyCard({
       {...motionProps}
       className="aspect-[3/4] rounded-2xl overflow-hidden
                  bg-white border border-cream-200 shadow-soft relative flex flex-col"
-      aria-label={`${item.name} 전리품`}
+      aria-label={`${item.name} 기념품`}
     >
       {/* 이모지 영역 — 살구 그라디언트, 전체의 62% */}
       <div
@@ -505,12 +505,12 @@ function TrophyCard({
           }}
         />
 
-        {/* 상단 좌측 라벨 — "전리품" */}
+        {/* 상단 좌측 라벨 — "기념품" */}
         <span
           className="absolute top-0.5 left-0.5 px-1 py-0.5 rounded
                      bg-white/75 text-ink-soft text-[6px] font-extrabold tracking-wide"
         >
-          전리품
+          기념품
         </span>
         {/* 상단 우측 번호 */}
         <span className="absolute top-0.5 right-1 text-primary text-[7px] font-extrabold tabular-nums">

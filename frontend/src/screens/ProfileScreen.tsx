@@ -20,7 +20,6 @@ import {
 import type { LifeStyleType, Residence } from "../data/residences";
 import type { OnboardingData } from "../data/quiz";
 import { pickResidenceImage, ratings } from "../data/bookingExtras";
-import type { Item } from "../data/items";
 import type { SavedQuote } from "../data/quotes";
 import TabLayout from "../components/TabLayout";
 
@@ -31,8 +30,6 @@ type Props = {
   profile?: LifestyleProfile;
   onboarding?: OnboardingData;
   likedResidences: Residence[];
-  // 수집한 기념품 — 미션 완료 시 획득
-  acquiredItems?: Item[];
   // 기억한 말들 — 사용자가 직접 저장한 NPC 인용구
   savedQuotes?: SavedQuote[];
   onOpenSettings: () => void;
@@ -45,7 +42,6 @@ export default function ProfileScreen({
   profile,
   onboarding,
   likedResidences,
-  acquiredItems = [],
   savedQuotes = [],
   onOpenSettings,
   onSelectResidence,
@@ -121,25 +117,7 @@ export default function ProfileScreen({
           />
         </section>
 
-        {/* ④ 수집한 기념품 — 미션 완료로 모은 작은 흔적들 */}
-        <section>
-          <div className="flex items-end justify-between px-1 mb-2">
-            <div>
-              <p className="text-[10.5px] font-extrabold text-ink-mute uppercase tracking-[0.16em]">
-                Souvenirs
-              </p>
-              <h2 className="mt-0.5 text-ink text-[15px] font-extrabold leading-tight">
-                수집한 기념품
-              </h2>
-            </div>
-            <span className="text-[11px] font-extrabold text-primary tabular-nums">
-              ✨ {acquiredItems.length}
-            </span>
-          </div>
-          <SouvenirGrid items={acquiredItems} />
-        </section>
-
-        {/* ⑤ 기억한 말들 — 사용자가 직접 고른 인용구 */}
+        {/* ④ 기억한 말들 — 사용자가 직접 고른 인용구 */}
         <section>
           <div className="flex items-end justify-between px-1 mb-2">
             <div>
@@ -485,13 +463,6 @@ function LikedResidencesRail({
 }
 
 // =====================================================================
-// SouvenirGrid — 수집한 기념품 그리드
-//   · 미수집 시: "아직 모은 기념품이 없어요" 빈 상태
-//   · 수집 시: 3열 grid, 이모지 + 짧은 이름 + 어디서
-//   · 폴라로이드 톤 — 작은 카드들
-// =====================================================================
-
-// =====================================================================
 // QuoteList — 사용자가 직접 저장한 NPC 발언 컬렉션
 //   · 미저장 시: 안내 빈 상태
 //   · 저장 시: 인용 카드 세로 리스트 — 발언자 + 큰 따옴표 + 어디 미션인지 작은 메타
@@ -561,63 +532,3 @@ function QuoteList({ quotes }: { quotes: SavedQuote[] }) {
   );
 }
 
-function SouvenirGrid({ items }: { items: Item[] }) {
-  if (items.length === 0) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="bg-white rounded-2xl border border-cream-200 shadow-soft
-                   p-6 text-center"
-      >
-        <p className="text-3xl" aria-hidden>
-          📦
-        </p>
-        <p className="mt-2 text-ink-soft text-[12.5px] leading-relaxed">
-          아직 모은 기념품이 없어요.
-          <br />
-          미션을 마치면 작은 흔적이 하나씩 쌓여요.
-        </p>
-      </motion.div>
-    );
-  }
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: 0.1 }}
-      className="grid grid-cols-3 gap-2"
-    >
-      {items.map((it, i) => (
-        <motion.div
-          key={it.id}
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.15 + i * 0.04 }}
-          className="bg-white rounded-2xl border border-cream-200 shadow-soft
-                     overflow-hidden"
-        >
-          {/* 이모지 영역 */}
-          <div
-            className="h-[80px] flex items-center justify-center"
-            style={{
-              background:
-                "linear-gradient(135deg, #FFF5E6 0%, #FFE7D1 100%)",
-            }}
-          >
-            <span className="text-[40px] leading-none select-none" aria-hidden>
-              {it.emoji}
-            </span>
-          </div>
-          {/* 이름 */}
-          <div className="px-2 py-2">
-            <p className="text-ink text-[11.5px] font-extrabold leading-tight truncate">
-              {it.name}
-            </p>
-          </div>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-}

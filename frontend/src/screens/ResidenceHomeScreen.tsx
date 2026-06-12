@@ -75,11 +75,11 @@ export default function ResidenceHomeScreen({
         </p>
       </header>
 
-      {/* ===== 우측 floating 편지 버튼 (알아보기는 하단 카드에 있어 제거) ===== */}
+      {/* ===== 우측 floating 우편함 버튼 (알아보기는 하단 카드에 있어 제거) ===== */}
       <div className="absolute top-32 right-4 z-10">
         <FloatingActionButton
           emoji="✉️"
-          label="편지"
+          label="우편함"
           onClick={onOpenLetters}
           badge={letterUnread}
         />

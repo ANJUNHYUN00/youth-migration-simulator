@@ -1,7 +1,6 @@
 // 레지던스 예약 탭 — 목록 화면
-// 추천 8곳: Hero 2개 가로 스와이프 + 리스트 카드 6개. 지역 필터·찜(화면 상태).
+// 추천 8곳: Hero 2개 가로 스와이프 + 리스트 카드 6개. 찜(화면 상태).
 
-import { useEffect, useMemo, useRef, useState } from "react";
 import type { Residence } from "../data/residences";
 import { pickResidenceImage, ratings } from "../data/bookingExtras";
 
@@ -11,8 +10,6 @@ type Props = {
   // 좋아요(찜) 상태는 부모(App.tsx)에서 영속화·통합 관리. 내정보 탭과 동기화 필수.
   liked: Set<string>;
   onToggleLike: (residenceId: string) => void;
-  // 발견 탭의 "전체 보기" 로 들어왔을 때만 백 버튼 노출
-  onBack?: () => void;
 };
 
 export default function BookingScreen({
@@ -20,60 +17,20 @@ export default function BookingScreen({
   onSelectResidence,
   liked,
   onToggleLike,
-  onBack,
 }: Props) {
-  const [regionFilter, setRegionFilter] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  // 지역 필터 변경 시 상단 스크롤
-  useEffect(() => {
-    scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-  }, [regionFilter]);
-
-  const regions = useMemo(
-    () => Array.from(new Set(residences.map((r) => r.region))),
-    [residences]
-  );
-  const visible = regionFilter
-    ? residences.filter((r) => r.region === regionFilter)
-    : residences;
-
-  // Hero는 추천 상위 2개 (필터 적용 X — 항상 추천 큐레이션)
+  // Hero는 추천 상위 2개
   const heroes = residences.slice(0, 2);
-  // 리스트는 visible에서 Hero 제외 (필터 없을 때만), 필터 있을 때는 visible 그대로
-  const listItems = regionFilter
-    ? visible
-    : visible.filter((r) => !heroes.includes(r));
+  const listItems = residences.filter((r) => !heroes.includes(r));
 
   // 좋아요 토글은 부모로 위임 (App.tsx 가 bookingLiked Set 관리 + 영속화)
   const toggleLike = (id: string) => onToggleLike(id);
 
   return (
-    <div ref={scrollRef} className="h-screen overflow-y-auto bg-cream">
-      {/* 헤더 + 필터 */}
+    <div className="h-screen overflow-y-auto bg-cream">
+      {/* 헤더 */}
       <header className="sticky top-0 z-20 bg-cream/95 backdrop-blur">
-        <div className="px-5 pt-6 pb-3 relative">
-          {/* 백 버튼 — 발견 → 전체 보기로 진입했을 때만 */}
-          {onBack && (
-            <button
-              type="button"
-              onClick={onBack}
-              aria-label="뒤로가기"
-              className="absolute top-6 left-5 w-9 h-9 rounded-full bg-white shadow-soft
-                         flex items-center justify-center text-ink z-10"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-                <path
-                  d="M15 6 9 12l6 6"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </button>
-          )}
-          <div className={onBack ? "pl-12" : ""}>
+        <div className="px-5 pt-6 pb-4 relative">
+          <div>
             <p className="text-[10px] font-bold text-ink-mute tracking-[0.18em] uppercase">
               Booking
             </p>
@@ -81,7 +38,7 @@ export default function BookingScreen({
               레지던스
             </h1>
             <p className="mt-1 text-[12px] text-ink-soft">
-              추천 {residences.length}곳 · 마음 정해서 떠나봐요
+              마음 정해서 떠나봐요
             </p>
           </div>
           <img
@@ -91,39 +48,32 @@ export default function BookingScreen({
             className="absolute top-2 right-5 w-[48px] h-auto drop-shadow-[0_6px_10px_rgba(62,44,32,0.22)] pointer-events-none"
           />
         </div>
-        <RegionFilter
-          value={regionFilter}
-          regions={regions}
-          onChange={setRegionFilter}
-        />
       </header>
 
-      {/* Hero 큐레이션 — 필터 미적용 시에만 노출 */}
-      {!regionFilter && (
-        <section className="pt-2 pb-4">
-          <div className="px-5 pb-2">
-            <p className="text-[11px] font-bold text-ink-mute tracking-widest uppercase">
-              Featured
-            </p>
-            <p className="text-[16px] font-extrabold text-ink mt-0.5">
-              이번 주 큐레이션
-            </p>
+      {/* Hero 큐레이션 */}
+      <section className="pt-2 pb-4">
+        <div className="px-5 pb-2">
+          <p className="text-[11px] font-bold text-ink-mute tracking-widest uppercase">
+            Featured
+          </p>
+          <p className="text-[16px] font-extrabold text-ink mt-0.5">
+            이번 주 큐레이션
+          </p>
+        </div>
+        <div className="overflow-x-auto no-scrollbar snap-x snap-mandatory px-4 pb-2">
+          <div className="flex gap-3 w-max">
+            {heroes.map((r) => (
+              <HeroCard
+                key={r.id}
+                residence={r}
+                liked={liked.has(r.id)}
+                onToggleLike={() => toggleLike(r.id)}
+                onSelect={() => onSelectResidence(r)}
+              />
+            ))}
           </div>
-          <div className="overflow-x-auto no-scrollbar snap-x snap-mandatory px-4 pb-2">
-            <div className="flex gap-3 w-max">
-              {heroes.map((r) => (
-                <HeroCard
-                  key={r.id}
-                  residence={r}
-                  liked={liked.has(r.id)}
-                  onToggleLike={() => toggleLike(r.id)}
-                  onSelect={() => onSelectResidence(r)}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* 리스트 */}
       <section className="pb-32">
@@ -132,7 +82,7 @@ export default function BookingScreen({
             All
           </p>
           <p className="text-[16px] font-extrabold text-ink mt-0.5">
-            {regionFilter ? `${regionFilter} ${visible.length}곳` : "또 다른 추천"}
+            또 다른 추천
           </p>
         </div>
 
@@ -145,78 +95,8 @@ export default function BookingScreen({
             onSelect={() => onSelectResidence(r)}
           />
         ))}
-
-        {listItems.length === 0 && (
-          <div className="mx-4 mt-6 bg-white rounded-[28px] px-5 py-10 shadow-soft border border-cream-200 text-center">
-            <p className="text-[28px]" aria-hidden>
-              📭
-            </p>
-            <p className="mt-2 text-[13px] font-bold text-ink">
-              아직 이 지역의 추천 레지던스가 없어요
-            </p>
-          </div>
-        )}
       </section>
     </div>
-  );
-}
-
-// =====================================================================
-// 지역 필터
-// =====================================================================
-function RegionFilter({
-  value,
-  regions,
-  onChange,
-}: {
-  value: string | null;
-  regions: string[];
-  onChange: (next: string | null) => void;
-}) {
-  return (
-    <div className="overflow-x-auto no-scrollbar px-5 pb-4">
-      <div className="flex gap-1.5 w-max">
-        <FilterChip
-          label="전체"
-          active={value === null}
-          onClick={() => onChange(null)}
-        />
-        {regions.map((region) => (
-          <FilterChip
-            key={region}
-            label={region}
-            active={value === region}
-            onClick={() => onChange(region)}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function FilterChip({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`shrink-0 px-3.5 py-1.5 rounded-full text-[12.5px] transition active:scale-[0.97]
-        ${
-          active
-            ? "bg-primary text-white font-extrabold shadow-soft"
-            : "bg-transparent text-ink-mute font-semibold"
-        }`}
-      aria-pressed={active}
-    >
-      {label}
-    </button>
   );
 }
 

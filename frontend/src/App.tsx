@@ -1274,7 +1274,7 @@ export default function App() {
           />
         )}
 
-        {/* === 내 정보 탭 — 정체성 + 좋아요 청년마을 + 수집한 기념품 + 설정 === */}
+        {/* === 내 정보 탭 — 정체성 + 좋아요 청년마을 + 설정 === */}
         {tab === "profile" && (
           <ProfileScreen
             nickname={nickname}
@@ -1285,7 +1285,6 @@ export default function App() {
             likedResidences={recommendedResidences.filter((r) =>
               bookingLiked.has(r.id)
             )}
-            acquiredItems={acquiredItems}
             savedQuotes={savedQuotes}
             onOpenSettings={handleOpenSettings}
             onSelectResidence={(r) => {
@@ -1313,7 +1312,6 @@ export default function App() {
                 return next;
               })
             }
-            onBack={() => setTab("community")}
           />
         )}
 
