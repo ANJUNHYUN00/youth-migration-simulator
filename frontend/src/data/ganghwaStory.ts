@@ -12,7 +12,7 @@ export const HANSEOL_NAME = "한설";
 
 // Day 1 첫 진입 환영 인사 — 영속 1회 노출 (RegionRecord.storyIntroShown 추적)
 export const HANSEOL_INTRO =
-  "왔구나, 새내기. 나는 한설, 여기 3년 차야. 나도 처음엔 '진짜 살 수 있을까' 싶었어. 처음 며칠은 내가 옆에 있을게. 천천히 가보자.";
+  "잘 왔어. 나는 한설, 여기 3년 차야. 나도 처음엔 '진짜 살 수 있을까' 싶었거든. 처음 며칠은 옆에 있을게. 천천히 가보자.";
 
 // 메인 9 미션 시작 전 한마디 — 매번 노출
 export const HANSEOL_MISSION_LINES: Record<string, string> = {
@@ -53,7 +53,7 @@ export const HANSEOL_EVENING_HINT = "해 질 시간이야.\n저녁으로 가자.
 export const HANSEOL_DAY_CLOSE: Record<1 | 2 | 3, string> = {
   1: "첫날 잘 버텼네. 별거 아닌 것 같아도, 오늘 네가 강화랑 처음 인사한 거야. 내일 또 보자.",
   2: "이틀째인데 벌써 동네 사람 다 됐네. 슬슬 강화가 편해지지? 내일이 마지막 날이야.",
-  3: "잘 가, 새내기. 강화는 늘 여기 있어. 언제든 또 와. 그땐 네가 누구 안내해줄 차례야.",
+  3: "잘 가. 강화는 늘 여기 있어. 언제든 또 와. 그땐 네가 누구 안내해줄 차례야.",
 };
 
 // 강화 외 지역은 한설 튜토리얼 적용 X — 가드용 헬퍼

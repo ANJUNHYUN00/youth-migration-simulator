@@ -1188,14 +1188,8 @@ export default function App() {
               setTab1Route("mission-list");
             }}
             onStart={handleStartActiveMission}
-            // 게임식 튜토리얼 게이트 — 강화 + Day 1 + shop + 미노출
-            showShopTutorial={
-              selected.id === GANGHWA_ID &&
-              currentDay === 1 &&
-              activeMission.id === "shop" &&
-              !currentRecord?.shopTutorialShown
-            }
-            onDismissShopTutorial={handleDismissShopTutorial}
+            // 게임식 튜토리얼은 비활성화 — Day 1 shop "체험하기" 버튼 안내 오버레이 제거.
+            showShopTutorial={false}
           />
         )}
 

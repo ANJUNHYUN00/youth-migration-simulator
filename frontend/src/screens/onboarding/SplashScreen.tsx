@@ -1,6 +1,5 @@
 // 온보딩 스플래시 — 풀스크린 스타트 이미지
-// 동심원 애니메이션 대신 character1/splash/start_image.png 한 장으로 대체.
-// 2.2초 후 자동 진행은 유지.
+// character1/splash1.png 한 장으로 대체. 2.2초 후 자동 진행은 유지.
 
 import { useEffect } from "react";
 
@@ -19,7 +18,7 @@ export default function SplashScreen({ onDone }: Props) {
   return (
     <div className="relative min-h-[100dvh] overflow-hidden bg-cream">
       <img
-        src="/character1/splash/start_image.png"
+        src="/character1/splash1.png"
         alt="청풍 시작 화면"
         className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
         draggable={false}
