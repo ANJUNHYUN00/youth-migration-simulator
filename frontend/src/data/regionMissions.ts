@@ -321,6 +321,7 @@ const ganghwaMissions: Mission[] = [
   {
     id: "ganghwa-sunset",
     title: "일몰 보러 가기",
+    cover: "/character1/clay-beach.png",
     icon: "🌅",
     category: "감정/분위기형",
     mode: "map-info",
