@@ -1448,7 +1448,7 @@ function MarketIntroSplash({
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
-        className="absolute left-0 right-0 bottom-0 px-5 pb-7 z-10"
+        className="absolute left-0 right-0 bottom-0 px-5 pb-16 z-10"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 안내자(바람) + 말풍선 */}
