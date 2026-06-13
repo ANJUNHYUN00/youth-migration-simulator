@@ -289,6 +289,7 @@ export const commonMissions: Mission[] = [
   {
     id: "market",
     title: "동네 밥집 물가 체험",
+    cover: "/mission/restaurantgrandma.webp",
     icon: "🍚",
     category: "생활현실형",
     mode: "map-dialogue",
