@@ -501,8 +501,9 @@ export default function MissionExecuteScreen({
               )}
             </button>
 
-            {/* === 내 기록 — 북마크 토글. NPC 말 끝났을 때만 노출 === */}
-            {!typing && phase !== "opener" && onSaveQuote && (
+            {/* === 내 기록 — 북마크 토글. NPC 말 끝났을 때만 노출
+                  (이 분기는 이미 phase !== "opener" 안쪽이라 추가 가드 X) === */}
+            {!typing && onSaveQuote && (
               <button
                 type="button"
                 onClick={(e) => {

@@ -41,8 +41,7 @@ export default function MissionListScreen({
   region,
   residence,
   completedIds,
-  totalScore,
-  fitScore = 0,
+  // totalScore, fitScore — Props 에는 남겨두지만 본문에서 미사용 (header 톤 단순화 후)
   currentDay,
   onBack,
   onSelectMission,

@@ -898,11 +898,7 @@ export default function App() {
       setTab2Route("journey");
     });
 
-  const handleCeremonyGoCommunity = () =>
-    finishDayAnd(() => {
-      setTab("community");
-    });
-
+  // (옛 handleCeremonyGoCommunity 는 의식 화면 단순화 — CTA 1개로 줄이면서 미사용)
   // 리포트 자동 생성 훅은 조기 반환 전으로 이동됨 — 본체 derivation 만 여기에.
   // 이주 리포트 생성만 — 캐시 있으면 no-op. UI 안 띄움. 백그라운드에서도 호출 가능.
   // rec 을 직접 받아 호출 시점의 최신 progress 를 보장 (state 업데이트 race 회피).
@@ -960,15 +956,7 @@ export default function App() {
     });
   };
 
-  // 강화 shop 미션 — 게임식 튜토리얼 1회 노출 후 영속 처리 (체험하기 버튼 클릭 시 호출).
-  const handleDismissShopTutorial = () => {
-    if (!selected) return;
-    setRegionProgress((p) => {
-      const base = p[selected.id];
-      if (!base) return p;
-      return { ...p, [selected.id]: { ...base, shopTutorialShown: true } };
-    });
-  };
+  // (옛 handleDismissShopTutorial — Day 1 shop 튜토리얼 비활성화 후 미사용)
 
   // 시간대 흐름 안내 — 다음 시간대 탭 클릭 시 해당 일차-슬롯의 1회 노출 플래그 영속화.
   // key: "day{N}-{sourceSlot}" — 예: Day 1 아침 완료 후 점심 안내를 dismiss 하면 "day1-아침" 저장.

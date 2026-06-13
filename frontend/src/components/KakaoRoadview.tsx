@@ -177,7 +177,7 @@ export default function KakaoRoadview({
         // 100m 떨어진 곳에서 시작 — 8방위 중 panoId 잡히는 첫 번째 사용
         const directions = [0, 45, 90, 135, 180, 225, 270, 315];
         let startPos: { lat: number; lng: number } | null = null;
-        let startPanoId: string | null = null;
+        let startPanoId: number | null = null;
         for (const bearing of directions) {
           const off = offsetCoord(position.lat, position.lng, 100, bearing);
           const r = await getNearestPanoId(off.lat, off.lng);

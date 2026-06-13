@@ -76,13 +76,12 @@ const CATEGORY_ORDER: DecorCategory[] = [
 export default function ResidenceHomeScreen({
   residence,
   nickname,
-  homeRegion,
+  // homeRegion, onReturnHome — Props 에는 남겨두지만 본문에서 미사용 (편집 모드 통합 후)
   currentDay,
   dayCount,
   todayMissionCount,
   todayMissionDoneCount,
   onGoMissionList,
-  onReturnHome,
   onOpenLetters,
   letterUnread = 0,
   decorInventory = [],

@@ -11,7 +11,7 @@
 //   분기 판정은 hooks/useFinalDayState 가 단일 진입점.
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 // 한설 한마디 섹션은 의식 화면에서 제거됨 — 미션 정보 화면의 "한설의 한마디" 는 별개로 살아있음.
 // (GANGHWA_ID 도 더 이상 의식 화면에서 사용 안 함)
 import { useFinalDayState } from "../hooks/useFinalDayState";
