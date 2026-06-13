@@ -15,6 +15,7 @@ const ganghwaMissions: Mission[] = [
   {
     id: "ganghwa-mudflat",
     title: "갯벌 걸어가보기",
+    cover: "/character1/clay-beach.png",
     icon: "🌊",
     category: "감정/분위기형",
     mode: "map-info",
