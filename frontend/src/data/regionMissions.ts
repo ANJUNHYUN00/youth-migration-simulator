@@ -529,6 +529,7 @@ const ganghwaMissions: Mission[] = [
   {
     id: "cheongpung-fortress",
     title: "읍내 성곽 야경 한 바퀴",
+    cover: "/character1/mission_cover/fortress.png",
     icon: "🏯",
     category: "감정/분위기형",
     mode: "dialogue",
