@@ -33,8 +33,7 @@ type Props = {
 };
 
 // "낮" 내부 키 → "점심" UI 라벨 (BottomNav/TimeOfDayTabs와 동일 규칙)
-const TIME_LABEL = { 아침: "아침", 낮: "점심", 저녁: "저녁" } as const;
-const TIME_EMOJI = { 아침: "🌅", 낮: "☀️", 저녁: "🌙" } as const;
+// (옛 TIME_LABEL/TIME_EMOJI — 시간대 칩 제거 후 미사용)
 
 export default function MissionInfoScreen({
   region,
@@ -53,17 +52,6 @@ export default function MissionInfoScreen({
   // 큰 이미지 폴백 체인: npcScene.src → 카테고리 그룹 일러스트
   const group = getMissionGroup(mission);
   const heroImage = mission.npcScene?.src ?? missionGroupMeta[group].bg;
-  const groupLabel = missionGroupMeta[group].title;
-
-  // 세 번째 칩 — 시간대 우선, 없으면 tier 폴백
-  const thirdChip = mission.timeOfDay
-    ? {
-        label: "시간대",
-        value: `${TIME_EMOJI[mission.timeOfDay]} ${TIME_LABEL[mission.timeOfDay]}`,
-      }
-    : mission.tier === "bonus"
-      ? { label: "분류", value: "✨ 보너스" }
-      : { label: "분류", value: "메인 미션" };
 
   const { description, curiosity } = infoCopyFor(mission);
 
@@ -119,11 +107,11 @@ export default function MissionInfoScreen({
 
       {/* ===== 콘텐츠 패널 — 이미지 위로 둥근 모서리로 살짝 올라옴 ===== */}
       <div className="relative -mt-5 rounded-t-3xl bg-cream pt-5 pb-32">
-        {/* 3-칩 */}
-        <div className="px-5 grid grid-cols-3 gap-2">
-          <InfoChip label="카테고리" value={groupLabel} />
-          <InfoChip label={thirdChip.label} value={thirdChip.value} />
-          <InfoChip label="보상" value={`+${mission.reward}점`} />
+        {/* 2-칩 (mystery box 톤) — 카테고리·시간대·보상 다 빼고 "?" 로.
+            "끝나면 뭘 받는지" / "누구를 만나는지" 미리 공개 안 함 → 발견의 정서. */}
+        <div className="px-5 grid grid-cols-2 gap-2">
+          <InfoChip label="🎁 오늘의 선물" value="?" />
+          <InfoChip label="👥 오늘 만날 누군가" value="?" />
         </div>
 
         {/* 설명 */}
@@ -164,23 +152,7 @@ export default function MissionInfoScreen({
           </Section>
         )}
 
-        {/* 만날 사람 */}
-        {mission.npc && (
-          <Section title="만날 사람">
-            <div className="flex items-center gap-3">
-              <span
-                aria-hidden
-                className="w-12 h-12 rounded-full bg-white border border-cream-200
-                           flex items-center justify-center text-[24px] shadow-soft"
-              >
-                {mission.npc.emoji}
-              </span>
-              <p className="text-ink text-[15px] font-extrabold">
-                {mission.npc.name}
-              </p>
-            </div>
-          </Section>
-        )}
+        {/* "만날 사람" 섹션은 mystery box 톤에 맞춰 ? 칩으로 흡수됨 (위 InfoChip). */}
       </div>
 
       {/* ===== "체험하기" CTA — 뷰포트 하단(BottomNav 위) 고정 ===== */}

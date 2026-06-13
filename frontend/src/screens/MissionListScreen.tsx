@@ -17,6 +17,7 @@ import {
   type MissionGroup,
 } from "../data/missionCategories";
 import { buildDayPlan, missionIdsForDay } from "../data/dayPlan";
+import { DAY_COMPLETE_BONUS_REQUIRED } from "../hooks/useDayComplete";
 import type { Residence } from "../data/residences";
 import TutorialOverlay from "../components/TutorialOverlay";
 
@@ -91,8 +92,14 @@ export default function MissionListScreen({
     rest: grouped.rest.length,
   };
 
-  const todayTotal = todayMissions.length;
-  const todayDone = todayMissions.filter((m) => completedIds.has(m.id)).length;
+  // 오늘 종료 카운트 = 필수 미션 수 + 종료 충족 보너스 N개 (현재 N=2).
+  //   예: 필수 3 + 보너스 2 = 5 → "2/5 완료" 처럼 보이게.
+  //   완료수 = 필수 완료 + min(보너스 완료, 종료 필요 수).
+  const mainsDone = todayMissions.filter((m) => completedIds.has(m.id)).length;
+  const bonusDone = bonusMissionIds.filter((id) => completedIds.has(id)).length;
+  const todayTotal = todayMissions.length + DAY_COMPLETE_BONUS_REQUIRED;
+  const todayDone =
+    mainsDone + Math.min(bonusDone, DAY_COMPLETE_BONUS_REQUIRED);
   const todayPercent =
     todayTotal === 0 ? 0 : Math.round((todayDone / todayTotal) * 100);
 
@@ -437,7 +444,9 @@ export default function MissionListScreen({
               ✨ {bonusMissions.length}장
             </span>
           </div>
+          {/* 보너스 카드는 메인보다 작게 (220 → 176, 약 80%) — 시각 위계 차등화. */}
           <MissionCarousel
+            cardWidth={176}
             items={bonusMissions.map((m, i) => {
               const group = missionGroupMeta.rest; // 보너스 카드 톤 통일 (감성·휴식 톤)
               return (

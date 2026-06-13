@@ -6,12 +6,15 @@ import { useEffect, useRef, type ReactNode } from "react";
 
 type Props = {
   items: ReactNode[];
+  /** 카드 폭 (px). 기본 220. 보너스 등 작게 표시하고 싶을 때 override. */
+  cardWidth?: number;
 };
 
-// 카드 폭 — 디자인 기준 220px
-const CARD_WIDTH = 220;
+// 기본 카드 폭 — 디자인 기준 220px
+const DEFAULT_CARD_WIDTH = 220;
 
-export default function MissionCarousel({ items }: Props) {
+export default function MissionCarousel({ items, cardWidth = DEFAULT_CARD_WIDTH }: Props) {
+  const CARD_WIDTH = cardWidth;
   const containerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
