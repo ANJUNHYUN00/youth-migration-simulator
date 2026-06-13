@@ -547,6 +547,7 @@ export const commonMissions: Mission[] = [
   {
     id: "shop",
     title: "동네 가게 들르기",
+    cover: "/character1/clay-barbershop.png",
     icon: "🏪",
     category: "관계형성형",
     mode: "map-dialogue",
