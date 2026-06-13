@@ -43,9 +43,9 @@ export default function MissionImageCard({
                  shadow-soft text-left ring-1 ring-black/5
                  transition active:scale-[0.98]"
     >
-      {/* 배경 이미지 */}
+      {/* 배경 이미지 — 미션 전용 커버(cover)가 있으면 우선, 없으면 그룹 일러스트 */}
       <img
-        src={bgImage}
+        src={mission.cover ?? bgImage}
         alt=""
         aria-hidden
         loading={eager ? "eager" : "lazy"}
