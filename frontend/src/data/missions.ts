@@ -392,6 +392,7 @@ export const commonMissions: Mission[] = [
   {
     id: "transit",
     title: "교통 접근성 확인",
+    cover: "/character1/clay-bus-stop.png",
     icon: "🚌",
     category: "생활현실형",
     mode: "map-info",
