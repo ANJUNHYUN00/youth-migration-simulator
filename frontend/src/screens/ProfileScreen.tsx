@@ -10,7 +10,8 @@
 //   2) Upcoming — 다가오는 예약 (영속) — 시작일/기간/D-day
 //   3) Wishlist — 찜한 청년마을
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   envMeta,
   stanceMeta,
@@ -38,6 +39,8 @@ type Props = {
   allResidences: Residence[];
   onOpenSettings: () => void;
   onSelectResidence: (r: Residence) => void;
+  // 예약 취소 — 카드의 ⋯ → 취소 시 호출. 부모에서 영속 store 에서 제거.
+  onCancelBooking?: (bookingId: string) => void;
 };
 
 export default function ProfileScreen({
@@ -49,6 +52,7 @@ export default function ProfileScreen({
   allResidences,
   onOpenSettings,
   onSelectResidence,
+  onCancelBooking,
 }: Props) {
   const stanceM = profile ? stanceMeta[profile.stance] : null;
   const envM = profile ? envMeta[profile.env] : null;
@@ -62,6 +66,12 @@ export default function ProfileScreen({
     .filter((x): x is { booking: ConfirmedBooking; residence: Residence } =>
       !!x.residence
     );
+
+  // 카드 탭 시 열리는 예약 상세 모달 (예약 확정 안내 + 취소)
+  const [detailBookingId, setDetailBookingId] = useState<string | null>(null);
+  const detailItem = upcomingBookings.find(
+    (x) => x.booking.id === detailBookingId
+  );
 
   return (
     <TabLayout
@@ -101,7 +111,7 @@ export default function ProfileScreen({
           </div>
           <UpcomingBookings
             items={upcomingBookings}
-            onSelect={onSelectResidence}
+            onSelect={(bookingId) => setDetailBookingId(bookingId)}
           />
         </section>
 
@@ -128,7 +138,174 @@ export default function ProfileScreen({
           />
         </section>
       </div>
+
+      {/* === 예약 상세 모달 (D-day 카드 탭 시) — 확정 안내 + 취소 === */}
+      <AnimatePresence>
+        {detailItem && (
+          <BookingDetailModal
+            booking={detailItem.booking}
+            residence={detailItem.residence}
+            onClose={() => setDetailBookingId(null)}
+            onCancel={() => {
+              if (
+                window.confirm("정말로 이 예약을 취소하시겠습니까?\n취소하면 되돌릴 수 없어요.")
+              ) {
+                onCancelBooking?.(detailItem.booking.id);
+                setDetailBookingId(null);
+              }
+            }}
+          />
+        )}
+      </AnimatePresence>
     </TabLayout>
+  );
+}
+
+// =====================================================================
+// 예약 상세 모달 — 확정 안내 + 취소 버튼
+// =====================================================================
+function BookingDetailModal({
+  booking,
+  residence,
+  onClose,
+  onCancel,
+}: {
+  booking: ConfirmedBooking;
+  residence: Residence;
+  onClose: () => void;
+  onCancel: () => void;
+}) {
+  const d = daysUntil(booking.startDate);
+  const dLabel = d > 0 ? `D-${d}` : d === 0 ? "D-DAY" : `D+${Math.abs(d)}`;
+  const isUpcoming = d >= 0;
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/45"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ y: 80 }}
+        animate={{ y: 0 }}
+        exit={{ y: 80 }}
+        transition={{ type: "spring", damping: 24 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-[420px] bg-white rounded-t-3xl px-5 pt-5
+                   pb-[calc(var(--content-bottom)+1rem)]
+                   max-h-[88vh] overflow-y-auto"
+      >
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="text-[10px] font-extrabold text-ink-mute tracking-[0.18em] uppercase">
+              Booking
+            </p>
+            <h2 className="text-ink text-[18px] font-extrabold leading-tight mt-0.5">
+              예약 확정
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="닫기"
+            className="w-8 h-8 rounded-full bg-cream-100 text-ink-soft text-[14px] font-bold"
+          >
+            ✕
+          </button>
+        </div>
+
+        {/* 안내 메시지 */}
+        <div className="bg-nature-50 border border-nature-200 rounded-2xl px-4 py-3 mb-4">
+          <p className="text-[12.5px] font-bold text-nature-600 leading-relaxed">
+            ✓ 예약이 확정됐어요. 시작 1주일 전에 도착 안내 메일이 따로 전달됩니다.
+          </p>
+        </div>
+
+        {/* 예약 정보 카드 */}
+        <div className="bg-cream-50 rounded-2xl border border-cream-200 overflow-hidden mb-3">
+          <div className="flex items-stretch">
+            <div className="relative w-[96px] h-[96px] shrink-0 bg-cream-200">
+              <img
+                src={pickResidenceImage(residence)}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                draggable={false}
+              />
+            </div>
+            <div className="flex-1 min-w-0 px-3.5 py-2.5 flex flex-col justify-between">
+              <div>
+                <p className="text-[10px] font-extrabold text-ink-mute tracking-[0.14em] uppercase">
+                  {residence.region}
+                </p>
+                <p className="mt-0.5 text-ink text-[14px] font-extrabold leading-tight truncate">
+                  <span aria-hidden className="mr-1">
+                    {residence.themeEmoji}
+                  </span>
+                  {residence.name}
+                </p>
+              </div>
+              <span
+                className={`self-start px-2 py-0.5 rounded-full text-[10.5px] font-extrabold
+                            ${
+                              isUpcoming
+                                ? "bg-primary text-white"
+                                : "bg-ink/80 text-cream"
+                            }`}
+              >
+                {dLabel}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* 상세 행 */}
+        <div className="space-y-2.5 mb-5 px-1">
+          <DetailRow label="입주일" value={formatYMD(booking.startDate)} />
+          <DetailRow label="기간" value={stayLabel(booking)} />
+          {residence.hasSupport && (
+            <DetailRow
+              label="정부 지원금"
+              value="신청 대상 — 운영팀 안내"
+              valueColor="text-nature-600"
+            />
+          )}
+        </div>
+
+        {/* 취소 버튼 */}
+        <button
+          type="button"
+          onClick={onCancel}
+          className="w-full h-12 rounded-full text-[14px] font-extrabold
+                     bg-white border-2 border-[#E25C46] text-[#E25C46]
+                     active:scale-[0.98] transition"
+        >
+          예약 취소하기
+        </button>
+        <p className="mt-2 text-center text-[10.5px] text-ink-mute">
+          취소하면 되돌릴 수 없어요. 신중히 결정해주세요.
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function DetailRow({
+  label,
+  value,
+  valueColor,
+}: {
+  label: string;
+  value: string;
+  valueColor?: string;
+}) {
+  return (
+    <div className="flex items-center justify-between text-[13px]">
+      <span className="text-ink-mute font-bold">{label}</span>
+      <span className={`font-extrabold ${valueColor ?? "text-ink"}`}>
+        {value}
+      </span>
+    </div>
   );
 }
 
@@ -217,12 +394,20 @@ void ({} as EnvM);
 //   · 1건: 풀카드 (사진 + 지역 + 시작일 + D-day + 기간)
 //   · 2건+: 첫 카드 풀, 이후 작은 줄로 나열
 
+// 박일 → 라벨. nights 없으면 (구 데이터) durationMonths 사용.
+function stayLabel(b: ConfirmedBooking): string {
+  if (typeof b.nights === "number" && b.nights > 0)
+    return `${b.nights}박 ${b.nights + 1}일`;
+  return `${b.durationMonths}개월`;
+}
+
 function UpcomingBookings({
   items,
   onSelect,
 }: {
   items: { booking: ConfirmedBooking; residence: Residence }[];
-  onSelect: (r: Residence) => void;
+  // 카드 탭 시 호출. bookingId 로 부모가 예약 상세 모달 띄움.
+  onSelect: (bookingId: string) => void;
 }) {
   if (items.length === 0) {
     return (
@@ -251,7 +436,7 @@ function UpcomingBookings({
       <UpcomingFeatureCard
         booking={first.booking}
         residence={first.residence}
-        onSelect={() => onSelect(first.residence)}
+        onSelect={() => onSelect(first.booking.id)}
       />
       {rest.length > 0 && (
         <div className="bg-white rounded-2xl border border-cream-200 shadow-soft
@@ -261,7 +446,7 @@ function UpcomingBookings({
               key={booking.id}
               booking={booking}
               residence={residence}
-              onSelect={() => onSelect(residence)}
+              onSelect={() => onSelect(booking.id)}
             />
           ))}
         </div>
@@ -296,7 +481,6 @@ function UpcomingFeatureCard({
                  active:bg-cream-50 transition"
     >
       <div className="flex items-stretch">
-        {/* 사진 — 좌측 정사각 96px */}
         <div className="relative w-[96px] h-[96px] shrink-0 bg-cream-200">
           <img
             src={pickResidenceImage(residence)}
@@ -305,8 +489,6 @@ function UpcomingFeatureCard({
             draggable={false}
           />
         </div>
-
-        {/* 정보 — 우측 */}
         <div className="flex-1 min-w-0 px-3.5 py-2.5 flex flex-col justify-between">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
@@ -332,7 +514,7 @@ function UpcomingFeatureCard({
             </span>
           </div>
           <p className="text-[11.5px] font-bold text-ink-soft">
-            {formatYMD(booking.startDate)} · {booking.durationMonths}개월
+            {formatYMD(booking.startDate)} · {stayLabel(booking)}
           </p>
         </div>
       </div>
@@ -374,7 +556,7 @@ function UpcomingMiniRow({
           {residence.name}
         </p>
         <p className="mt-0.5 text-ink-soft text-[11px]">
-          {formatYMD(booking.startDate)} · {booking.durationMonths}개월
+          {formatYMD(booking.startDate)} · {stayLabel(booking)}
         </p>
       </div>
       <span className="px-2 py-1 rounded-full bg-cream-50 border border-cream-200

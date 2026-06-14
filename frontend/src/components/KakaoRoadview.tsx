@@ -116,7 +116,7 @@ export default function KakaoRoadview({
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   // 호기심 질문 카드 제거 — 사용자 피드백. 그 자리는 화살표 네비게이션 카드로 대체.
 
-  // === 네비게이션 — 100m 떨어진 곳에서 시작 → 화살표 따라 도착지로 ===
+  // === 네비게이션 — 80m 떨어진 곳에서 시작(90m 이내) → 화살표 따라 도착지로 ===
   const [distanceM, setDistanceM] = useState<number | null>(null);
   const [bearingFromNorth, setBearingFromNorth] = useState<number>(0);
   // 카카오 로드뷰 viewpoint pan — 사용자가 현재 어디를 보고 있는지 (북 기준 deg).
@@ -149,10 +149,10 @@ export default function KakaoRoadview({
             startPos = { lat: startPosition.lat, lng: startPosition.lng };
             startPanoId = r.panoId;
           } else {
-            // 명시 좌표에서 panoId 못 잡으면 그 좌표 기준 8방위 50m 탐색
+            // 명시 좌표에서 panoId 못 잡으면 그 좌표 기준 8방위 40m 탐색
             const directions = [0, 45, 90, 135, 180, 225, 270, 315];
             for (const bearing of directions) {
-              const off = offsetCoord(startPosition.lat, startPosition.lng, 50, bearing);
+              const off = offsetCoord(startPosition.lat, startPosition.lng, 40, bearing);
               const rr = await getNearestPanoId(off.lat, off.lng);
               if (cancelled) return;
               if (rr) {
@@ -164,11 +164,12 @@ export default function KakaoRoadview({
           }
         }
 
-        // 우선순위 2: 도착지 기준 100m 8방위 자동 offset (기존 동작)
+        // 우선순위 2: 도착지 기준 80m 8방위 자동 offset
+        //   사용자 피드백 — 100m 는 너무 멀어서 "도착지" 가 안 보임. 90m 이내에서 시작.
         if (!startPanoId || !startPos) {
           const directions = [0, 45, 90, 135, 180, 225, 270, 315];
           for (const bearing of directions) {
-            const off = offsetCoord(position.lat, position.lng, 100, bearing);
+            const off = offsetCoord(position.lat, position.lng, 80, bearing);
             const r = await getNearestPanoId(off.lat, off.lng);
             if (cancelled) return;
             if (r) {

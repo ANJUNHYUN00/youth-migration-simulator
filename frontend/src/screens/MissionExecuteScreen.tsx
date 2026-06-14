@@ -20,6 +20,8 @@ const SCENE_BG: Partial<Record<BackgroundVariant, string>> = {
   market: "/character1/clay-market.png",
   transit: "/character1/clay-bus-stop.png",
   home: "/character1/clay-hanok-nap.png",
+  // 병원 미션도 다른 미션과 같은 풀씬 배경 문법 — 미션 커버 일러스트 재사용
+  hospital: "/character1/mission_cover/hospital.png",
 };
 
 // 미션별 override — variant가 너무 광범위하거나 미션 성격이 더 구체적일 때
@@ -406,9 +408,13 @@ export default function MissionExecuteScreen({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 8, opacity: 0 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="absolute left-0 right-0 bottom-0 z-20 px-5 pt-3
-                     pb-[max(env(safe-area-inset-bottom),40px)]
-                     flex flex-col gap-2.5"
+          className={`absolute left-0 right-0 bottom-0 z-20 px-5 pt-3
+                     flex flex-col gap-2.5
+                     ${
+                       isPlayerTurn
+                         ? "pb-[max(env(safe-area-inset-bottom),40px)]"
+                         : "pb-[max(env(safe-area-inset-bottom),72px)]"
+                     }`}
         >
           {/* 내가 던진 질문 — opener 사용 시 대화 내내 작은 배너로 유지 */}
           {openerLabel && (
@@ -565,8 +571,8 @@ export default function MissionExecuteScreen({
                   </motion.button>
                 );
               })}
-              {/* 부정 답변 — 정렬 0 카운트. 솔직히 안 맞는다고 표현할 수 있는 채널.
-                  적합도 = 답한 옵션 중 정렬된 비율 이므로 이 답이 누적되면 적합도가 내려감. */}
+              {/* 부정 답변 — 일반 옵션 답장과 완전히 같은 카드 톤. (외곽선만 점선으로 살짝 구분)
+                  정렬 0 카운트라 적합도에는 누적될수록 영향이 가지만, UI 상으로는 동등하게 노출. */}
               <motion.button
                 type="button"
                 onClick={handleNegativePick}
@@ -574,16 +580,28 @@ export default function MissionExecuteScreen({
                 initial={{ y: 14, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{
-                  delay: 0.1 * (turn.options.length),
+                  delay: 0.1 * turn.options.length,
                   duration: 0.22,
                   ease: "easeOut",
                 }}
                 whileTap={{ scale: 0.97 }}
-                className={`mt-1 self-center text-ink-mute text-[12.5px] font-bold
-                           underline-offset-2 underline px-3 py-1.5 rounded-full
-                           ${pickedIdx === -1 ? "text-primary no-underline ring-2 ring-primary bg-white" : ""}`}
+                className={`flex items-center gap-3 w-full text-left
+                            ${glassOption} rounded-2xl shadow-soft border border-dashed px-3.5 py-3 transition
+                            ${
+                              pickedIdx === -1
+                                ? "border-primary ring-2 ring-primary scale-[1.02]"
+                                : "border-cream-300"
+                            }`}
               >
-                음… 솔직히 나랑은 안 맞는 것 같아요
+                <img
+                  src={PLAYER_AVATAR}
+                  alt=""
+                  aria-hidden
+                  className="w-9 h-9 rounded-full object-cover bg-cream-100"
+                />
+                <span className="flex-1 text-ink text-[14px] font-semibold leading-snug">
+                  음… 솔직히 나랑은 안 맞는 것 같아요
+                </span>
               </motion.button>
             </div>
           )}

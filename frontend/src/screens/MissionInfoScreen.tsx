@@ -203,11 +203,11 @@ export default function MissionInfoScreen({
 
 function InfoChip({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-cream-200 bg-white px-3 py-2.5 text-center">
-      <p className="text-[10px] font-extrabold text-ink-mute uppercase tracking-[0.14em]">
+    <div className="rounded-2xl border border-cream-200 bg-white px-4 py-4 text-center">
+      <p className="text-[14px] font-extrabold text-ink-mute uppercase tracking-[0.14em]">
         {label}
       </p>
-      <p className="mt-1 text-ink text-[13px] font-extrabold leading-tight">
+      <p className="mt-2 text-ink text-[20px] font-extrabold leading-tight">
         {value}
       </p>
     </div>

@@ -324,13 +324,12 @@ const ganghwaMissions: Mission[] = [
     cover: "/character1/clay-beach.png",
     icon: "🌅",
     category: "감정/분위기형",
-    mode: "map-info",
+    mode: "dialogue",
     reward: 10,
     background: "neighbor",
     npc: { name: "동네 산책자", emoji: "🚶" },
     description: "동막해변·석모도 일몰 명소 — 매일의 마무리",
-    // 카카오 로드뷰 임베드 좌표 — 동막해수욕장 진입로 (mudflat 좌표와 살짝 다른 지점)
-    kakaoPosition: { lat: 37.5904, lng: 126.4600 },
+    // 일몰 미션 — 로드뷰 제거. 노을은 시간대 분위기 미션이라 풀씬/대화로 충분.
     dialogues: [
       {
         npc:

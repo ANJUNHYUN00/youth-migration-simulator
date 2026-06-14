@@ -279,7 +279,7 @@ export default function App() {
   const [bookingResidenceId, setBookingResidenceId] = useState<string | null>(null);
   const [bookingDraft, setBookingDraft] = useState<{
     startDate: string;
-    durationMonths: number;
+    nights: number;
   } | null>(null);
   // 예약 확정 — 영속 (ProfileScreen 의 "다가오는 예약" 카드용)
   const [confirmedBookings, setConfirmedBookings] = useState<ConfirmedBooking[]>(
@@ -293,6 +293,9 @@ export default function App() {
   // 의식 화면 "내 자리 가서 마당 꾸미기" CTA → residence-home 진입 시 자동 편집 모드.
   // 1회용 트리거 — ResidenceHomeScreen 마운트 직후 mascot 등과 같이 켰다가 onEnterEditModeHandled 로 해제.
   const [autoEnterYardEdit, setAutoEnterYardEdit] = useState(false);
+  // 마지막 날 마당 완성 후 한설 outro 카드 — 메모리 게이팅 (재시연 시 다시 노출).
+  const [showHanseolOutro, setShowHanseolOutro] = useState(false);
+  const [hanseolOutroShown, setHanseolOutroShown] = useState(false);
 
   // === 현재 지역 진행 derivation (훅 입력) ===
   // 조기 반환(`if (!profile)`) 전에 useDayComplete 가 호출돼야 React 훅 순서 보존.
@@ -1214,6 +1217,37 @@ export default function App() {
                 onDismissHanseolIntro={handleDismissHanseolIntro}
                 enterEditModeOnMount={autoEnterYardEdit}
                 onEnterEditModeHandled={() => setAutoEnterYardEdit(false)}
+                showHanseolOutro={showHanseolOutro}
+                onDismissHanseolOutro={() => {
+                  setShowHanseolOutro(false);
+                  setHanseolOutroShown(true);
+                }}
+                onConfirmOutro={() => {
+                  setShowHanseolOutro(false);
+                  setHanseolOutroShown(true);
+                  void handleOpenCinematic(selected);
+                }}
+                // 편집 모드 "완료" 신호 — 마지막 날의 모든 미션 완료 + 자재 1개 이상 배치 + 아직 outro 안 봤음 → 한설 카드 노출.
+                // (마지막 날 미션 다 끝나야 이주 리포트 — Day N 마당 꾸미기 진입 시점이 아니라)
+                onEditDone={() => {
+                  const isFinalDay = currentDay >= (currentDayPlan?.dayCount ?? 0);
+                  const finalDayMissionsDone = isDayComplete(
+                    currentDayPlan?.missionsByDay ?? [],
+                    currentDay,
+                    currentCompletedIds
+                  );
+                  const placedCount = Object.keys(
+                    placedDecor[selected.id] ?? {}
+                  ).length;
+                  if (
+                    isFinalDay &&
+                    finalDayMissionsDone &&
+                    placedCount > 0 &&
+                    !hanseolOutroShown
+                  ) {
+                    setShowHanseolOutro(true);
+                  }
+                }}
               />
             );
           })()}
@@ -1322,7 +1356,7 @@ export default function App() {
               totalScore={currentScore}
               fitScore={currentRecord?.fitScore ?? 0}
               currentDay={currentDay}
-              onBack={() => setTab1Route("arrival")}
+              onBack={() => setTab1Route("residence-home")}
               onSelectMission={handleSelectMission}
               nextSlotGuide={nextSlotGuide}
               onDismissNextSlotGuide={() => {
@@ -1339,7 +1373,7 @@ export default function App() {
             mission={activeMission}
             onBack={() => {
               setActiveMission(null);
-              setTab1Route("mission-list");
+              setTab1Route("residence-home");
             }}
             onStart={handleStartActiveMission}
             // 게임식 튜토리얼은 비활성화 — Day 1 shop "체험하기" 버튼 안내 오버레이 제거.
@@ -1396,7 +1430,10 @@ export default function App() {
             acquiredDecorItems={acquiredDecorItems}
             acquiredItems={acquiredItems}
             placedDecor={placedDecor[selected.id] ?? {}}
-            onGoYard={() => setTab1Route("residence-home")}
+            onGoYard={() => {
+              setAutoEnterYardEdit(true);
+              setTab1Route("residence-home");
+            }}
             onOpenCinematic={handleCeremonyOpenCinematic}
           />
         )}
@@ -1408,9 +1445,9 @@ export default function App() {
             // → 모든 로드뷰 미션이 실제 카카오 로드뷰로 보임
             fallbackPosition={selected?.kakaoPosition}
             onBack={() => {
-              // 이동 화면 닫고 미션 리스트로 복귀
+              // 이동 화면 닫고 집 화면으로 복귀 (사용자 피드백)
               setActiveMission(null);
-              setTab1Route("mission-list");
+              setTab1Route("residence-home");
             }}
             onComplete={() => {
               // 지도 안내 미션은 도착 후 바로 완료 처리(짧은 정보 카드만 짚고)
@@ -1607,7 +1644,7 @@ export default function App() {
         )}
 
         {/* ===== 커뮤니티 탭 — 이주민 이야기 모음 ===== */}
-        {tab === "community" && <CommunityScreen />}
+        {tab === "community" && <CommunityScreen nickname={nickname} />}
 
         {/* ===== 편지 — 시뮬레이션 탭의 sub-route. ResidenceHomeScreen 의 편지 버튼에서 진입 ===== */}
         {tab === "simulation" && tab1Route === "letter" && (
@@ -1670,6 +1707,11 @@ export default function App() {
               setTab4Route("booking-detail");
               setTab("booking");
             }}
+            onCancelBooking={(bookingId) =>
+              setConfirmedBookings((prev) =>
+                prev.filter((b) => b.id !== bookingId)
+              )
+            }
           />
         )}
 
@@ -1746,7 +1788,9 @@ export default function App() {
                       id: `${r.id}-${Date.now()}`,
                       residenceId: r.id,
                       startDate: draft.startDate,
-                      durationMonths: draft.durationMonths,
+                      nights: draft.nights,
+                      // 호환 — durationMonths 필드는 0 으로 (구 데이터 마이그레이션 의미만).
+                      durationMonths: 0,
                       confirmedAt: new Date().toISOString(),
                     },
                   ]);
@@ -1755,7 +1799,7 @@ export default function App() {
                     makeBookingConfirmedLetter(
                       r,
                       draft.startDate,
-                      draft.durationMonths
+                      draft.nights
                     )
                   );
                 }}
@@ -1777,11 +1821,11 @@ export default function App() {
                 residence={r}
                 draft={bookingDraft}
                 onBackToList={() => {
-                  // 레지던스 예약 리스트로 복귀
+                  // 사용자 피드백: 예약 끝나고 "예약 목록으로" 누르면 내정보(profile) 탭으로.
                   setBookingResidenceId(null);
                   setBookingDraft(null);
                   setTab4Route("booking");
-                  setTab("booking");
+                  setTab("profile");
                 }}
                 onGoHome={() => {
                   setBookingResidenceId(null);

@@ -52,6 +52,14 @@ type Props = {
   // 한설 환영 모달 — Day 1 첫 진입 시만 true. 닫으면 onDismissIntro 영속 처리.
   showHanseolIntro?: boolean;
   onDismissHanseolIntro?: () => void;
+  // 마지막 날 마당 완성 후 한설 outro 카드 게이팅 (부모가 평가).
+  //   true 면 편집 모드 "완료" 누른 직후 한설 outro 모달 노출.
+  //   사용자가 모달의 "이주 리포트 보러 가기" 탭 시 onConfirmOutro 호출.
+  showHanseolOutro?: boolean;
+  onDismissHanseolOutro?: () => void;
+  onConfirmOutro?: () => void;
+  // 편집 모드 "완료" 누른 직후 부모에게 신호 — outro 게이팅 평가용.
+  onEditDone?: () => void;
 };
 
 // 슬롯 위치 — SceneStage 320x250 박스 안의 상대 좌표(%).
@@ -62,7 +70,8 @@ const SLOT_POSITIONS: Record<
   DecorCategory,
   { top: string; left: string; size: number; z: number }
 > = {
-  light:  { top: "8%",  left: "86%", size: 38, z: 5 }, // 지붕 위 우측 등불
+  // light 슬롯 — 지붕 위(8%/86%) 너무 어색 → 마당 우측 안쪽으로 이동. 라벨도 "선물·과일·인형" 으로 변경.
+  light:  { top: "70%", left: "78%", size: 40, z: 4 }, // 마당 우측 선물·과일·인형 자리
   friend: { top: "28%", left: "10%", size: 34, z: 5 }, // 집 좌측 위 작은 친구
   seat:   { top: "62%", left: "14%", size: 44, z: 4 }, // 집 좌측 평상 (우편함과 멀리)
   plant:  { top: "82%", left: "20%", size: 48, z: 4 }, // 마당 좌하단 화분
@@ -97,6 +106,10 @@ export default function ResidenceHomeScreen({
   onDismissHanseolIntro,
   enterEditModeOnMount = false,
   onEnterEditModeHandled,
+  showHanseolOutro = false,
+  onDismissHanseolOutro,
+  onConfirmOutro,
+  onEditDone,
 }: Props) {
   // === 마당 꾸미기 편집 모드 ===
   const [editMode, setEditMode] = useState(false);
@@ -206,6 +219,7 @@ export default function ResidenceHomeScreen({
             onDone={() => {
               setEditMode(false);
               setPickingFor(null);
+              onEditDone?.();
             }}
           />
         ) : (
@@ -329,6 +343,61 @@ export default function ResidenceHomeScreen({
           </motion.div>
         </div>
       )}
+
+      {/* ===== 한설 outro 모달 — 마지막 날 마당 완성 후 한 번 ===== */}
+      {showHanseolOutro && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center px-6
+                     bg-black/45 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+        >
+          <motion.div
+            initial={{ scale: 0.92, opacity: 0, y: 12 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            className="w-full max-w-[340px] rounded-3xl bg-white shadow-soft
+                       overflow-hidden flex flex-col items-center"
+          >
+            <div
+              className="w-full h-[180px] bg-cover bg-center"
+              style={{ backgroundImage: `url(${HANSEOL_IMAGE})` }}
+              aria-hidden
+            />
+            <div className="px-6 pt-5 pb-6 w-full text-center">
+              <p className="text-[10px] font-extrabold tracking-[0.18em] uppercase text-primary">
+                마지막 날
+              </p>
+              <p className="mt-1 text-ink text-[18px] font-extrabold">
+                {HANSEOL_NAME}
+              </p>
+              <p className="mt-3 text-ink-soft text-[13.5px] leading-relaxed">
+                마당, 잘 꾸미셨네요. 3박 4일 동안 머문 자리가
+                {nickname}님 손길로 채워진 게 보여요.
+                <br />
+                이제 이 여정을 한 번 펼쳐볼까요?
+              </p>
+              <button
+                type="button"
+                onClick={onConfirmOutro}
+                className="mt-5 w-full h-12 rounded-full bg-primary text-white
+                           text-[14px] font-extrabold
+                           shadow-[0_6px_16px_-4px_rgba(255,112,67,0.5)]
+                           active:scale-[0.98] transition"
+              >
+                이주 리포트 보러 가기 →
+              </button>
+              <button
+                type="button"
+                onClick={onDismissHanseolOutro}
+                className="mt-2 w-full text-[11.5px] font-bold text-ink-mute py-1.5"
+              >
+                나중에
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
@@ -428,14 +497,16 @@ function SceneStage({
           aria-hidden
         >
           <defs>
+            {/* 잔디 — 연하게 (사용자 피드백): 중심 옅은 연두 → 가장자리 옅은 청록 */}
             <radialGradient id="dirtTop" cx="50%" cy="40%" r="60%">
-              <stop offset="0%" stopColor="#B7DEB8" />
-              <stop offset="70%" stopColor="#8FBC9C" />
-              <stop offset="100%" stopColor="#6B9A7A" />
+              <stop offset="0%" stopColor="#E2F1DD" />
+              <stop offset="70%" stopColor="#C7E0C5" />
+              <stop offset="100%" stopColor="#A6CDAB" />
             </radialGradient>
+            {/* 흙 옆면도 한 톤 연하게 */}
             <linearGradient id="dirtSide" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#C29470" />
-              <stop offset="100%" stopColor="#9A6E4F" />
+              <stop offset="0%" stopColor="#D4AC85" />
+              <stop offset="100%" stopColor="#B58A66" />
             </linearGradient>
           </defs>
           {/* 흙 옆면 (땅 단면) */}
@@ -476,35 +547,39 @@ function SceneStage({
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           className="block w-[200px] h-auto select-none
                      drop-shadow-[0_6px_8px_rgba(62,44,32,0.25)]"
-          // 집 이미지 톤 살짝 밝게 — 사용자 피드백
-          style={{ filter: "brightness(1.12) saturate(1.05)" }}
+          // 집 이미지 톤 더 밝게 — 사용자 피드백 (1.12 → 1.2)
+          style={{ filter: "brightness(1.2) saturate(1.08)" }}
         />
       </div>
 
       {/* 떠다니는 나비 + 꽃잎 */}
       <FloatingDecorations />
 
-      {/* === 집 앞 거주 캐릭터 — 바람이 + 지음이. 마당 정중앙 앞쪽에 둘이 나란히. === */}
-      <ResidentCharacter
-        src="/character1/clay-baram-solo.png"
-        top="84%"
-        left="42%"
-        width={40}
-        animOffset={0}
-      />
-      <ResidentCharacter
-        src="/character1/clay-jieum-solo.png"
-        top="84%"
-        left="58%"
-        width={40}
-        animOffset={0.6}
-      />
+      {/* === 집 앞 거주 캐릭터 — 바람이 + 지음이. 편집 모드에선 숨김 (사용자 피드백) === */}
+      {!editMode && (
+        <>
+          <ResidentCharacter
+            src="/character1/clay-baram-solo.png"
+            top="84%"
+            left="42%"
+            width={40}
+            animOffset={0}
+          />
+          <ResidentCharacter
+            src="/character1/clay-jieum-solo.png"
+            top="84%"
+            left="58%"
+            width={40}
+            animOffset={0.6}
+          />
+        </>
+      )}
 
-      {/* === 우편함 — 집 오른쪽. unread > 0 일 때 바람이 CTA 도 같이 노출 === */}
+      {/* === 우편함 — 집 오른쪽. 편집 모드에선 "편지 왔어" 말풍선 숨김. === */}
       {onOpenLetters && (
         <>
           <Mailbox onClick={onOpenLetters} unread={letterUnread} />
-          {letterUnread > 0 && (
+          {!editMode && letterUnread > 0 && (
             <LetterArrivedCTA unread={letterUnread} onOpen={onOpenLetters} />
           )}
         </>

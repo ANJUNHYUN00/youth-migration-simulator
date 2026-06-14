@@ -33,7 +33,7 @@ export const envMeta: Record<
   }
 > = {
   mountain: {
-    emoji: "🏔",
+    emoji: "⛰",
     name: "산사람형",
     blurb: "산·숲·계곡",
     description: "산과 숲의 공기를 따라 살고 싶은 사람",

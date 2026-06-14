@@ -72,9 +72,11 @@ export default function MissionCompleteScreen({
 
   return (
     <div
-      className="overflow-y-auto bg-cream"
+      className="flex flex-col bg-cream"
       style={{ height: "calc(100dvh - var(--content-bottom))" }}
     >
+      {/* 스크롤 영역 — 히어로 + 바디시트. 하단 고정 CTA 자리(96px) 확보 위해 pb 늘림. */}
+      <div className="flex-1 overflow-y-auto">
       {/* === 히어로 — 풀블리드 컬러 === */}
       <motion.section
         initial={{ opacity: 0 }}
@@ -219,18 +221,21 @@ export default function MissionCompleteScreen({
         )}
 
         {/* "내가 고른 답들" 섹션은 사용자 피드백으로 제거 — 결과 카드를 가볍게 유지. */}
+      </motion.div>
+      </div>
 
-        {/* === CTA === */}
+      {/* === 하단 고정 CTA — 콘텐츠 길이와 무관하게 화면 바닥에 고정. === */}
+      <div className="shrink-0 px-5 pt-3 pb-6 bg-cream border-t border-cream-200/70">
         <button
           type="button"
           onClick={onNext}
-          className="w-full mt-2 py-[18px] rounded-2xl text-white text-[15px] font-extrabold
+          className="w-full py-[18px] rounded-2xl text-white text-[15px] font-extrabold
                      shadow-soft active:scale-[0.99] transition"
           style={{ background: "#FF7043" }}
         >
           확인
         </button>
-      </motion.div>
+      </div>
     </div>
   );
 }

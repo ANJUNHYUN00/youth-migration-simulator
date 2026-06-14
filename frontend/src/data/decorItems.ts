@@ -47,10 +47,12 @@ export const DECOR_CATEGORY_META: Record<
     variants: ["🪑", "🛋️"],
   },
   light: {
-    label: "등불·풍경",
-    emoji: "🏮",
-    palette: "#F5D9B0",
-    variants: ["🏮", "🕯️", "💡"],
+    // 카테고리 키는 호환 유지(light) — 라벨/이모지/variants 만 "선물·과일·인형" 톤으로 교체.
+    // 사용자 피드백: 등불보다 마당에 둘 만한 선물·과일·인형 느낌.
+    label: "선물·과일·인형",
+    emoji: "🎁",
+    palette: "#FFE0CC",
+    variants: ["🎁", "🍎", "🍊", "🧸", "🐚", "🌻"],
   },
   friend: {
     label: "작은 친구",

@@ -12,6 +12,9 @@ export type ConfirmedBooking = {
   id: string;
   residenceId: string;
   startDate: string;        // ISO "2026-09-01"
+  // 머무는 기간 — 박 단위 (3박 / 5박 / 6박 등). 옵셔널(기존 데이터 호환).
+  nights?: number;
+  // (구) 호환 필드 — 기존 저장 데이터를 위해 보존. 신규 예약은 nights 사용.
   durationMonths: number;
   confirmedAt: string;      // ISO timestamp
 };

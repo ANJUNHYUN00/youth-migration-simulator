@@ -73,36 +73,40 @@ function uid(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-// NPC 편지 발신자 풀 — "운영자" 단일 톤 대신 다양한 인물군.
-//   · 동네 사람, 익명의 누군가, 같이 시작한 사람 등 결이 다른 화자.
-//   · 트리거별로 어울리는 풀을 정의하고 (트리거 + 일차)로 deterministic 선택.
-//   · 이름이 구체적인 경우와 익명("누군가", "어떤 분")이 섞이도록 의도.
+// NPC 편지 발신자 풀 — 사용자가 미션 동안 실제로 만난 NPC 들이 편지를 보냄.
+//   · "옆자리 손님", "누군가" 같은 익명 톤 제거 (사용자 피드백).
+//   · 강화 4일 미션 NPC들 (한설/풍물시장 사장님/책방 주인/소창 장인 등) 기반.
+//   · 트리거 + 일차 로 deterministic 선택.
 type SenderPersona = { name: string; role: string; emoji: string };
 
 const SENDERS: Record<string, SenderPersona> = {
-  fellow_traveler: { name: "어느 길동무", role: "같이 시작한 사람", emoji: "🧳" },
-  early_settler:   { name: "먼저 온 사람", role: "1년 차 이주민",   emoji: "🌱" },
-  village_elder:   { name: "옆집 어르신",  role: "이 동네 분",       emoji: "👵" },
-  market_lady:     { name: "시장에서 만난 분", role: "단골 가게",    emoji: "🥬" },
-  pub_host:        { name: "사랑방 호스트", role: "밤마다 만나는 사람", emoji: "🍻" },
-  bookstore_owner: { name: "동네 책방 주인", role: "책 한 권 두고 간 사람", emoji: "📚" },
-  anonymous:       { name: "누군가",       role: "이 동네 어딘가",   emoji: "✉" },
-  neighbor:        { name: "옆자리 손님",  role: "스쳐 지나간 사람", emoji: "🍵" },
+  hanseol:          { name: "한설",            role: "먼저 입주한 선배",        emoji: "🌿" },
+  market_owner:     { name: "풍물시장 사장님",  role: "1층 좌판에서 만난 분",    emoji: "🛒" },
+  mudflat_guide:    { name: "갯벌 가이드",      role: "동막 갯벌에서 만난 분",   emoji: "🐚" },
+  food_owner:       { name: "동네 식당 사장님", role: "백반 한 상에서 만난 분",  emoji: "🍚" },
+  bookstore_owner:  { name: "책방 주인",        role: "동네 책방에서 만난 분",   emoji: "📚" },
+  farm_senior:      { name: "농사 선배",        role: "텃밭 클럽에서 만난 분",   emoji: "🌱" },
+  pub_host:         { name: "사랑방 펍 호스트", role: "이주민 모임에서 만난 분", emoji: "🍻" },
+  socheang_master:  { name: "소창 장인",        role: "강화 100년 면직물",       emoji: "🪡" },
+  yoga_teacher:     { name: "섬요가 강사",      role: "마당뷰 요가에서 만난 분", emoji: "🧘" },
+  record_host:      { name: "잠시섬 호스트",    role: "방명록 책장 관리자",      emoji: "📓" },
+  onsen_host:       { name: "온천 사장님",      role: "강화 미네랄 온천",        emoji: "♨️" },
+  sunset_walker:    { name: "동네 산책자",      role: "노을 보러 가는 분",       emoji: "🌅" },
 };
 
-// 트리거별 풀 — 인덱스로 deterministic rotation.
-const ARRIVAL_POOL = ["fellow_traveler", "village_elder", "anonymous"] as const;
+// 트리거별 풀 — 일차 인덱스로 deterministic rotation. 사용자가 그 일차에 만난 NPC 가 편지를 보냄.
+const ARRIVAL_POOL = ["hanseol"] as const;
 const DAY_COMPLETE_POOL = [
-  "village_elder",
-  "market_lady",
-  "pub_host",
-  "early_settler",
+  "market_owner",    // Day 1 (풍물시장)
+  "bookstore_owner", // Day 2 (책방)
+  "socheang_master", // Day 3 (소창)
+  "sunset_walker",   // Day 4 (일몰)
 ] as const;
 const NEXT_DAY_POOL = [
-  "fellow_traveler",
-  "anonymous",
-  "neighbor",
-  "bookstore_owner",
+  "mudflat_guide",   // Day 1 → 2 안내
+  "farm_senior",     // Day 2 → 3
+  "yoga_teacher",    // Day 3 → 4
+  "onsen_host",      // Day 4 (사용 안 됨 — fallback)
 ] as const;
 
 function pickSender(
@@ -247,19 +251,20 @@ export function makeReportLetter(residence: Residence): Letter {
 export function makeBookingConfirmedLetter(
   residence: Residence,
   startDate: string,
-  durationMonths: number
+  nights: number
 ): Letter {
+  const stayLabel = `${nights}박 ${nights + 1}일`;
   return {
     id: uid(),
     category: "system",
     trigger: "booking_confirmed",
     sender: { ...SYSTEM_SENDER },
     title: `${residence.region} ${residence.name} 예약이 확정됐어요`,
-    preview: `${startDate} 시작 · ${durationMonths}개월. 잘 다녀오세요.`,
+    preview: `${startDate} 시작 · ${stayLabel}. 잘 다녀오세요.`,
     body: `${residence.region}의 ${residence.name} 예약이 확정됐어요.
 
 · 시작: ${startDate}
-· 기간: ${durationMonths}개월
+· 기간: ${stayLabel}
 
 자세한 도착 안내는 시작 1주일 전 별도 메일로 전달드릴게요. 짐 가볍게 챙기시고, 마음만 든든히 가져오세요.
 
@@ -270,30 +275,29 @@ export function makeBookingConfirmedLetter(
   };
 }
 
-// 커뮤니티 mock — 데모용 가짜 알림. 실제 백엔드 연동 시 교체.
-//   발신자도 다양한 톤 — 이주 1년 차, 잠시 살아본 사람, 익명 등.
+// 커뮤니티 mock — 데모용. 발신자도 미션에서 만난 NPC 톤으로 통일.
 export function makeCommunityMockLetter(): Letter {
   const messages = [
     {
-      sender: { name: "광양 1년 차 누군가", role: "이주 1년", emoji: "🌸" },
-      title: "당신의 강화도 미션을 보고",
-      preview: "비슷한 경험이 있어서 댓글 남겨봐요.",
+      sender: { name: "풍물시장 사장님", role: "1층 좌판에서 만난 분", emoji: "🛒" },
+      title: "지난번 시식 잘 드셨어요?",
+      preview: "순무김치 들고 다음에 또 들러요.",
       body:
-        "광양에서 1년째 살고 있어요.\n\n당신이 답한 \"걸어가볼게요\" 같은 답을 보고, 저도 처음에 비슷했던 게 떠올랐어요. 도시 습관이 천천히 풀려가는 그 시간이 사실 가장 좋은 시간이에요.\n\n응원해요.",
+        "지난번 시식, 어땠어요?\n\n순무가 강화 갯벌 미네랄 머금어서 다른 데랑 맛이 진짜 다르거든요. 다음에 또 들러요. 단골이라고 알아볼게요.\n\n잘 지내요.",
     },
     {
-      sender: { name: "강화도 어딘가의 누군가", role: "동네 사람", emoji: "🌿" },
-      title: "당신의 미션 후기에 좋아요를 눌렀어요",
-      preview: "강화 사람으로서 반가운 글이었어요.",
+      sender: { name: "책방 주인", role: "동네 책방에서 만난 분", emoji: "📚" },
+      title: "함민복 시인 책 한 권 더 들어왔어요",
+      preview: "갯벌 시집 신간이에요.",
       body:
-        "당신의 강화도 미션 후기를 잘 봤어요.\n\n실제로 강화에 살면서 비슷한 풍경을 자주 봐요. 글로 옮기기 어려운 그 결을 잘 잡으신 것 같아요. 또 들러주세요.",
+        "지난번 다녀가셨을 때 함민복 시인 책 보셨던 거 기억나요.\n\n신간 한 권 더 들어왔어요. 갯벌 시집인데, 다녀가셨던 동막 갯벌 풍경이 생각날 거예요. 들러주세요.\n\n천천히 와도 괜찮아요.",
     },
     {
-      sender: { name: "어느 길동무", role: "같이 시작한 사람", emoji: "🧳" },
-      title: "이번 주에 같이 떠난 사람이에요",
-      preview: "당신 글 보고 저도 다시 마음먹었어요.",
+      sender: { name: "농사 선배", role: "텃밭 클럽에서 만난 분", emoji: "🌱" },
+      title: "텃밭 한 평, 잘 자라고 있어요",
+      preview: "당신이 심은 줄에 새싹이 올라왔어요.",
       body:
-        "이번 주에 강화도 시뮬레이션 같이 시작했어요.\n\n당신 미션 후기를 보면서 저도 다시 한 번 마음먹었어요. 미루기만 하던 동네 산책을 오늘은 진짜 해봐야겠어요.\n\n같이 가보죠.",
+        "지난번 같이 심었던 자리에 새싹이 올라왔어요.\n\n동네 사람들이 같이 키운다는 게 이런 거예요. 또 와요. 와서 한 번 봐주면 더 잘 자랄 거예요.\n\n천천히 머물러요.",
     },
   ];
   const pick = messages[Math.floor(Math.random() * messages.length)];

@@ -6,7 +6,7 @@ import type { Residence } from "../data/residences";
 
 type Props = {
   residence: Residence;
-  draft: { startDate: string; durationMonths: number };
+  draft: { startDate: string; nights: number };
   onBackToList: () => void;
   onGoHome: () => void;
 };
@@ -17,7 +17,8 @@ export default function BookingDoneScreen({
   onBackToList,
   onGoHome,
 }: Props) {
-  const totalCost = (residence.price ?? 0) * draft.durationMonths;
+  const totalCost = (residence.price ?? 0) * draft.nights;
+  const nightsLabel = `${draft.nights}박 ${draft.nights + 1}일`;
 
   return (
     <div className="h-screen overflow-y-auto bg-cream flex flex-col">
@@ -88,7 +89,7 @@ export default function BookingDoneScreen({
 
           <div className="mt-4 flex flex-col gap-2 text-[13px]">
             <Row label="입주일" value={draft.startDate} />
-            <Row label="기간" value={`${draft.durationMonths}개월`} />
+            <Row label="기간" value={nightsLabel} />
             <Row
               label="예상 비용"
               value={`${totalCost.toLocaleString("ko-KR")}만원`}

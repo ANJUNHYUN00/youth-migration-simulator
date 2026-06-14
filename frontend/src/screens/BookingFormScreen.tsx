@@ -7,10 +7,15 @@ import type { Residence } from "../data/residences";
 type Props = {
   residence: Residence;
   onBack: () => void;
-  onSubmit: (draft: { startDate: string; durationMonths: number }) => void;
+  onSubmit: (draft: { startDate: string; nights: number }) => void;
 };
 
-const DURATION_OPTIONS = [1, 3, 6, 12];
+// 박일 단위로 머무는 기간 (사용자 피드백). 3박 4일 / 5박 6일 / 6박 7일.
+const NIGHT_OPTIONS = [
+  { nights: 3, label: "3박 4일" },
+  { nights: 5, label: "5박 6일" },
+  { nights: 6, label: "6박 7일" },
+];
 
 // 다음 4주 동안의 월요일 4개 생성 — 오늘 이후 가장 가까운 월요일부터
 function getNextMondays(count: number): Date[] {
@@ -56,15 +61,18 @@ export default function BookingFormScreen({
 }: Props) {
   const weeks = useMemo(() => getNextMondays(4), []);
   const [weekIdx, setWeekIdx] = useState(0);
-  const [duration, setDuration] = useState(1);
+  const [nights, setNights] = useState(3);
 
   const startDate = weeks[weekIdx];
-  const totalCost = (residence.price ?? 0) * duration;
+  // 단기 박일 단위 비용 — residence.price 가 월(만원) 단위면 박당 약 1/30. 단순화로 박×만원.
+  const totalCost = (residence.price ?? 0) * nights;
+  const nightsLabel =
+    NIGHT_OPTIONS.find((o) => o.nights === nights)?.label ?? `${nights}박`;
 
   const handleSubmit = () => {
     onSubmit({
       startDate: formatDate(startDate),
-      durationMonths: duration,
+      nights,
     });
   };
 
@@ -112,16 +120,16 @@ export default function BookingFormScreen({
           ))}
         </div>
 
-        {/* 기간 */}
+        {/* 기간 — 박일 칩 */}
         <h2 className="mt-7 text-[16px] font-extrabold text-ink">기간</h2>
         <p className="mt-0.5 text-[11.5px] text-ink-mute">얼마나 머무를까요?</p>
-        <div className="mt-3 grid grid-cols-4 gap-2">
-          {DURATION_OPTIONS.map((m) => (
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {NIGHT_OPTIONS.map((opt) => (
             <DurationChip
-              key={m}
-              active={duration === m}
-              months={m}
-              onClick={() => setDuration(m)}
+              key={opt.nights}
+              active={nights === opt.nights}
+              label={opt.label}
+              onClick={() => setNights(opt.nights)}
             />
           ))}
         </div>
@@ -133,7 +141,7 @@ export default function BookingFormScreen({
           </p>
           <div className="mt-2 flex flex-col gap-1.5 text-[13px]">
             <SummaryRow label="입주일" value={formatDate(startDate)} />
-            <SummaryRow label="기간" value={`${duration}개월`} />
+            <SummaryRow label="기간" value={nightsLabel} />
             <SummaryRow
               label="예상 비용"
               value={`${totalCost.toLocaleString("ko-KR")}만원`}
@@ -207,11 +215,11 @@ function WeekChip({
 
 function DurationChip({
   active,
-  months,
+  label,
   onClick,
 }: {
   active: boolean;
-  months: number;
+  label: string;
   onClick: () => void;
 }) {
   return (
@@ -227,7 +235,7 @@ function DurationChip({
             : "bg-white text-ink border-cream-200"
         }`}
     >
-      {months}개월
+      {label}
     </button>
   );
 }
